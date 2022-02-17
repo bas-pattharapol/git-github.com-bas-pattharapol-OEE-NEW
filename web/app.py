@@ -1541,7 +1541,7 @@ def ReportYield(Level,Fname_Lname):
 @app.route('/ReportOverallYield/<string:Level>/<string:Fname_Lname>')
 @flask_login.login_required
 def ReportOverallYield(Level,Fname_Lname):
-    return render_template('Report_Overall_Yield.html')
+    return render_template('Report_Overall_Yield.html',Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/ReportOEEMontly/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
