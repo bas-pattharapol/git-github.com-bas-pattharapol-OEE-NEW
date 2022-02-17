@@ -414,34 +414,32 @@
             <!-- Logo -->
             <a href="/index" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <img src="{{ url_for('static', filename='dist/img/NEO-400x400.png')}}" style="width: 55%;" alt="User Image">
-
-
+                <img src="{{ url_for('static',
+                        filename='dist/img/NEO-400x400.png')}}" style="width:
+                        55%;" alt="User Image">
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
-                <a href="/index" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
-
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-
-
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ url_for('static', filename='dist/img/admin_160x160.jpg')}}" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <img src="{{ url_for('static',
+                                        filename='dist/img/admin_160x160.jpg')}}" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{Fname_Lname}}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="{{ url_for('static', filename='dist/img/admin_160x160.jpg')}}" class="img-circle" alt="User Image">
-
+                                    <img src="{{ url_for('static',
+                                            filename='dist/img/admin_160x160.jpg')}}" class="img-circle" alt="User Image">
                                     <p>
-                                        Alexander Pierce - Web Developer
+                                        Sujisajee Somkham- Web Developer
                                         <small>Member since Nov. 2012</small>
                                     </p>
                                 </li>
@@ -463,10 +461,12 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="#" class="btn btn-default
+                                                btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="#" class="btn btn-default
+                                                btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -484,21 +484,20 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="{{ url_for('static', filename='dist/img/admin_160x160.jpg')}}" class="img-circle" alt="User Image">
+                        <img src="{{ url_for('static',
+                                filename='dist/img/admin_160x160.jpg')}}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <p>{{Fname_Lname}}</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i>
+                            Online</a>
                     </div>
                 </div>
                 <!-- search form -->
                 <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
+                        </span>
                     </div>
                 </form>
                 <!-- /.search form -->
@@ -509,8 +508,8 @@
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="#"><i class="fa fa-circle-o"></i>OEE</a></li>
@@ -522,47 +521,96 @@
                         <a href="#">
                             <i class="fa fa-table"></i> <span>Report</span>
                             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/ReportOEE"><i class="fa fa-circle-o"></i>OEE</a></li>
-                            <li><a href="/ReportYield"><i class="fa fa-circle-o"></i>Yield</a></li>
-                            <li><a href="/ReportOverallYield"><i class="fa fa-circle-o"></i>Overall Yield</a></li>
-                            <li><a href="/ReportOEEMontly"><i class="fa fa-circle-o"></i>OEE Montly</a></li>
-                            <li><a href="/ReportYieldMontly"><i class="fa fa-circle-o"></i>Yield Montly</a></li>
+                            <li><a href="/ReportOEE/{{Level}}/{{Fname_Lname}}"><i class="fa fa-circle-o"></i>OEE</a>
+                            </li>
+                            <li><a href="/ReportYield/{{Level}}/{{Fname_Lname}}"><i class="fa fa-circle-o"></i>Yield</a>
+                            </li>
+                            <li><a href="/ReportOverallYield/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Overall
+                                    Yield</a></li>
+                            <li><a href="/ReportOEEMontly/{{Level}}/{{Fname_Lname}}"><i class="fa fa-circle-o"></i>OEE
+                                    Montly</a></li>
+                            <li><a href="/ReportYieldMontly/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Yield
+                                    Montly</a></li>
                         </ul>
                     </li>
 
                     <li class="active treeview">
                         <a href="#">
-                            <i class="fa fa-share"></i> <span>Administrator</span>
+                            <i class="fa fa-share"></i> <span>Working Shift</span>
                             <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                          </span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="active"><a href="/uploadFile"><i class="fa fa-circle-o"></i> UploadFile - Excel</a></li>
-                            <li class="treeview">
-                                <a href="#"><i class="fa fa-circle-o"></i> Edit Values
-                              <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                              </span>
-                            </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="/Edit_Plant/normal/normal"><i class="fa fa-circle-o"></i>Plant</a></li>
-                                    <li><a href="/Edit_Shift/normal/normal"><i class="fa fa-circle-o"></i>Shift</a></li>
-                                    <li><a href="/Edit_StorageTanks/normal/normal"><i class="fa fa-circle-o"></i>Storagr Tanks</a></li>
-                                    <li><a href="/Edit_Machines/normal/normal"><i class="fa fa-circle-o"></i>Machines</a></li>
-                                    <li><a href="/Edit_DownTimeCode/normal/normal"><i class="fa fa-circle-o"></i>DownTime Code</a></li>
-                                    <li><a href="/Edit_Standardcolor/normal/normal"><i class="fa fa-circle-o"></i>Standrad color </a></li>
-                                    <li><a href="/Edit_UserGroup/normal/normal"><i class="fa fa-circle-o"></i>UserGroup </a></li>
-                                </ul>
-                            </li>
+                            {% if Level == '1' or Level == '2' or Level == '3' or Level == '4' %}
+                            <li><a href="/uploadFile/{{Level}}/{{Fname_Lname}}"><i class="fa fa-circle-o"></i>
+                                    UploadFile - Excel</a></li>
+                            {%endif%}
+                            <li><a href="/DataTableShift"><i class="fa
+                                            fa-circle-o"></i> Check Working
+                                    shift</a></li>
 
                         </ul>
                     </li>
 
+                    {% if Level == '1' or Level == '2' or Level == '3' or Level == '5' or Level == '6' %}
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-share"></i> <span>Master Data</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li><a href="/Edit_Plant/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Plant</a></li>
+                            <li><a href="/Edit_Shift/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Shift
+                                    Pattern</a></li>
+                            <li><a href="/Edit_UserGroup/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Shift
+                                    Name </a></li>
+                            <li><a href="/Edit_StorageTanks/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Mixing
+                                    Machine</a></li>
+                            <li><a href="/Edit_Machines/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Filling
+                                    Machine</a></li>
+                            <li><a href="/Edit_DownTimeCode/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>DownTime
+                                    Code</a></li>
+                            <li><a href="/Edit_Standardcolor/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Target
+                                    Setting </a></li>
+                            <li><a href="/Edit_Department/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i>Department</a></li>
+                            <li><a href="/Record/{{Level}}/{{Fname_Lname}}"><i class="fa fa-circle-o"></i>Changes
+                                    History </a></li>
+                        </ul>
+
+                    </li>
+                    {%endif%} {% if Level == '1' or Level == '2' or Level == '3' %}
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-share"></i> <span>User
+                                Management</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/userManagement/normal/normal/{{Level}}/{{Fname_Lname}}"><i
+                                        class="fa fa-circle-o"></i> User All</a></li>
+                        </ul>
+                    </li>
+                    {%endif%}
 
                 </ul>
             </section>
