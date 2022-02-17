@@ -1538,7 +1538,7 @@ def ReportYield(Level,Fname_Lname):
     return render_template('Report_Yield.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
     
-@app.route('/ReportOverallYield/<string:Level>/<string:Fname_Lname>')
+@app.route('/ReportOverallYield/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
 def ReportOverallYield(Level,Fname_Lname):
     return render_template('Report_Overall_Yield.html',Level=Level,Fname_Lname=Fname_Lname)
