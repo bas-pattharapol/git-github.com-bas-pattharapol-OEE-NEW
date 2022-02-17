@@ -432,7 +432,7 @@ def index(username1,Level,Fname_Lname):
     print(count)
     return render_template('index.html', username =username1, Level = Level,Fname_Lname = Fname_Lname)
 
-@app.route("/uploadFile/<string:Level>", methods=['GET', 'POST'])
+@app.route("/uploadFile/<string:Level>/<string:Fname_Lname>", methods=['GET', 'POST'])
 @flask_login.login_required
 def uploadFile(Level,Fname_Lname):
     if request.method == 'POST':
@@ -546,7 +546,7 @@ def uploadFile(Level,Fname_Lname):
             
         return redirect(url_for('uploadFile'))
       
-    return render_template('uploadFile.html')
+    return render_template('uploadFile.html',Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route("/testDataExcel_INF_OEE/<string:io>", methods=['GET', 'POST'])
 def testDataExcel_INF_OEE(io):
@@ -1427,7 +1427,7 @@ def ReportOEE(Level,Fname_Lname):
     UserGroup = cnxn.cursor()
     UserGroup.execute('SELECT UserGroupName , UserGroupID FROM OEE_DB.dbo.UserGroup  WHERE DeleteFlag = 1')
 
-    return render_template('Report_OEE.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup)
+    return render_template('Report_OEE.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/ReportYield/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1535,7 +1535,7 @@ def ReportYield(Level,Fname_Lname):
     UserGroup = cnxn.cursor()
     UserGroup.execute('SELECT UserGroupName , UserGroupID FROM OEE_DB.dbo.UserGroup  WHERE DeleteFlag = 1')
 
-    return render_template('Report_Yield.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup)
+    return render_template('Report_Yield.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
     
 @app.route('/ReportOverallYield/<string:Level>/<string:Fname_Lname>')
@@ -1650,7 +1650,7 @@ def ReportOEEMontly(Level,Fname_Lname):
     UserGroup = cnxn.cursor()
     UserGroup.execute('SELECT UserGroupName , UserGroupID FROM OEE_DB.dbo.UserGroup  WHERE DeleteFlag = 1')
 
-    return render_template('Report_OEE_Montly.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup)
+    return render_template('Report_OEE_Montly.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
 
 @app.route('/ReportYieldMontly/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
@@ -1760,7 +1760,7 @@ def ReportYieldMontly(Level,Fname_Lname):
     UserGroup = cnxn.cursor()
     UserGroup.execute('SELECT UserGroupName , UserGroupID FROM OEE_DB.dbo.UserGroup  WHERE DeleteFlag = 1')
 
-    return render_template('Report_Yield_Montly.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup)
+    return render_template('Report_Yield_Montly.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
 
 @app.route('/Report_OEE_API' ,methods=["GET", "POST"])
