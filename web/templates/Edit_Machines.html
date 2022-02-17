@@ -344,7 +344,7 @@
                                                 <td>{{i[-3].strftime('%Y-%m-%d %H:%M:%S')}}</td>
                                                 <td>
                                                     <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{i[0]}}" style="color: black;">Edit</a>
-                                                    <a href="/Edit_Machines/del/{{i[0]}}" class="btn btn-danger btn-xs" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
+                                                    <a href="/Edit_Machines/del/{{i[0]}}/{{Level}}/{{Fname_Lname}}" class="btn btn-danger btn-xs" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
                                                 </td>
 
                                             </tr>
@@ -357,7 +357,7 @@
 
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="/Edit_Machines/update/{{i[0]}}" method="POST">
+                                                            <form action="/Edit_Machines/update/{{i[0]}}/{{Level}}/{{Fname_Lname}}" method="POST">
                                                                 <div class="form-group">
                                                                     <label>Machine ID :</label>
                                                                     <input type="text" class="form-control" name="MachineID" value="{{i[1]}}">
@@ -429,7 +429,7 @@
 
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="/Edit_Machines/add/normal" method="POST">
+                                                            <form action="/Edit_Machines/add/normal/{{Level}}/{{Fname_Lname}}" method="POST">
                                                                 <div class="form-group">
                                                                     <label>Machine ID :</label>
                                                                     <input type="text" class="form-control" name="MachineID" value="">
