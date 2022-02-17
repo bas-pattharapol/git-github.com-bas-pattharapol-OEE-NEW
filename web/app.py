@@ -1319,7 +1319,7 @@ def Record(Level,Fname_Lname):
 
     
     
-    return render_template('Record.html',Record = Record)
+    return render_template('Record.html',Record = Record,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/ReportOEE/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
