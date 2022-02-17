@@ -396,7 +396,7 @@ def userManagement(mode,id,Level,Fname_Lname):
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(7,mode,id,Fname_Lname,Level))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(8,mode,id,Fname_Lname,Level))
         cnxn.commit()
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -891,7 +891,7 @@ def Edit_StorageTanks(mode,id,Level,Fname_Lname):
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(1,mode,StorageName,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(1,mode,StorageName,Fname_Lname,Level))
         cnxn.commit()   
             
     if mode == "del":
@@ -964,7 +964,7 @@ def Edit_Machines(mode,id,Level,Fname_Lname):
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(2,mode,MachineName,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(2,mode,MachineName,Fname_Lname,Level))
         cnxn.commit()  
             
     if mode == "del":
@@ -1020,7 +1020,7 @@ def Edit_Plant(mode,id,Level,Fname_Lname):
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(3,mode,PlantName,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(3,mode,PlantName,Fname_Lname,Level))
         cnxn.commit() 
             
     if mode == "del":
@@ -1068,7 +1068,7 @@ def Edit_DownTimeCode(mode,id,Level,Fname_Lname):
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(4,mode,Description,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(4,mode,Description,Fname_Lname,Level))
         cnxn.commit()      
     if mode == "del":
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -1135,7 +1135,7 @@ def Edit_Shift(mode,id,Level,Fname_Lname):
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(5,mode,ShiftCodeName,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(5,mode,ShiftCodeName,Fname_Lname,Level))
         cnxn.commit() 
             
     if mode == "del":
@@ -1186,7 +1186,7 @@ def Edit_Standardcolor(mode,id,Level,Fname_Lname):
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(6,mode,Revision,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(6,mode,Revision,Fname_Lname,Level))
         cnxn.commit()     
             
    
@@ -1228,7 +1228,7 @@ def Edit_UserGroup(mode,id,Level,Fname_Lname):
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(7,mode,UserGroupName,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(7,mode,UserGroupName,Fname_Lname,Level))
         cnxn.commit()
             
     if mode == "del":
@@ -1277,7 +1277,7 @@ def Edit_Department(mode,id,Level,Fname_Lname):
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(8,mode,Department_Name,User,UserLevel))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(8,mode,id,Fname_Lname,Level))
         cnxn.commit()      
     if mode == "del":
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
