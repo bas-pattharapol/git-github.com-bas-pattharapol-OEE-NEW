@@ -920,7 +920,7 @@ def Edit_StorageTanks(mode,id,Level,Fname_Lname):
         
     print(Plant_s)
         
-    return render_template('Edit_StorageTanks.html',StorageTanks = StorageTanks,Plant=Plant_s,len=lenPlant)
+    return render_template('Edit_StorageTanks.html',StorageTanks = StorageTanks,Plant=Plant_s,len=lenPlant,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/Edit_Machines/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -994,7 +994,7 @@ def Edit_Machines(mode,id,Level,Fname_Lname):
         
     print(Plant_s)
         
-    return render_template('Edit_Machines.html',Machines = Machines,Plant=Plant_s,len = lenPlant)
+    return render_template('Edit_Machines.html',Machines = Machines,Plant=Plant_s,len = lenPlant,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/Edit_Plant/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1037,7 +1037,7 @@ def Edit_Plant(mode,id,Level,Fname_Lname):
     Plant = cnxn.cursor()
     Plant.execute('SELECT * FROM OEE_DB.dbo.Plant WHERE DeleteFlag = 1 ORDER BY DateTime DESC')
     
-    return render_template('Edit_Plant.html',Plant = Plant)
+    return render_template('Edit_Plant.html',Plant = Plant,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/Edit_DownTimeCode/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1096,7 +1096,7 @@ def Edit_DownTimeCode(mode,id,Level,Fname_Lname):
         
     #print(Department_s)
         
-    return render_template('Edit_DownTimeCode.html',DownTimeCode = DownTimeCode,Department=Department_s,len = lenDepartment)
+    return render_template('Edit_DownTimeCode.html',DownTimeCode = DownTimeCode,Department=Department_s,len = lenDepartment,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/Edit_Shift/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1156,7 +1156,7 @@ def Edit_Shift(mode,id,Level,Fname_Lname):
     
     
         
-    return render_template('Edit_Shift.html',Edit_Shift = Edit_Shift)
+    return render_template('Edit_Shift.html',Edit_Shift = Edit_Shift,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/Edit_Standardcolor/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1202,7 +1202,7 @@ def Edit_Standardcolor(mode,id,Level,Fname_Lname):
         Standardcolor.append(i)
     
         
-    return render_template('Edit_Standardcolor.html',Edit_Standardcolor = Standardcolor)
+    return render_template('Edit_Standardcolor.html',Edit_Standardcolor = Standardcolor,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/Edit_UserGroup/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1248,7 +1248,7 @@ def Edit_UserGroup(mode,id,Level,Fname_Lname):
     
     
         
-    return render_template('Edit_UserGroup.html',Edit_UserGroup = Edit_UserGroup)
+    return render_template('Edit_UserGroup.html',Edit_UserGroup = Edit_UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
 @app.route('/Edit_Department/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1296,7 +1296,7 @@ def Edit_Department(mode,id,Level,Fname_Lname):
     
     
         
-    return render_template('Edit_Department.html',Department = Department)
+    return render_template('Edit_Department.html',Department = Department,Level=Level,Fname_Lname=Fname_Lname)
 
 
 @app.route('/hello')
