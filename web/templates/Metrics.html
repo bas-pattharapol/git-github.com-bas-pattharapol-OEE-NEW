@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>GaugeMeter.js - jQuery Plugin</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>GaugeMeter.js - jQuery Plugin</title>
+    <meta name="description" content="Easy to use guage meter JavaScript plugin using jQuery">
+    <meta name="author" content="Mictronics">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/dist/css/adminlte.min.css') }}" rel="stylesheet">
+    <meta name="author" content="Mictronics">
+    <!-- Google Font: Source Sans Pro -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/jqvmap/jqvmap.min.css') }}" rel="stylesheet">
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static', filename='dashboard/download/Chart.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/chartjs-gauge.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/chartjs-plugin-datalabels.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/apexcharts.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/RGraph.common.core.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/RGraph.segmented.js') }}"></script>
+
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static', filename='dashboard/download/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/knockout-min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/GaugeMeter.js') }}"></script>
+    <style>
+        body {
+            background: rgb(0, 3, 36);
+            background: linear-gradient(196deg, rgba(0, 3, 36, 1) 0%, rgba(9, 9, 121, 1) 2%, rgba(0, 212, 255, 1) 100%);
+        }
+        
+        .header_MONITORING {
+            text-align: center;
+            color: #ffffff;
+            font-size: 36px;
+            width: 40%;
+            font-weight: bold;
+            background-color: #57AEE7;
+        }
+        
+        .Time {
+            text-align: right;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .oeePer {
+            text-align: center;
+            color: #ffffff;
+            font-size: 54px;
+        }
+        
+        .oee1 {
+            text-align: right;
+            font-size: 36px;
+            font-weight: bold;
+            font-family: verdana;
+            border-bottom: thick solid #57AEE7;
+        }
+        
+        .oeePer1 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 54px;
+            padding-top: 10%;
+        }
+        
+        .line_header_MONITORING {
+            padding-top: -10%;
+            height: 3px;
+        }
+        
+        .Machine-Name {
+            color: #ffffff;
+            display: inline;
+            text-align: left;
+        }
+        
+        .date-time {
+            color: #ffffff;
+            display: inline;
+            text-align: right;
+        }
+        
+        .Machine-Status {
+            color: #ffffff;
+            display: inline;
+            text-align: left;
+        }
+        
+        .table-Status {
+            color: #ffffff;
+        }
+        
+        #center {
+            border-left: thick solid #57AEE7;
+            border-right: thick solid #57AEE7;
+        }
+        
+        .per {
+            text-align: center;
+            font-weight: bold;
+            font-size: 56px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .text3 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            margin: 4px 2px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .button1 {
+            background-color: #FF2424;
+        }
+        /* Green */
+        
+        .button2 {
+            background-color: #2488FF;
+        }
+        /* Blue */
+    </style>
+    <style>
+        .relative {
+            position: relative;
+        }
+        
+        .absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    <style>
+        .GaugeMeter {
+            Position: Relative;
+            Text-Align: Center;
+            Overflow: Hidden;
+            Cursor: Default;
+            Color: #ffffff;
+        }
+        
+        .GaugeMeter SPAN,
+        .GaugeMeter B {
+            Margin: 0 23%;
+            Width: 54%;
+            Position: Absolute;
+            Text-Align: Center;
+            Display: Inline-Block;
+            Font-Weight: 100;
+            Font-Family: "Open Sans", Arial;
+            Overflow: Hidden;
+            White-Space: NoWrap;
+            Text-Overflow: Ellipsis;
+        }
+        
+        .GaugeMeter[data-style="Semi"] B {
+            Margin: 0 10%;
+            Width: 80%;
+        }
+        
+        .GaugeMeter S,
+        .GaugeMeter U {
+            Text-Decoration: None;
+            Font-Size: .30em;
+            Font-Weight: 200;
+            Opacity: .6;
+        }
+        
+        .GaugeMeter B {
+            Font-Weight: 200;
+            Font-Size: 0.85em;
+            Opacity: .8;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: #00609F;" style="height:100%;">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content" style="height:100%;">
+
+        <!-- Main content -->
+        <section class="content" style="height:100%;">
+            <div class="container-fluid" style="height:100%;">
+                <!-- Small boxes (Stat box) -->
+                <br>
+
+                <div class="row" style="height:100%;">
+
+
+                    <div class="col-lg-6" style="height:100%;">
+                        <div class="header_MONITORING"> METRICS</div>
+                    </div>
+
+                    <div class="col-lg-6" style="height:100%;">
+                        <div class="Time" style="text-align: right;">2021 YTD</div>
+                    </div>
+                    <br>
+
+                </div>
+                <br>
+                <div class="row" style="height:100%;">
+                    <div class="col-lg-4">
+                        <a href="#">
+                            <div class="" style="color:#ffffff">
+                                <div class="">
+                                    <h1 class="oee1">OEE 1</h1>
+                                    <div class="per">
+                                        70 %
+                                    </div>
+                                    <div id="canvas-holder" style=" padding-left: 15%;width:80% ">
+                                        <canvas id="oee1"></canvas>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-6 ">
+                                            <div class="Preview" style="padding-left: 15%;">
+                                                <div style="height: 11em;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 40" data-append="%" data-size=180 data-theme="White" data-width=15 data-style="Arch" data-label="HHD" data-animationstep="0"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6  ">
+                                            <div class="Preview">
+                                                <div style="height: 11em;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 50" data-append="%" data-size=180 data-theme="White" data-width=15 data-style="Arch" data-label="TLT" data-animationstep="0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 ">
+
+                                        </div>
+
+                                        <div class="col-lg-6 ">
+                                            <div class="text3" style="padding-top:-10%;  background-color: #F1C40F; color:#000">
+                                                Partial Met
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 ">
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="col-lg-4 " id="center" style="height:100%;">
+                        <a href="#">
+                            <div class="" style="color:#ffffff">
+                                <div class="">
+                                    <h1 class="oee1">OEE 2</h1>
+                                    <div class="per">
+                                        70 %
+                                    </div>
+                                    <div id="canvas-holder" style=" padding-left: 15%;width:80% ">
+                                        <canvas id="oee2"></canvas>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-6 ">
+                                            <div class="Preview" style="padding-left: 15%;">
+                                                <div style="height: 11em;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 50" data-append="%" data-size=180 data-theme="White" data-width=15 data-style="Arch" data-label="HHD" data-animationstep="0"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6  ">
+                                            <div class="Preview">
+                                                <div style="height: 11em;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 60" data-append="%" data-size=180 data-theme="White" data-width=15 data-style="Arch" data-label="TLT" data-animationstep="0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 ">
+
+                                        </div>
+
+                                        <div class="col-lg-6 ">
+                                            <div class="text3" style="padding-top:-10%;  background-color: #33AD22;">
+                                                Met
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 ">
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4  " style="height:100%;">
+                        <a href="#">
+                            <div class="" style="color:#ffffff">
+                                <div class="">
+                                    <h1 class="oee1">Yield</h1>
+                                    <div class="per">
+                                        70 %
+                                    </div>
+                                    <div id="canvas-holder" style=" padding-left: 15%;width:80% ">
+                                        <canvas id="Yield"></canvas>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-6 ">
+                                            <div class="Preview" style="padding-left: 15%;">
+                                                <div style="height: 11em;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 50" data-append="%" data-size=180 data-theme="White" data-width=15 data-style="Arch" data-label="HHD" data-animationstep="0"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6  ">
+                                            <div class="Preview">
+                                                <div style="height: 11em;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 50" data-append="%" data-size=180 data-theme="White" data-width=15 data-style="Arch" data-label="TLT" data-animationstep="0"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 ">
+
+                                        </div>
+
+                                        <div class="col-lg-6 ">
+                                            <div class="text3" style="padding-top:-10%;  background-color: #247119;">
+                                                Exceed
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 ">
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+
+        <script>
+            $(document).ready(function() {
+                // Initialize GaugeMeter plugin
+                $(".GaugeMeter").gaugeMeter();
+
+                // Bind new handler to init and update gauges.
+                ko.bindingHandlers.gaugeValue = {
+                    init: function(element, valueAccessor) {
+                        $(element).gaugeMeter({
+                            percent: ko.unwrap(valueAccessor())
+                        });
+                    },
+                    update: function(element, valueAccessor) {
+                        $(element).gaugeMeter({
+                            percent: ko.unwrap(valueAccessor())
+                        });
+                    }
+                };
+
+                // Create view model with inital gauge value 15mph
+                // Use observable for easy update.
+                var myViewModel = {
+                    Percent: ko.observable(15)
+                };
+                ko.applyBindings(myViewModel);
+            });
+        </script>
+
+        <!--Availability-->
+        <script>
+            var data = [30, 60, 80, 100]
+            var value = 50;
+
+            var config1 = {
+                type: 'gauge',
+                data: {
+
+                    datasets: [{
+                        data: data,
+                        value: value,
+                        backgroundColor: ['#FF0000', '#F1C40F ', '#33AD22  ', '#247119 '],
+                        borderWidth: 1,
+
+                    }]
+                },
+                options: {
+                    cutoutPercentage: 75,
+                    responsive: true,
+                    title: {
+                        display: false,
+                    },
+                    layout: {
+                        padding: {
+                            top: 5
+                        }
+                    },
+                    needle: {
+                        // Needle circle radius as the percentage of the chart area width
+
+                        radiusPercentage: 5,
+                        // Needle width as the percentage of the chart area width
+                        widthPercentage: 5,
+                        // Needle length as the percentage of the interval between inner radius (0%) and outer radius (100%) of the arc
+                        lengthPercentage: 80,
+                        // The color of the needle
+                        color: 'rgba(0, 0, 0, 1)'
+                    },
+                    valueLabel: {
+                        display: false,
+                    },
+                    plugins: {
+                        datalabels: {
+                            display: false,
+                            formatter: function(value, context) {
+                                return '< ' + Math.round(value);
+                            },
+                            color: function(context) {
+                                return context.dataset.backgroundColor;
+                            },
+
+                            borderWidth: 0,
+                            borderRadius: 0,
+                            font: {
+
+                                size: 0
+                            }
+                        }
+                    }
+                }
+            };
+            var ctx1 = document.getElementById('oee1').getContext('2d');
+            window.myGauge = new Chart(ctx1, config1);
+        </script>
+        <!--Performance-->
+        <script>
+            var data = [30, 60, 80, 100]
+            var value = 65;
+
+            var config1 = {
+                type: 'gauge',
+                data: {
+
+                    datasets: [{
+                        data: data,
+                        value: value,
+                        backgroundColor: ['#FF0000', '#F1C40F ', '#33AD22  ', '#247119 '],
+                        borderWidth: 1,
+
+                    }]
+                },
+                options: {
+                    cutoutPercentage: 75,
+                    responsive: true,
+                    title: {
+                        display: false,
+                    },
+                    layout: {
+                        padding: {
+                            top: 5
+                        }
+                    },
+                    needle: {
+                        // Needle circle radius as the percentage of the chart area width
+
+                        radiusPercentage: 5,
+                        // Needle width as the percentage of the chart area width
+                        widthPercentage: 5,
+                        // Needle length as the percentage of the interval between inner radius (0%) and outer radius (100%) of the arc
+                        lengthPercentage: 80,
+                        // The color of the needle
+                        color: 'rgba(0, 0, 0, 1)'
+                    },
+                    valueLabel: {
+                        display: false,
+                    },
+                    plugins: {
+                        datalabels: {
+                            display: false,
+                            formatter: function(value, context) {
+                                return '< ' + Math.round(value);
+                            },
+                            color: function(context) {
+                                return context.dataset.backgroundColor;
+                            },
+
+                            borderWidth: 0,
+                            borderRadius: 0,
+                            font: {
+
+                                size: 0
+                            }
+                        }
+                    }
+                }
+            };
+            var ctx1 = document.getElementById('oee2').getContext('2d');
+            window.myGauge = new Chart(ctx1, config1);
+        </script>
+        <!--Quality-->
+        <script>
+            var data = [30, 60, 80, 100]
+            var value = 85;
+
+            var config1 = {
+                type: 'gauge',
+                data: {
+
+                    datasets: [{
+                        data: data,
+                        value: value,
+                        backgroundColor: ['#FF0000', '#F1C40F ', '#33AD22  ', '#247119 '],
+                        borderWidth: 1,
+
+                    }]
+                },
+                options: {
+                    cutoutPercentage: 75,
+                    responsive: true,
+                    title: {
+                        display: false,
+                    },
+                    layout: {
+                        padding: {
+                            top: 5
+                        }
+                    },
+                    needle: {
+                        // Needle circle radius as the percentage of the chart area width
+
+                        radiusPercentage: 5,
+                        // Needle width as the percentage of the chart area width
+                        widthPercentage: 5,
+                        // Needle length as the percentage of the interval between inner radius (0%) and outer radius (100%) of the arc
+                        lengthPercentage: 80,
+                        // The color of the needle
+                        color: 'rgba(0, 0, 0, 1)'
+                    },
+                    valueLabel: {
+                        display: false,
+                    },
+                    plugins: {
+                        datalabels: {
+                            display: false,
+                            formatter: function(value, context) {
+                                return '< ' + Math.round(value);
+                            },
+                            color: function(context) {
+                                return context.dataset.backgroundColor;
+                            },
+
+                            borderWidth: 0,
+                            borderRadius: 0,
+                            font: {
+
+                                size: 0
+                            }
+                        }
+                    }
+                }
+            };
+            var ctx1 = document.getElementById('Yield').getContext('2d');
+            window.myGauge = new Chart(ctx1, config1);
+        </script>
+
+        <!-- Bootstrap 4 -->
+        <script src="{{ url_for('static', filename='dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- ChartJS -->
+        <script src="{{ url_for('static', filename='dashboard/plugins/chart.js/Chart.min.js') }}"></script>
+        <!-- Sparkline -->
+        <script src="{{ url_for('static', filename='dashboard/plugins/sparklines/sparkline.js') }}"></script>
+
+        <script src="{{ url_for('static', filename='dashboard/plugins/moment/moment.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='dashboard/plugins/daterangepicker/daterangepicker.js') }}"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="{{ url_for('static', filename='dashboard/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+        <!-- Summernote -->
+        <script src="{{ url_for('static', filename='dashboard/plugins/summernote/summernote-bs4.min.js') }}"></script>
+
+</body>
+
+</html>

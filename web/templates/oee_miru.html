@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>GaugeMeter.js - jQuery Plugin</title>
+    <meta name="description" content="Easy to use guage meter JavaScript plugin using jQuery">
+    <meta name="author" content="Mictronics">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/dist/css/adminlte.min.css') }}" rel="stylesheet">
+    <meta name="author" content="Mictronics">
+    <!-- Google Font: Source Sans Pro -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/jqvmap/jqvmap.min.css') }}" rel="stylesheet">
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static', filename='dashboard/download/Chart.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/chartjs-gauge.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/chartjs-plugin-datalabels.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/apexcharts.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/RGraph.common.core.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/RGraph.segmented.js') }}"></script>
+
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static', filename='dashboard/download/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/knockout-min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/GaugeMeter.js') }}"></script>
+    <style>
+        body {
+            background: rgb(0, 3, 36);
+            background: linear-gradient(196deg, rgba(0, 3, 36, 1) 0%, rgba(9, 9, 121, 1) 2%, rgba(0, 212, 255, 1) 100%);
+        }
+        
+        .header_MONITORING {
+            text-align: center;
+            color: #ffffff;
+            font-size: 28px;
+            width: 40%;
+            font-weight: bold;
+        }
+        
+        .Time {
+            text-align: right;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        
+        .oeePer {
+            text-align: center;
+            color: #ffffff;
+            font-size: 54px;
+        }
+        
+        .oee1 {
+            text-align: right;
+            font-size: 36px;
+            font-weight: bold;
+            font-family: verdana;
+            border-bottom: thick solid #090979;
+        }
+        
+        .oeePer1 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 54px;
+            padding-top: 10%;
+        }
+        
+        .line_header_MONITORING {
+            padding-top: -10%;
+            height: 3px;
+        }
+        
+        .Machine-Name {
+            color: #ffffff;
+            display: inline;
+            text-align: left;
+        }
+        
+        .date-time {
+            color: #ffffff;
+            display: inline;
+            text-align: right;
+        }
+        
+        .Machine-Status {
+            color: #ffffff;
+            display: inline;
+            text-align: left;
+        }
+        
+        .table-Status {
+            color: #ffffff;
+        }
+        
+        #center {
+            border-left: thick solid #54a7b5;
+            border-right: thick solid #54a7b5;
+        }
+        
+        .per {
+            text-align: center;
+            font-weight: bold;
+            font-size: 56px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .text3 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            margin: 4px 2px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .button1 {
+            background-color: #FF2424;
+        }
+        /* Green */
+        
+        .button2 {
+            background-color: #2488FF;
+        }
+        
+        .box {
+            background-color: #ffffff;
+        }
+        
+        .nameOEE {
+            font-size: 3em;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .nameA {
+            font-size: 1em;
+            color: #090979;
+            text-align: center;
+            font-weight: bold;
+            position: absolute;
+            z-index: 999;
+            margin: auto;
+            padding-left: 30%;
+        }
+        
+        .nameB {
+            font-size: 2em;
+            color: #090979;
+            text-align: center;
+            font-weight: bold;
+            position: absolute;
+            z-index: 999;
+            margin: auto;
+            padding-left: 35%;
+        }
+        
+        .nameAs {
+            font-size: 0.7em;
+            text-align: center;
+            color: #fff"
+
+        }
+        
+        .nameR {
+            font-size: 1.7em;
+            color: #090979;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .imghome {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    </style>
+    <style>
+        .relative {
+            position: relative;
+        }
+        
+        .absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .buttonSm {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    </style>
+    <style>
+        .GaugeMeter {
+            Position: Relative;
+            Text-Align: Center;
+            Overflow: Hidden;
+            Cursor: Default;
+            Color: #000;
+        }
+        
+        .GaugeMeter SPAN,
+        .GaugeMeter B {
+            Margin: 0 23%;
+            Width: 54%;
+            Position: Absolute;
+            Text-Align: Center;
+            Display: Inline-Block;
+            Font-Weight: 100;
+            Font-Family: "Open Sans", Arial;
+            Overflow: Hidden;
+            White-Space: NoWrap;
+            Text-Overflow: Ellipsis;
+        }
+        
+        .GaugeMeter[data-style="Semi"] B {
+            Margin: 0 10%;
+            Width: 80%;
+        }
+        
+        .GaugeMeter S,
+        .GaugeMeter U {
+            Text-Decoration: None;
+            Font-Size: .30em;
+            Font-Weight: 200;
+            Opacity: .6;
+        }
+        
+        .GaugeMeter B {
+            Font-Weight: 200;
+            Font-Size: 0.85em;
+            Opacity: .8;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content">
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+
+
+                <div class="row" style="background-color:  #090979;">
+
+
+                    <div class="col-lg-6">
+                        <div class="row">
+
+                            <div class="col-lg-2">
+                                <img src="{{ url_for('static', filename='dashboard/NEO3.png')}}" width="110%" style="padding-bottom: 1%;padding-RIGHT: 1%;">
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="header_MONITORING" style="text-align: left;"> Total Plant</div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="Time" style="text-align: right;">Date : 14 Oct 2021</div>
+                        <div class="Time" style="text-align: right;">Time : 08:08:08</div>
+                    </div>
+                    <br>
+
+                </div>
+
+
+
+                <!-- /.container-fluid -->
+                <div class="row">
+                    <div class="col-lg-5 ">
+                        <div class="ch" style=" color:#fff">
+                            <div class="card-header">
+
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-pie mr-1"></i><b style=" color : #fff;font-size: 1.3em;">Overall OEE</b>
+                                </h3>
+                                <br>
+                                <div style="height: 12em;">
+                                    <canvas id="OEE_APQ1"></canvas>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-5 ">
+
+                        <div class="ch" style=" color:#fff">
+                            <div class="card-header">
+
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-pie mr-1"></i><b style=" color : #fff;font-size: 1.3em;">% DownTime</b>
+                                </h3>
+                                <br>
+                                <div style="height: 12em;">
+                                    <canvas id="OEE_APQ2"></canvas>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 " style="padding-right: 1%;">
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="nameSel" style="color: #fff;">Select OEE</div>
+                                    <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
+                            <option selected="selected">-- ALL --</option>
+                          <option>TLT</option>
+                          <option>HHD</option>
+                          
+                        </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <div class="nameSel" style="color: #fff;">Select Plant</div>
+                                    <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
+                          <option selected="selected">-- ALL --</option>
+                          <option>Robotic 1</option>
+                          <option>Robotic 2</option>
+                          <option>Robotic 3</option>
+                          <option>Robotic 4</option>
+                          
+                        </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <br>
+                                <div class="buttonSm">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="imghome">
+                                    <img src="{{ url_for('static', filename='dashboard/home.jpg')}}" width="40%"> &nbsp; &nbsp;
+                                    <img src="{{ url_for('static', filename='dashboard/pdf.png')}}" width="32%">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="ch1">
+                            <div class="row" id="ch1" style="background-color:  #61AADC ; height: 10.6em; top:10em">
+                                <div class="nameA" style="padding-top: 20%;padding-left: 32%;font-size :2.5em;color : #fff;">
+                                    กะมีนบุรี </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="ch1">
+                            <div class="row" id="ch1" style="background-color:  #61AADC ; height: 10.6em; top:10em">
+
+                                <div class="col-md-4" style="margin-top:-19px;">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            <div class="box" style="background: linear-gradient(196deg, rgba(0, 3, 36, 1) 0%, rgba(9, 9, 121, 1) 2%, rgba(0, 212, 255, 1) 100%);
+                                             color : #4ba6e2; border-radius: 25px; border: 2px solid   #fffefe">
+                                                <div class="Preview">
+
+                                                    <div class="nameA" style="padding-left: 28%;color : #fff;font-size :2.5em;">
+                                                        <br> OEE1
+                                                    </div>
+                                                    <div class="nameB" style="padding-left: 28%;padding-top: 30%;color : #fff;font-size :3em;">
+
+                                                        70 %
+                                                    </div>
+
+                                                    <div style="height: 12.6em;padding-left: 12%;padding-top: 3%" class="GaugeMeter" id="PreviewGaugeMeter" data-text=" " data-bind="gaugeValue: 70" data-size=220 data-theme="Red-Gold-Green" data-width=30 data-style="Arch" data-label="" data-animationstep="0"></div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="box" style="background-color:  #61AADC ; color : #fff; border-radius: 25px; height: 10px;">
+
+                                                <div class="Preview" style="padding-top: 5%;">
+
+                                                    <div class="nameA" style="padding-left: 25%;">
+                                                        <br><br> Availabiliy
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 17%;padding-left: 25%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.5em;text-align: center;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-text=" " data-bind="gaugeValue: 90" data-size=160 data-theme="Green-Gold-Red" data-width=15 data-style="Arch" data-animationstep="0"></div>
+
+                                                </div>
+                                                <div class="nameAs" style="color: #fff;padding-left: 0%;">
+                                                    เวลาเดินเครื่องจักร / เวลารับภาระงาน
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="box" style="background-color:  #61AADC ; color : #fff; ">
+                                                <div class="Preview" style="padding-top: 5%;">
+                                                    <div class="nameA" style="padding-left: 20%;line-height: 12pt">
+                                                        <br><br><br> Performance <br>Efficiency
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 17%;padding-left: 27%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.5em;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 70" data-text=" " data-size=160 data-theme="Red-Green" data-width=15 data-style="Arch" data-animationstep="0"></div>
+                                                </div>
+                                                <div class="nameAs" style="color: #fff; padding-left: 0%;">
+                                                    จำนวนที่ผลิตได้ / จำนวนที่ควรผลิตได้
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="box" style=" background-color:  #61AADC ; color : #fff; border-radius: 25px;">
+                                                <div class="Preview" style="padding-top: 5%;">
+                                                    <div class="nameA" style="padding-left: 21%;line-height: 12pt">
+                                                        <br><br><br> Quality Rate
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 17%;padding-left: 27%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.2em;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 70" data-text=" " data-size=160 data-theme="Green-Red" data-width=15 data-style="Arch" data-animationstep="0"></div>
+                                                </div>
+                                                <div class="nameAs" style="color: #fff; padding-left: 0% ; font-size:0.6em">
+                                                    จำนวนที่ผลิตได้ผ่านคุณภาพ / จำนวนที่ผลิต
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <br>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="ch1">
+                            <div class="row" id="ch1" style="background-color:  #61AADC ; height: 10.6em; top:10em">
+                                <div class="nameA" style="padding-top: 20%;padding-left: 32%;font-size :2.5em;color : #fff;">
+                                    กะมีนบุรี </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="ch1">
+                            <div class="row" id="ch1" style="background-color:  #61AADC ; height: 10.6em; top:10em">
+
+                                <div class="col-md-4" style="margin-top:-19px;">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            <div class="box" style="background: linear-gradient(196deg, rgba(0, 3, 36, 1) 0%, rgba(9, 9, 121, 1) 2%, rgba(0, 212, 255, 1) 100%);
+                                             color : #4ba6e2; border-radius: 25px; border: 2px solid   #fffefe">
+                                                <div class="Preview">
+
+                                                    <div class="nameA" style="padding-left: 28%;color : #fff;font-size :2.5em;">
+                                                        <br> OEE1
+                                                    </div>
+                                                    <div class="nameB" style="padding-left: 28%;padding-top: 30%;color : #fff;font-size :3em;">
+
+                                                        70 %
+                                                    </div>
+
+                                                    <div style="height: 12.6em;padding-left: 12%;padding-top: 3%" class="GaugeMeter" id="PreviewGaugeMeter" data-text=" " data-bind="gaugeValue: 70" data-size=220 data-theme="Red-Gold-Green" data-width=30 data-style="Arch" data-label="" data-animationstep="0"></div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="box" style="background-color:  #61AADC ; color : #fff; border-radius: 25px; height: 10px;">
+
+                                                <div class="Preview" style="padding-top: 5%;">
+
+                                                    <div class="nameA" style="padding-left: 25%;">
+                                                        <br><br> Availabiliy
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 17%;padding-left: 25%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.5em;text-align: center;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-text=" " data-bind="gaugeValue: 90" data-size=160 data-theme="Green-Gold-Red" data-width=15 data-style="Arch" data-animationstep="0"></div>
+
+                                                </div>
+                                                <div class="nameAs" style="color: #fff;padding-left: 0%;">
+                                                    เวลาเดินเครื่องจักร / เวลารับภาระงาน
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="box" style="background-color:  #61AADC ; color : #fff; ">
+                                                <div class="Preview" style="padding-top: 5%;">
+                                                    <div class="nameA" style="padding-left: 20%;line-height: 12pt">
+                                                        <br><br><br> Performance <br>Efficiency
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 17%;padding-left: 27%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.5em;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 70" data-text=" " data-size=160 data-theme="Red-Green" data-width=15 data-style="Arch" data-animationstep="0"></div>
+                                                </div>
+                                                <div class="nameAs" style="color: #fff; padding-left: 0%;">
+                                                    จำนวนที่ผลิตได้ / จำนวนที่ควรผลิตได้
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="box" style=" background-color:  #61AADC ; color : #fff; border-radius: 25px;">
+                                                <div class="Preview" style="padding-top: 5%;">
+                                                    <div class="nameA" style="padding-left: 21%;line-height: 12pt">
+                                                        <br><br><br> Quality Rate
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 17%;padding-left: 27%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.2em;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 70" data-text=" " data-size=160 data-theme="Green-Red" data-width=15 data-style="Arch" data-animationstep="0"></div>
+                                                </div>
+                                                <div class="nameAs" style="color: #fff; padding-left: 0% ; font-size:0.6em">
+                                                    จำนวนที่ผลิตได้ผ่านคุณภาพ / จำนวนที่ผลิต
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <br>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <script>
+        $(document).ready(function() {
+            // Initialize GaugeMeter plugin
+            $(".GaugeMeter").gaugeMeter();
+
+            // Bind new handler to init and update gauges.
+            ko.bindingHandlers.gaugeValue = {
+                init: function(element, valueAccessor) {
+                    $(element).gaugeMeter({
+                        percent: ko.unwrap(valueAccessor())
+                    });
+                },
+                update: function(element, valueAccessor) {
+                    $(element).gaugeMeter({
+                        percent: ko.unwrap(valueAccessor())
+                    });
+                }
+            };
+
+            // Create view model with inital gauge value 15mph
+            // Use observable for easy update.
+            var myViewModel = {
+                Percent: ko.observable(15)
+            };
+            ko.applyBindings(myViewModel);
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script>
+        //---------------------- oee APQ ------------------------
+        var barChartData1 = {
+
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+
+            datasets: [{
+
+                data: [
+                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+                ],
+                type: 'line',
+                label: 'กะมีนบุรี',
+                fill: false,
+                backgroundColor: "#fff",
+                borderColor: "#ffff00",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderWidth: 2,
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.5,
+                pointBackgroundColor: "#ffff00   ",
+                pointBorderColor: "#ffff00  ",
+                pointBorderWidth: 3,
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#000 ",
+                pointHoverBorderWidth: 50,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, {
+                data: [
+                    79, 75, 75, 81, 84, 74, 80, 77, 70, 83, 85, 75
+                ],
+                type: 'line',
+                label: 'กะร่มเกล้า',
+                fill: false,
+                backgroundColor: "#fff",
+                borderColor: "#ff0000",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderWidth: 2,
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.5,
+                pointBackgroundColor: "#ff0000   ",
+                pointBorderColor: "#ff0000  ",
+                pointBorderWidth: 3,
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#000 ",
+                pointHoverBorderWidth: 50,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, ]
+        };
+
+        var barChartData2 = {
+
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+
+            datasets: [{
+
+                data: [
+                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+                ],
+                type: 'line',
+                label: 'กะมีนบุรี',
+                fill: false,
+                backgroundColor: "#fff",
+                borderColor: "#ffff00",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderWidth: 2,
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.5,
+                pointBackgroundColor: "#ffff00   ",
+                pointBorderColor: "#ffff00  ",
+                pointBorderWidth: 3,
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#000 ",
+                pointHoverBorderWidth: 50,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, {
+                data: [
+                    79, 75, 75, 81, 84, 74, 80, 77, 70, 83, 85, 75
+                ],
+                type: 'line',
+                label: 'กะร่มเกล้า',
+                fill: false,
+                backgroundColor: "#fff",
+                borderColor: "#ff0000",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderWidth: 2,
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.5,
+                pointBackgroundColor: "#ff0000   ",
+                pointBorderColor: "#ff0000  ",
+                pointBorderWidth: 3,
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#000 ",
+                pointHoverBorderWidth: 50,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, ]
+        };
+        window.onload = function() {
+            var ctx = document.getElementById("OEE_APQ1").getContext("2d");
+            var ctx2 = document.getElementById("OEE_APQ2").getContext("2d");
+
+            window.myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData1,
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        onComplete() {
+                            const {
+                                ctx,
+                                data,
+                                chart
+                            } = this;
+
+                            ctx.fillStyle = 'White';
+                            ctx.textAlign = 'center';
+
+                            data.datasets.forEach((d, index) => {
+                                chart.controller.getDatasetMeta(index).data.forEach((n, i) => {
+                                    ctx.fillText(d.data[i], n._model.x, n._model.y - 10);
+                                });
+                            });
+                        },
+                    },
+                    title: {
+                        display: false,
+
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: "#fff",
+
+                        }
+                    },
+
+                    scales: {
+
+                        xAxes: [{
+                            stacked: false,
+                            ticks: {
+                                fontColor: "#fff"
+                            }
+                        }],
+                        yAxes: [{
+
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: false,
+                                min: 40,
+                                max: 100,
+
+                                fontColor: "#fff"
+
+                            },
+                            gridLine: {
+                                display: false,
+                                color: "#fff"
+                            }
+                        }]
+                    },
+                }
+
+            });
+
+            window.myBar = new Chart(ctx2, {
+                type: 'bar',
+                data: barChartData2,
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        onComplete() {
+                            const {
+                                ctx,
+                                data,
+                                chart
+                            } = this;
+
+                            ctx.fillStyle = 'White';
+                            ctx.textAlign = 'center';
+
+                            data.datasets.forEach((d, index) => {
+                                chart.controller.getDatasetMeta(index).data.forEach((n, i) => {
+                                    ctx.fillText(d.data[i], n._model.x, n._model.y - 10);
+                                });
+                            });
+                        },
+                    },
+                    title: {
+                        display: false,
+
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: "#fff",
+
+                        }
+                    },
+                    scales: {
+
+                        xAxes: [{
+                            stacked: false,
+                            ticks: {
+                                fontColor: "#fff"
+                            }
+                        }],
+                        yAxes: [{
+
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: false,
+                                min: 40,
+                                max: 100,
+
+                                fontColor: "#fff"
+
+                            },
+                            gridLine: {
+                                display: false,
+                                color: "#fff"
+                            }
+                        }]
+                    },
+                }
+
+            });
+
+
+        };
+    </script>
+
+    <!-- Bootstrap 4 -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- Sparkline -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/sparklines/sparkline.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='dashboard/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/plugins/daterangepicker/daterangepicker.js') }}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <!-- Summernote -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/summernote/summernote-bs4.min.js') }}"></script>
+
+
+
+
+</body>
+
+</html>

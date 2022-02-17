@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>GaugeMeter.js - jQuery Plugin</title>
+    <meta name="description" content="Easy to use guage meter JavaScript plugin using jQuery">
+    <meta name="author" content="Mictronics">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/dist/css/adminlte.min.css') }}" rel="stylesheet">
+    <meta name="author" content="Mictronics">
+    <!-- Google Font: Source Sans Pro -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/plugins/jqvmap/jqvmap.min.css') }}" rel="stylesheet">
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static', filename='dashboard/download/Chart.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/chartjs-gauge.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/chartjs-plugin-datalabels.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/apexcharts.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/RGraph.common.core.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/RGraph.segmented.js') }}"></script>
+
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static', filename='dashboard/download/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/download/knockout-min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/GaugeMeter.js') }}"></script>
+    <style>
+        body {
+            background: rgb(0, 3, 36);
+            background: linear-gradient(196deg, rgba(0, 3, 36, 1) 0%, rgba(9, 9, 121, 1) 2%, rgba(0, 212, 255, 1) 100%);
+        }
+        
+        @font-face {
+            font-family: 'DIGITAL';
+            src: url("{{ url_for('static', filename='dashboard/dist/font/DSEG7Classic-Bold.ttf') }}");
+        }
+        
+        .header_MONITORING {
+            text-align: center;
+            color: #ffffff;
+            font-size: 28px;
+            width: 40%;
+            font-weight: bold;
+        }
+        
+        .Time {
+            text-align: right;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        
+        .oeePer {
+            text-align: center;
+            color: #ffffff;
+            font-size: 54px;
+        }
+        
+        .oee1 {
+            text-align: right;
+            font-size: 36px;
+            font-weight: bold;
+            font-family: verdana;
+            border-bottom: thick solid #54a7b5;
+        }
+        
+        .oeePer1 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 54px;
+            padding-top: 10%;
+        }
+        
+        .line_header_MONITORING {
+            padding-top: -10%;
+            height: 3px;
+        }
+        
+        .Machine-Name {
+            color: #ffffff;
+            display: inline;
+            text-align: left;
+        }
+        
+        .date-time {
+            color: #ffffff;
+            display: inline;
+            text-align: right;
+        }
+        
+        .Machine-Status {
+            color: #ffffff;
+            display: inline;
+            text-align: left;
+        }
+        
+        .table-Status {
+            color: #ffffff;
+        }
+        
+        #center {
+            border-left: thick solid #54a7b5;
+            border-right: thick solid #54a7b5;
+        }
+        
+        .per {
+            text-align: center;
+            font-weight: bold;
+            font-size: 56px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .text3 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            margin: 4px 2px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .button1 {
+            background-color: #FF2424;
+        }
+        /* Green */
+        
+        .button2 {
+            background-color: #2488FF;
+        }
+        
+        .box {
+            background-color: #ffffff;
+        }
+        
+        .nameOEE {
+            font-size: 1.8em;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .nameA {
+            font-size: 1em;
+            color: #090979;
+            text-align: center;
+            font-weight: bold;
+            position: absolute;
+            z-index: 999;
+            margin: auto;
+            padding-left: 30%;
+        }
+        
+        .nameB {
+            font-size: 2em;
+            color: #090979;
+            text-align: center;
+            font-weight: bold;
+            position: absolute;
+            z-index: 999;
+            margin: auto;
+            padding-left: 35%;
+        }
+        
+        .nameAs {
+            font-size: 0.7em;
+            text-align: center;
+            color: #fff"
+
+        }
+        
+        .nameR {
+            font-size: 1.7em;
+            color: #090979;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .imghome {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+        
+        .st {
+            background-color: #61AADC;
+            border-radius: 15px;
+            padding: 3%
+        }
+        
+        .ch {
+            border-radius: 15px;
+        }
+        
+        #ch1 {
+            border-bottom-right-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        
+        #circlestart {
+            margin: auto;
+            width: 4em;
+            height: 2em;
+            font-size: 1em;
+            border-radius: 15px;
+            font-weight: bold;
+            border: 3px solid green;
+            background: linear-gradient(0deg, rgba(179, 179, 180, 1) 0%, rgba(125, 241, 117, 1) 30%, rgba(113, 255, 102, 1) 50%, rgba(126, 240, 117, 1) 70%, rgba(179, 179, 180, 1) 100%);
+            text-align: center;
+        }
+        
+        #circlestop {
+            margin: auto;
+            width: 4em;
+            font-size: 1em;
+            font-weight: bold;
+            height: 5em;
+            border: 3px solid red;
+            background-color: #fff;
+            text-align: center;
+            display: block;
+        }
+        
+        #heatname {
+            font-size: 1em;
+            color: #090979;
+            font-weight: bold;
+            padding-left: 4%;
+            display: block;
+        }
+        
+        #statusname {
+            font-size: 1em;
+            color: #090979;
+            font-weight: bold;
+            padding-left: 4%;
+        }
+        
+        #heatvalue {
+            font-size: 1.2em;
+            color: #000;
+        }
+        
+        #statusvalue {
+            font-size: 1.2em;
+            color: #000;
+        }
+        
+        #valuespeed1 {
+            text-align: right;
+            font: 5em 'DIGITAL';
+            color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: absolute;
+            z-index: 99;
+        }
+        
+        #valuespeed2 {
+            font: 5em 'DIGITAL';
+            color: #fff;
+            text-shadow: 0 0 2px #000;
+            text-align: center;
+            position: absolute;
+            z-index: 999;
+        }
+        
+        .namespeed {
+            text-align: left;
+            font-size: 1.5em;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .rpm {
+            bottom: 0px;
+            font-size: 2em;
+            color: white;
+            z-index: 99;
+        }
+        
+        .imglogo {
+            position: fixed;
+            left: 0px;
+            bottom: 0px;
+            width: 100%;
+            color: white;
+            z-index: 99;
+        }
+    </style>
+    <style>
+        .relative {
+            position: relative;
+        }
+        
+        .absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .buttonSm {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+        
+        #vvv {
+            text-align: center;
+            position: absolute;
+            z-index: 999;
+        }
+    </style>
+    <style>
+        .GaugeMeter {
+            Position: Relative;
+            Text-Align: Center;
+            Overflow: Hidden;
+            Cursor: Default;
+            Color: #000;
+        }
+        
+        .GaugeMeter SPAN,
+        .GaugeMeter B {
+            Margin: 0 23%;
+            Width: 54%;
+            Position: Absolute;
+            Text-Align: Center;
+            Display: Inline-Block;
+            Font-Weight: 100;
+            Font-Family: "Open Sans", Arial;
+            Overflow: Hidden;
+            White-Space: NoWrap;
+            Text-Overflow: Ellipsis;
+        }
+        
+        .GaugeMeter[data-style="Semi"] B {
+            Margin: 0 10%;
+            Width: 80%;
+        }
+        
+        .GaugeMeter S,
+        .GaugeMeter U {
+            Text-Decoration: None;
+            Font-Size: .30em;
+            Font-Weight: 200;
+            Opacity: .6;
+        }
+        
+        .GaugeMeter B {
+            Font-Weight: 200;
+            Font-Size: 0.85em;
+            Opacity: .8;
+        }
+        
+        .button {
+            width: 6em;
+            height: 2.2em;
+            font-weight: bold;
+            font-size: 1.2em;
+            /* zoom and *display = ie7 hack for display:inline-block */
+            text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+            -webkit-border-radius: .5em;
+            -moz-border-radius: .5em;
+            border-radius: .5em;
+            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+        }
+        
+        .bigrounded {
+            -webkit-border-radius: 2em;
+            -moz-border-radius: 2em;
+            border-radius: 2em;
+        }
+        
+        .medium {
+            font-size: 12px;
+            padding: .4em 1.5em .42em;
+        }
+        
+        .small {
+            font-size: 11px;
+            padding: .2em 1em .275em;
+        }
+        /* color styles 
+---------------------------------------------- */
+        /* black */
+        
+        .black {
+            color: #d7d7d7;
+            border: solid 1px #333;
+            background: #333;
+            background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000));
+            background: -moz-linear-gradient(top, #666, #000);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#666666', endColorstr='#000000');
+        }
+        
+        .black:hover {
+            background: #000;
+            background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#000));
+            background: -moz-linear-gradient(top, #444, #000);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#000000');
+        }
+        
+        .black:active {
+            color: #666;
+            background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#444));
+            background: -moz-linear-gradient(top, #000, #444);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666');
+        }
+        /* gray */
+        
+        .gray {
+            color: #e9e9e9;
+            border: solid 3px #555;
+            background: #6e6e6e;
+            background: -webkit-gradient(linear, left top, left bottom, from(#888), to(#575757));
+            background: -moz-linear-gradient(top, #888, #575757);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#575757');
+        }
+        
+        .gray:hover {
+            background: #616161;
+            background: -webkit-gradient(linear, left top, left bottom, from(#757575), to(#4b4b4b));
+            background: -moz-linear-gradient(top, #757575, #4b4b4b);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#757575', endColorstr='#4b4b4b');
+        }
+        
+        .gray:active {
+            color: #afafaf;
+            background: -webkit-gradient(linear, left top, left bottom, from(#575757), to(#888));
+            background: -moz-linear-gradient(top, #575757, #888);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#575757', endColorstr='#888888');
+        }
+        /* white */
+        
+        .white {
+            color: #606060;
+            border: solid 1px #b7b7b7;
+            background: #fff;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+            background: -moz-linear-gradient(top, #fff, #ededed);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
+        }
+        
+        .white:hover {
+            background: #ededed;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#dcdcdc));
+            background: -moz-linear-gradient(top, #fff, #dcdcdc);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
+        }
+        
+        .white:active {
+            color: #999;
+            background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+            background: -moz-linear-gradient(top, #ededed, #fff);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
+        }
+        /* orange */
+        
+        .orange {
+            color: #fef4e9;
+            border: solid 1px #da7c0c;
+            background: #f78d1d;
+            background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+            background: -moz-linear-gradient(top, #faa51a, #f47a20);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+        }
+        
+        .orange:hover {
+            background: #f47c20;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+            background: -moz-linear-gradient(top, #f88e11, #f06015);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+        }
+        
+        .orange:active {
+            color: #fcd3a5;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+            background: -moz-linear-gradient(top, #f47a20, #faa51a);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+        }
+        /* red */
+        
+        .red {
+            color: #faddde;
+            border: solid 3px #555;
+            background: #d81b21;
+            background: -webkit-gradient(linear, left top, left bottom, from(#ed1c24), to(#aa1317));
+            background: -moz-linear-gradient(top, #ed1c24, #aa1317);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ed1c24', endColorstr='#aa1317');
+        }
+        
+        .red:hover {
+            background: #b61318;
+            background: -webkit-gradient(linear, left top, left bottom, from(#c9151b), to(#a11115));
+            background: -moz-linear-gradient(top, #c9151b, #a11115);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#c9151b', endColorstr='#a11115');
+        }
+        
+        .red:active {
+            color: #de898c;
+            background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24));
+            background: -moz-linear-gradient(top, #aa1317, #ed1c24);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24');
+        }
+        /* blue */
+        
+        .blue {
+            color: #d9eef7;
+            border: solid 1px #0076a3;
+            background: #0095cd;
+            background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+            background: -moz-linear-gradient(top, #00adee, #0078a5);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+        }
+        
+        .blue:hover {
+            background: #007ead;
+            background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+            background: -moz-linear-gradient(top, #0095cc, #00678e);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+        }
+        
+        .blue:active {
+            color: #80bed6;
+            background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+            background: -moz-linear-gradient(top, #0078a5, #00adee);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+        }
+        /* rosy */
+        
+        .rosy {
+            color: #fae7e9;
+            border: solid 1px #b73948;
+            background: #da5867;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f16c7c), to(#bf404f));
+            background: -moz-linear-gradient(top, #f16c7c, #bf404f);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#f16c7c', endColorstr='#bf404f');
+        }
+        
+        .rosy:hover {
+            background: #ba4b58;
+            background: -webkit-gradient(linear, left top, left bottom, from(#cf5d6a), to(#a53845));
+            background: -moz-linear-gradient(top, #cf5d6a, #a53845);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#cf5d6a', endColorstr='#a53845');
+        }
+        
+        .rosy:active {
+            color: #dca4ab;
+            background: -webkit-gradient(linear, left top, left bottom, from(#bf404f), to(#f16c7c));
+            background: -moz-linear-gradient(top, #bf404f, #f16c7c);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#bf404f', endColorstr='#f16c7c');
+        }
+        /* green */
+        
+        .green {
+            color: #000;
+            border: solid 3px #555;
+            background: #17E717;
+            background: -webkit-gradient(linear, left top, left bottom, from(#17E717), to(#0EA90E));
+            background: -moz-linear-gradient(top, #17E717, #0EA90E);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#17E717', endColorstr='#0EA90E');
+        }
+        
+        .green:hover {
+            background: #538018;
+            background: -webkit-gradient(linear, left top, left bottom, from(#6b9d28), to(#436b0c));
+            background: -moz-linear-gradient(top, #6b9d28, #436b0c);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#6b9d28', endColorstr='#436b0c');
+        }
+        
+        .green:active {
+            color: #a9c08c;
+            background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));
+            background: -moz-linear-gradient(top, #4e7d0e, #7db72f);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
+        }
+        /* pink */
+        
+        .pink {
+            color: #feeef5;
+            border: solid 1px #d2729e;
+            background: #f895c2;
+            background: -webkit-gradient(linear, left top, left bottom, from(#feb1d3), to(#f171ab));
+            background: -moz-linear-gradient(top, #feb1d3, #f171ab);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#feb1d3', endColorstr='#f171ab');
+        }
+        
+        .pink:hover {
+            background: #d57ea5;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f4aacb), to(#e86ca4));
+            background: -moz-linear-gradient(top, #f4aacb, #e86ca4);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#f4aacb', endColorstr='#e86ca4');
+        }
+        
+        .pink:active {
+            color: #f3c3d9;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f171ab), to(#feb1d3));
+            background: -moz-linear-gradient(top, #f171ab, #feb1d3);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#f171ab', endColorstr='#feb1d3');
+        }
+    </style>
+
+</head>
+
+<body style="min-height: 100%;">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content">
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+
+
+                <div class="row" style="background-color:  #090979; ">
+
+
+                    <div class="col-lg-6">
+                        <div class="row">
+
+                            <div class="col-lg-2">
+                                <img src="{{ url_for('static', filename='dashboard/NEO3.png')}}" width="110%" style="padding-bottom: 1%;padding-RIGHT: 1%;">
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="header_MONITORING" style="text-align: left;"> Total Plant</div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="Time" style="text-align: right;">Date : 14 Oct 2021</div>
+                        <div class="Time" style="text-align: right;">Time : 08:08:08</div>
+                    </div>
+                    <br>
+
+                </div>
+
+
+                <div class="row" style="color: #fff;">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="nameSel">Select OEE</div>
+                            <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
+                                <option selected="selected">-- ALL --</option>
+                              <option>TLT</option>
+                              <option>HHD</option>
+                              
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="nameSel">Select Plant</div>
+                            <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
+                              <option selected="selected">-- ALL --</option>
+                              <option>Robotic 1</option>
+                              <option>Robotic 2</option>
+                              <option>Robotic 3</option>
+                              <option>Robotic 4</option>
+                              
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="nameSel">Select Shifts Pattern</div>
+                            <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
+                                <option selected="selected">-- ALL --</option>
+                              <option>Shift (กะสั้นเช้า)</option>
+                              <option>Shift (กะสั้นบ่าย)</option>
+                              <option>Shift (กะยาวเช้า)</option>
+                              <option>Shift (กะยาวบ่าย)</option>
+                              
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="nameSel">Select Machine</div>
+                            <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
+                                <option selected="selected">-- ALL --</option>
+                              <option>Shift (กะสั้นเช้า)</option>
+                              <option>Shift (กะสั้นบ่าย)</option>
+                              <option>Shift (กะยาวเช้า)</option>
+                              <option>Shift (กะยาวบ่าย)</option>
+                              
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="nameSel">Select Month</div>
+                            <input class="form-control" type="month" style="width: 100%;  height: 30px; font-Size: 0.8em;">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <br>
+                        <div class="buttonSm">
+                            <button type="submit" class="btn btn-success">Submit</button>
+
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="imghome">
+                            <img src="{{ url_for('static', filename='dashboard/home.jpg')}}" width="40%"> &nbsp; &nbsp;
+                            <img src="{{ url_for('static', filename='dashboard/pdf.png')}}" width="32%">
+                        </div>
+
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="ch1">
+                            <div class="row" id="ch1" style="background-color:  #61AADC ; height: 10.6em; top:10em">
+
+                                <div class="col-md-4" style="margin-top:-19px;">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            <div class="box" style="background: linear-gradient(196deg, rgba(0, 3, 36, 1) 0%, rgba(9, 9, 121, 1) 2%, rgba(0, 212, 255, 1) 100%);
+                                             color : #4ba6e2; border-radius: 25px; border: 2px solid   #fffefe">
+                                                <div class="Preview">
+
+                                                    <div class="nameA" style="padding-left: 32%;color : #fff;font-size :2.5em;">
+                                                        <br> OEE1
+                                                    </div>
+                                                    <div class="nameB" style="padding-left: 32%;padding-top: 30%;color : #fff;font-size :3em;">
+
+                                                        70 %
+                                                    </div>
+
+                                                    <div style="height: 12.6em;padding-left: 12%;padding-top: 3%" class="GaugeMeter" id="PreviewGaugeMeter" data-text=" " data-bind="gaugeValue: 70" data-size=220 data-theme="Red-Gold-Green" data-width=30 data-style="Arch" data-label="" data-animationstep="0"></div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="box" style="background-color:  #61AADC ; color : #fff; border-radius: 25px; height: 10px;">
+
+                                                <div class="Preview" style="padding-top: 5%;">
+
+                                                    <div class="nameA">
+                                                        <br><br> Availabiliy
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 20%;padding-left: 30%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.5em;text-align: center;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-text=" " data-bind="gaugeValue: 90" data-size=160 data-theme="Green-Gold-Red" data-width=15 data-style="Arch" data-animationstep="0"></div>
+
+                                                </div>
+                                                <div class="nameAs" style="color: #fff;padding-left: 0%;">
+                                                    เวลาเดินเครื่องจักร / เวลารับภาระงาน
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="box" style="background-color:  #61AADC ; color : #fff; ">
+                                                <div class="Preview" style="padding-top: 5%;">
+                                                    <div class="nameA" style="padding-left: 25%;line-height: 12pt">
+                                                        <br><br><br> Performance <br>Efficiency
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 20%;padding-left: 30%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.5em;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 70" data-text=" " data-size=160 data-theme="Red-Green" data-width=15 data-style="Arch" data-animationstep="0"></div>
+                                                </div>
+                                                <div class="nameAs" style="color: #fff; padding-left: 0%;">
+                                                    จำนวนที่ผลิตได้ / จำนวนที่ควรผลิตได้
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="box" style=" background-color:  #61AADC ; color : #fff; border-radius: 25px;">
+                                                <div class="Preview" style="padding-top: 5%;">
+                                                    <div class="nameA" style="padding-left: 25%;line-height: 12pt">
+                                                        <br><br><br> Quality Rate
+                                                    </div>
+                                                    <div class="nameB" style="padding-top: 17%;padding-left: 30%;">
+
+                                                        <br> 70 %
+                                                    </div>
+                                                    <div style="height: 8.2em;padding-left: 5%;" class="GaugeMeter" id="PreviewGaugeMeter" data-bind="gaugeValue: 70" data-text=" " data-size=160 data-theme="Green-Red" data-width=15 data-style="Arch" data-animationstep="0"></div>
+                                                </div>
+                                                <div class="nameAs" style="color: #fff; padding-left: 0% ; font-size:0.6em">
+                                                    จำนวนที่ผลิตได้ผ่านคุณภาพ / จำนวนที่ผลิต
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="padding-top:2%;">
+                                <div class="col-lg-12 ">
+                                    <div class="row">
+
+                                        <div class="col-lg-6 " style="padding-left: 1%;">
+                                            <div class="ch" style="background-color: #61AADC; color:#fff">
+                                                <div class="card-header">
+
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-chart-pie mr-1"></i> <b>Availabiliy</b>
+                                                    </h3>
+                                                    <br>
+                                                    <div style="height: 100%">
+                                                        <canvas id="OEE_A"></canvas>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6" style="padding-left: 1%;">
+
+                                            <div class="ch" style="background-color: #61AADC; color:#fff">
+                                                <div class="card-header">
+
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-chart-pie mr-1"></i> <b>Quality Rate</b>
+                                                    </h3>
+                                                    <br>
+                                                    <div style="height: 100%">
+                                                        <canvas id="OEE_P"></canvas>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="padding-top: 1%;">
+                                <div class="col-lg-12 ">
+                                    <div class="row">
+
+                                        <div class="col-lg-6 " style="padding-left: 1%;">
+                                            <div class="ch" style="background-color: #61AADC; color:#fff">
+                                                <div class="card-header">
+
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-chart-pie mr-1"></i> <b>Performance Efficiency</b>
+                                                    </h3>
+                                                    <br>
+                                                    <div style="height: 100%">
+                                                        <canvas id="OEE_Q"></canvas>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6" style="padding-left: 1%;">
+
+                                            <div class="ch" style="background-color: #61AADC; color:#fff">
+                                                <div class="card-header">
+
+                                                    <h3 class="card-title">
+                                                        <i class="fas fa-chart-pie mr-1"></i> <b>OEE กะเข้า</b>
+                                                    </h3>
+                                                    <br>
+                                                    <div style="height: 100%">
+                                                        <canvas id="OEE_ALL"></canvas>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3" style="padding-left: 1.2%;">
+                        <div class="row">
+                            <div class="st" style="width: 95%;">
+                                <div class="nameR" style="padding-left: 3%;">
+                                    Machine Status
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-4">
+                                        <div class="button green" style="padding-left: 19%;padding-top: 4%;">Running</div>
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-4">
+
+                                        <div class="button gray" style="padding-left: 30%;padding-top:4%;">Stop</div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6" id="heatname">
+                                        PD Order :
+                                    </div>
+                                    <div class="col-md-6" id="heatvalue" style="font-size: 0.72em;">
+                                        000000000000000000000000000000
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" id="heatname">
+                                        Product :
+                                    </div>
+                                    <div class="col-md-6" id="heatvalue">
+                                        XXXXXXXXX
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" id="heatname">
+                                        Lot No. :
+                                    </div>
+                                    <div class="col-md-6" id="heatvalue">
+                                        XXXXXXXXX
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" id="statusname">
+                                        Input(Unit) :
+                                    </div>
+                                    <div class="col-md-6" id="statusvalue">
+                                        000000000
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" id="statusname">
+                                        Output(Unit) :
+                                    </div>
+                                    <div class="col-md-6" id="statusvalue">
+                                        XXXXXXXXX
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" id="statusname">
+                                        DownTime (Min) :
+                                    </div>
+                                    <div class="col-md-6" id="statusvalue">
+                                        XXXXXXXXX
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <div class="namespeed" style="padding-left: 8%;">
+                                    Validated Speed
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-6" style="padding-left: 0%;">
+                                <div id="valuespeed1">
+                                    888
+                                </div>
+                                <div id="valuespeed2">
+                                    100
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <br>
+                                <div class="rpm">
+                                    upm
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <div class="namespeed" style="padding-left: 8%;">
+                                    Machine Speed
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-2"></div>
+                            <div class="col-md-6" style="padding-left: 0%;">
+                                <div id="valuespeed1">
+                                    888
+                                </div>
+                                <div id="valuespeed2">
+                                    !79
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <br>
+                                <div class="rpm">
+                                    upm
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <!-- /.container-fluid -->
+
+            </div>
+
+        </section>
+
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <script>
+        $(document).ready(function() {
+            // Initialize GaugeMeter plugin
+            $(".GaugeMeter").gaugeMeter();
+
+            // Bind new handler to init and update gauges.
+            ko.bindingHandlers.gaugeValue = {
+                init: function(element, valueAccessor) {
+                    $(element).gaugeMeter({
+                        percent: ko.unwrap(valueAccessor())
+                    });
+                },
+                update: function(element, valueAccessor) {
+                    $(element).gaugeMeter({
+                        percent: ko.unwrap(valueAccessor())
+                    });
+                }
+            };
+
+            // Create view model with inital gauge value 15mph
+            // Use observable for easy update.
+            var myViewModel = {
+                Percent: ko.observable(15)
+            };
+            ko.applyBindings(myViewModel);
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script>
+        //---------------------- oee APQ ------------------------
+
+
+        var barChartData = {
+
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+
+            datasets: [{
+
+                data: [
+                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+                ],
+                type: 'line',
+                label: 'Availbility',
+                fill: false,
+                backgroundColor: "#fff",
+                borderColor: "#000",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderWidth: 1,
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.5,
+                pointBackgroundColor: "#FA3E3E   ",
+                pointBorderColor: "#FA3E3E  ",
+                pointBorderWidth: 3,
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#000 ",
+                pointHoverBorderWidth: 50,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, {
+                label: "Run Time (hr.)",
+                type: "bar",
+
+                backgroundColor: "rgba(255,255,255,0.8)",
+                data: [60, 57, 75, 74, 60, 57, 67, 74, 85, 57, 75, 74],
+            }, {
+                label: "Down Time (hr.)",
+                type: "bar",
+                backgroundColor: "#E882E3",
+                data: [70, 75, 65, 74, 80, 79, 75, 74, 80, 57, 65, 74],
+            }]
+        };
+
+
+        var barChartData2 = {
+
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+
+                data: [
+                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+                ],
+                type: 'line',
+                label: 'Quality',
+                fill: false,
+                backgroundColor: "#fff",
+                borderWidth: 1,
+                borderColor: "#000",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.1,
+                pointBackgroundColor: "#FA3E3E   ",
+                pointBorderColor: "#FA3E3E   ",
+                pointBorderWidth: 5,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#21618C ",
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, {
+                label: "Output (Unit)",
+                type: "bar",
+
+                backgroundColor: "rgba(255,255,255,0.8)",
+                data: [60, 57, 75, 74, 60, 57, 67, 74, 85, 57, 75, 74],
+            }, {
+                label: "Good Output (Unit)",
+                type: "bar",
+                backgroundColor: "#F9F960 ",
+                data: [70, 75, 65, 74, 80, 79, 75, 74, 80, 57, 65, 74],
+            }]
+        };
+
+        var barChartData3 = {
+
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+
+                data: [
+                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+                ],
+                type: 'line',
+                label: 'Performance',
+                fill: false,
+                backgroundColor: "#fff",
+                borderColor: "#000",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderWidth: 1,
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.5,
+                pointBackgroundColor: "#FA3E3E   ",
+                pointBorderColor: "#FA3E3E  ",
+                pointBorderWidth: 3,
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#000 ",
+                pointHoverBorderWidth: 50,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, {
+                label: "Input (Unit)",
+                type: "bar",
+
+                backgroundColor: "rgba(255,255,255,0.8)",
+                data: [60, 57, 75, 74, 60, 57, 67, 74, 85, 57, 75, 74],
+            }, {
+                label: "Output (Unit)",
+                type: "bar",
+                backgroundColor: "#52d68b",
+                data: [70, 75, 65, 74, 80, 79, 75, 74, 80, 57, 65, 74],
+            }]
+        };
+
+        var barChartData4 = {
+
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+
+                data: [
+                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+                ],
+                type: 'line',
+                label: 'oee',
+                fill: false,
+                backgroundColor: "#fff",
+                borderColor: "#000",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderWidth: 1,
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                lineTension: 0.5,
+                pointBackgroundColor: "#FA3E3E   ",
+                pointBorderColor: "#FA3E3E  ",
+                pointBorderWidth: 3,
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#000 ",
+                pointHoverBorderWidth: 50,
+                pointRadius: 3,
+                pointHitRadius: 8
+            }, {
+                label: "กะสั้นเช้า",
+                type: "bar",
+
+                backgroundColor: "rgba(255,255,255,0.8)",
+                data: [60, 57, 75, 74, 60, 57, 67, 74, 85, 57, 75, 74],
+            }, {
+                label: "กะสั้นบ่าย",
+                type: "bar",
+                backgroundColor: "#FFA406",
+                data: [70, 75, 65, 74, 80, 79, 75, 74, 80, 57, 65, 74],
+            }, {
+                label: "กะยาวเช้า",
+                type: "bar",
+
+                backgroundColor: "#FFFF06",
+                data: [60, 57, 75, 74, 60, 57, 67, 74, 85, 57, 75, 74],
+            }, {
+                label: "กะยาวดึก",
+                type: "bar",
+                backgroundColor: "#A569BD",
+                data: [70, 75, 65, 74, 80, 79, 75, 74, 80, 57, 65, 74],
+            }]
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById("OEE_A").getContext("2d");
+            var ctx2 = document.getElementById("OEE_P").getContext("2d");
+            var ctx3 = document.getElementById("OEE_Q").getContext("2d");
+            var ctx4 = document.getElementById("OEE_ALL").getContext("2d");
+
+            window.myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,
+
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: "#fff",
+
+                        }
+                    },
+                    scales: {
+
+                        xAxes: [{
+                            stacked: false,
+                            ticks: {
+                                fontColor: "#fff"
+                            }
+                        }],
+                        yAxes: [{
+
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: false,
+                                min: 40,
+                                max: 100,
+
+                                fontColor: "#fff"
+
+                            },
+                            gridLine: {
+                                display: false,
+                                color: "#fff"
+                            }
+                        }]
+                    },
+                }
+
+            });
+
+            window.myBar = new Chart(ctx2, {
+                type: 'bar',
+                data: barChartData2,
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,
+
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: "#fff",
+
+                        }
+                    },
+                    scales: {
+
+                        xAxes: [{
+                            stacked: false,
+                            ticks: {
+                                fontColor: "#fff"
+                            }
+                        }],
+                        yAxes: [{
+
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: false,
+                                min: 40,
+                                max: 100,
+
+                                fontColor: "#fff"
+
+                            },
+                            gridLine: {
+                                display: false,
+                                color: "#fff"
+                            }
+                        }]
+                    },
+                }
+
+            });
+
+            window.myBar = new Chart(ctx3, {
+                type: 'bar',
+                data: barChartData3,
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,
+
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: "#fff",
+
+                        }
+                    },
+                    scales: {
+
+                        xAxes: [{
+                            stacked: false,
+                            ticks: {
+                                fontColor: "#fff"
+                            }
+                        }],
+                        yAxes: [{
+
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: false,
+                                min: 40,
+                                max: 100,
+
+                                fontColor: "#fff"
+
+                            },
+                            gridLine: {
+                                display: false,
+                                color: "#fff"
+                            }
+                        }]
+                    },
+                }
+
+            });
+
+            window.myBar = new Chart(ctx4, {
+                type: 'bar',
+                data: barChartData4,
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,
+
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: "#fff",
+
+                        }
+                    },
+                    scales: {
+
+                        xAxes: [{
+                            stacked: false,
+                            ticks: {
+                                fontColor: "#fff"
+                            }
+                        }],
+                        yAxes: [{
+
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: false,
+                                min: 40,
+                                max: 100,
+
+                                fontColor: "#fff"
+
+                            },
+                            gridLine: {
+                                display: false,
+                                color: "#fff"
+                            }
+                        }]
+                    },
+                }
+
+            });
+
+
+        };
+    </script>
+
+
+
+
+    <!-- Bootstrap 4 -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- Sparkline -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/sparklines/sparkline.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='dashboard/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/plugins/daterangepicker/daterangepicker.js') }}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <!-- Summernote -->
+    <script src="{{ url_for('static', filename='dashboard/plugins/summernote/summernote-bs4.min.js') }}"></script>
+
+
+</body>
+
+</html>
