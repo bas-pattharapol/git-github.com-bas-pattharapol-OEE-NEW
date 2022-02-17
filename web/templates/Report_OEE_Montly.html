@@ -173,6 +173,20 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
+                    {% if Level == '1' or Level == '2' or Level == '3' or Level == '7' or Level == '8' %}
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>Operator</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="http://172.30.1.2:8088/data/perspective/client/OEE"><i class="fa fa-circle-o"></i>Shopfloor</a></li>
+
+                        </ul>
+                    </li>
+                    {%endif%}
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
