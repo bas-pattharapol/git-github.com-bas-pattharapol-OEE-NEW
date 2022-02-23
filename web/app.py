@@ -455,7 +455,8 @@ def uploadFile(Level,Fname_Lname):
         dataEnd=[]
             
         dataGet = ['Sat','Sun','Mon','Tue','Wed','The','Fri','Sat1','Sun1']
-        now = datetime.now()
+        #now = datetime.now()
+        now = datetime(2021, 5, 17)
       
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
