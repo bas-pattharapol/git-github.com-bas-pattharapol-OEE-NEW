@@ -820,7 +820,7 @@ def DataTableShift():
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     workMachine = cnxn.cursor()
-    workMachine.execute('SELECT RecordID ,DateTime , PlantName,MachineID,MachineName,PlannedCode,Date,StartTime,EndTime FROM OEE_DB.dbo.PlannedProductionTime where DateTime >= (SELECT dateadd(minute,-1, Max(DateTime)) FROM OEE_DB.dbo.PlannedProductionTime ) order by Date asc')
+    workMachine.execute('SELECT RecordID ,DateTime , PlantName,MachineID,MachineName,PlannedCode,Date,StartTime,EndTime FROM OEE_DB.dbo.PlannedProductionTime where DateTime >= (SELECT dateadd(SECOND ,-30, Max(DateTime)) FROM OEE_DB.dbo.PlannedProductionTime ) order by Date asc')
 
     
     
