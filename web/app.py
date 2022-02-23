@@ -545,7 +545,7 @@ def uploadFile(Level,Fname_Lname):
 
         conn.commit()
             
-        return redirect(url_for('uploadFile'))
+        return redirect(url_for('uploadFile',Level,Fname_Lname))
       
     return render_template('uploadFile.html',Level=Level,Fname_Lname=Fname_Lname)
 
