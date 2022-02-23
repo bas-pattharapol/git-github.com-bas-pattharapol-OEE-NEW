@@ -889,7 +889,7 @@ def Edit_StorageTanks(mode,id,Level,Fname_Lname):
              
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             StorageTanks = cnxn.cursor()
-            StorageTanks.execute(' UPDATE OEE_DB.dbo.StorageTanks  SET MachineID = ? , MachineName = ?,MachineDesc = ?,PlantName = ?,Material = ?,MainProduct = ?,SubProduct = ?,ValidatedSpeed = ?,SetTime = ?,MaxSpeed = ?,DeleteFlag = ? , DateTime = GETDATE() WHERE RecordID = ? ', ( MachineID  , MachineName , MachineDesc , PlantName ,Material ,MainProduct ,SubProduct,ValidatedSpeed,SetTime,MaxSpeed ,'1',id ))
+            StorageTanks.execute(' UPDATE OEE_DB.dbo.StorageTanks  SET MachineID = ? , MachineName = ?,MachineDesc = ?,PlantName = ?,Material = ?,MainProduct = ?,SubProduct = ?,ValidatedSpeed = ?,SetTime = ?,MaxSpeed = ?,DeleteFlag = ? , DateTime = GETDATE() WHERE RecordID = ? ', ( StorageTanksID  , StorageTanksName , StorageTanksDesc , PlantName ,Material ,MainProduct ,SubProduct,ValidatedSpeed,SetTime,MaxSpeed ,'1',id ))
             cnxn.commit()
         
        
@@ -908,7 +908,7 @@ def Edit_StorageTanks(mode,id,Level,Fname_Lname):
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             StorageTanks = cnxn.cursor()
-            StorageTanks.execute(' INSERT INTO OEE_DB.dbo.StorageTanks  (MachineID,MachineName,MachineDesc,PlantName ,Material, MainProduct,SubProduct,ValidatedSpeed,SetTime,MaxSpeed,DeleteFlag) VALUES(?,?,?,?,?,?,?,?,?,?,?)' , ( MachineID  , MachineName , MachineDesc , PlantName ,Material, MainProduct ,SubProduct,ValidatedSpeed,SetTime,MaxSpeed ,'1' ))
+            StorageTanks.execute(' INSERT INTO OEE_DB.dbo.StorageTanks  (MachineID,MachineName,MachineDesc,PlantName ,Material, MainProduct,SubProduct,ValidatedSpeed,SetTime,MaxSpeed,DeleteFlag) VALUES(?,?,?,?,?,?,?,?,?,?,?)' , ( StorageTanksID  , StorageTanksName , StorageTanksDesc , PlantName ,Material, MainProduct ,SubProduct,ValidatedSpeed,SetTime,MaxSpeed ,'1' ))
             cnxn.commit()
 
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
