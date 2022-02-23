@@ -876,56 +876,65 @@ def Edit_StorageTanks(mode,id,Level,Fname_Lname):
 
     if request.method == 'POST':
         if mode == 'update':
-            StorageID = request.form['StorageID']
-            StorageName = request.form['StorageName']
+            StorageTanksID = request.form['StorageTanksID']
+            StorageTanksName = request.form['StorageTanksName']
+            StorageTanksDesc = request.form['StorageTanksDesc']
             PlantName = request.form['PlantName']
-            MaxSize = request.form['MaxSize']
-            NormalSize = request.form['NormalSize']
+            Material = request.form['Material']
+            MainProduct = request.form['MainProduct']
+            SubProduct = "-"
+            SetTime = request.form['SetTime']
+            ValidatedSpeed = request.form['ValidatedSpeed']
+            MaxSpeed = request.form['MaxSpeed'] 
              
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             StorageTanks = cnxn.cursor()
-            StorageTanks.execute('UPDATE OEE_DB.dbo.StorageTanks SET StorageID = ? , StorageName = ?,PlantName = ?,MaxSize = ?,NormalSize = ?,DeleteFlag = ?, DateTime = GETDATE() WHERE RecordID = ? ', ( StorageID  , StorageName , PlantName , MaxSize , NormalSize , '1',id ))
+            StorageTanks.execute(' UPDATE OEE_DB.dbo.StorageTanks  SET MachineID = ? , MachineName = ?,MachineDesc = ?,PlantName = ?,Material = ?,MainProduct = ?,SubProduct = ?,ValidatedSpeed = ?,SetTime = ?,MaxSpeed = ?,DeleteFlag = ? , DateTime = GETDATE() WHERE RecordID = ? ', ( MachineID  , MachineName , MachineDesc , PlantName ,Material ,MainProduct ,SubProduct,ValidatedSpeed,SetTime,MaxSpeed ,'1',id ))
             cnxn.commit()
+        
+       
 
-            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-
-            
-            
         elif mode == "add":
-            StorageID = request.form['StorageID']
-            StorageName = request.form['StorageName']
+            StorageTanksID = request.form['StorageTanksID']
+            StorageTanksName = request.form['StorageTanksName']
+            StorageTanksDesc = request.form['StorageTanksDesc']
             PlantName = request.form['PlantName']
-            MaxSize = request.form['MaxSize']
-            NormalSize = request.form['NormalSize']
+            Material = request.form['Material']
+            MainProduct = request.form['MainProduct']
+            SubProduct = "-"
+            SetTime = request.form['SetTime']
+            ValidatedSpeed = request.form['ValidatedSpeed']
+            MaxSpeed = request.form['MaxSpeed']
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             StorageTanks = cnxn.cursor()
-            StorageTanks.execute('INSERT INTO OEE_DB.dbo.StorageTanks (StorageID,StorageName,PlantName,MaxSize,NormalSize,DeleteFlag) VALUES(?,?,?,?,?,?)' ,( StorageID  , StorageName , PlantName , MaxSize , NormalSize , '1' ))
+            StorageTanks.execute(' INSERT INTO OEE_DB.dbo.StorageTanks  (MachineID,MachineName,MachineDesc,PlantName ,Material, MainProduct,SubProduct,ValidatedSpeed,SetTime,MaxSpeed,DeleteFlag) VALUES(?,?,?,?,?,?,?,?,?,?,?)' , ( MachineID  , MachineName , MachineDesc , PlantName ,Material, MainProduct ,SubProduct,ValidatedSpeed,SetTime,MaxSpeed ,'1' ))
             cnxn.commit()
-        
+
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(1,mode,StorageName,Fname_Lname,Level))
-        cnxn.commit()   
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(2,mode,MachineName,Fname_Lname,Level))
+        cnxn.commit()  
             
     if mode == "del":
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        StorageTanks = cnxn.cursor()
-        StorageTanks.execute(' UPDATE OEE_DB.dbo.StorageTanks SET DeleteFlag = -1 , DateTime = GETDATE() WHERE RecordID = ? ',id )
+        Machines = cnxn.cursor()
+        Machines.execute('UPDATE OEE_DB.dbo.StorageTanks  SET DeleteFlag = -1 , DateTime = GETDATE() WHERE RecordID = ? ',id )
         cnxn.commit()   
 
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(1,mode,id,Fname_Lname,Level))
+        update.execute('INSERT INTO OEE_DB.dbo.EditRecord (EditID,ChangeTopic,NameValue,[User],UserLevel) VALUES(?,?,?,?,?)' ,(2,mode,id,Fname_Lname,Level))
         cnxn.commit() 
     
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     StorageTanks = cnxn.cursor()
-    StorageTanks.execute(' SELECT * FROM OEE_DB.dbo.StorageTanks WHERE DeleteFlag = 1 ORDER BY DateTime DESC')
+    StorageTanks.execute('SELECT * FROM OEE_DB.dbo.StorageTanks  WHERE DeleteFlag = 1 ORDER BY DateTime DESC')
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Plant = cnxn.cursor()
-    Plant.execute('SELECT PlantName FROM OEE_DB.dbo.Plant WHERE DeleteFlag = 1')
+    Plant.execute('SELECT PlantName FROM OEE_DB.dbo.Plant WHERE DeleteFlag = 1 ')
     lenPlant = 0
     Plant_s = []
     for i in Plant:

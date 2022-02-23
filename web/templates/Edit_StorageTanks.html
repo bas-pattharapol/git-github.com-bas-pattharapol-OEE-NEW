@@ -310,7 +310,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">Edit StorageTanks</li>
+                    <li class="active">Edit StorageTanks </li>
                 </ol>
             </section>
             <section class="content">
@@ -326,26 +326,36 @@
                                     <table id="example" class="display nowrap" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Storage ID</th>
-                                                <th>Storage Name</th>
+                                                <th>StorageTanks ID</th>
+                                                <th>StorageTanks Name</th>
+                                                <th>StorageTanks Desc</th>
                                                 <th>Plant Name</th>
-                                                <th>Max Size</th>
-                                                <th>Normal Size</th>
+                                                <th>Material</th>
+                                                <th>Main Product</th>
+                                                <th>Validated Speed</th>
+                                                <th>Set Time</th>
+                                                <th>Max Speet</th>
                                                 <th>latest update</th>
                                                 <th>Settings</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for i in StorageTanks %}
+                                            {% for i in Machines %}
 
                                             <tr>
+
                                                 <td>{{i[1]}}</td>
                                                 <td>{{i[2]}}</td>
-                                                <td>{{i[3]}}</td>
                                                 <td>{{i[4]}}</td>
                                                 <td>{{i[5]}}</td>
-                                                <td>{{i[-2].strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                                                <td>{{i[3]}}</td>
+                                                <td>{{i[6]}}</td>
+
+                                                <td>{{i[8]}}</td>
+                                                <td>{{i[12]}}</td>
+                                                <td>{{i[9]}}</td>
+                                                <td>{{i[-3].strftime('%Y-%m-%d %H:%M:%S')}}</td>
                                                 <td>
                                                     <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{i[0]}}" style="color: black;">Edit</a>
                                                     <a href="/Edit_StorageTanks/del/{{i[0]}}/{{Level}}/{{Fname_Lname}}" class="btn btn-danger btn-xs" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">Delete</a>
@@ -363,33 +373,50 @@
                                                         <div class="modal-body">
                                                             <form action="/Edit_StorageTanks/update/{{i[0]}}/{{Level}}/{{Fname_Lname}}" method="POST">
                                                                 <div class="form-group">
-                                                                    <label>Storage ID :</label>
-                                                                    <input type="text" class="form-control" name="StorageID" value="{{i[1]}}">
+                                                                    <label>StorageTanks ID :</label>
+                                                                    <input type="text" class="form-control" name="StorageTanksID" value="{{i[1]}}">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Storage Name :</label>
-                                                                    <input type="text" class="form-control" name="StorageName" value="{{i[2]}}">
+                                                                    <label>StorageTanks Name :</label>
+                                                                    <input type="text" class="form-control" name="StorageTanksName" value="{{i[2]}}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>StorageTanks Desc :</label>
+                                                                    <input type="text" class="form-control" name="StorageTanksDesc" value="{{i[4]}}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Plant Name :</label>
-                                                                    <select class="form-control" name="PlantName" value="{{i[4]}}">
+                                                                    <select class="form-control" name="PlantName" value="{{i[5]}}">
                                                                         {% for j in range(0,len) %}
-                                                                        {% if i[2] in Plant[j][0] %}
-                                                                            <option selected value="{{Plant[j][0]}}">{{Plant[j][0]}}</option>
-                                                                        {%else%}
-                                                                            <option  value="{{Plant[j][0]}}">{{Plant[j][0]}}</option>
-                                                                        {%endif%}
-                                                                    {%endfor%}
+                                                                            {% if i[5] in Plant[j][0] %}
+                                                                                <option selected value="{{Plant[j][0]}}">{{Plant[j][0]}}</option>
+                                                                            {%else%}
+                                                                                <option  value="{{Plant[j][0]}}">{{Plant[j][0]}}</option>
+                                                                            {%endif%}
+                                                                        {%endfor%}
                                                                       </select>
 
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Max Size :</label>
-                                                                    <input type="number" class="form-control" name="MaxSize" value="{{i[5]}}">
+                                                                    <label>Material :</label>
+                                                                    <input type="text" class="form-control" name="Material" value="{{i[3]}}">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Normal Size :</label>
-                                                                    <input type="number" class="form-control" name="NormalSize" value="{{i[6]}}">
+                                                                    <label>Main Product :</label>
+                                                                    <input type="text" class="form-control" name="MainProduct" value="{{i[6]}}">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Validated Speed :</label>
+                                                                    <input type="number" class="form-control" name="ValidatedSpeed" value="{{i[8]}}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Set Time (min) :</label>
+                                                                    <input type="number" class="form-control" name="SetTime" value="{{i[12]}}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Max Speed :</label>
+                                                                    <input type="number" class="form-control" name="MaxSpeed" value="{{i[9]}}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <button class="btn btn-primary" onclick="return confirm('คุณต้องการอัพเดตข้อมูลหรือไม่?')" type="submit">Update</button>
@@ -411,41 +438,58 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Add StorageTanks</h4>
+                                                            <h4 class="modal-title">Add Machines</h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
 
                                                         </div>
                                                         <div class="modal-body">
                                                             <form action="/Edit_StorageTanks/add/normal/{{Level}}/{{Fname_Lname}}" method="POST">
                                                                 <div class="form-group">
-                                                                    <label>Storage ID :</label>
-                                                                    <input type="text" class="form-control" name="StorageID" value="">
+                                                                    <label>StorageTanks ID :</label>
+                                                                    <input type="text" class="form-control" name="StorageTanksID" value="">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Storage Name :</label>
-                                                                    <input type="text" class="form-control" name="StorageName" value="">
+                                                                    <label>StorageTanks Name :</label>
+                                                                    <input type="text" class="form-control" name="StorageTanksName" value="">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Plant Name :</label><br>
+                                                                    <label>StorageTanks Desc :</label>
+                                                                    <input type="text" class="form-control" name="StorageTanksDesc" value="">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Plant Name :</label>
                                                                     <select class="form-control" name="PlantName">
                                                                         {% for j in range(0,len) %}
-                                                                   
-                                                                            <option value="{{Plant[j][0]}}">{{Plant[j][0]}}</option>
-                                                                        
+                                                                            
+                                                                                <option  value="{{Plant[j][0]}}">{{Plant[j][0]}}</option>
+                                                                            
                                                                         {%endfor%}
                                                                       </select>
 
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Max Size :</label>
-                                                                    <input type="number" class="form-control" name="MaxSize" value="">
+                                                                    <label>Material :</label>
+                                                                    <input type="text" class="form-control" name="Material" value="">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label>Normal Size :</label>
-                                                                    <input type="number" class="form-control" name="NormalSize" value="">
+                                                                    <label>Main Product :</label>
+                                                                    <input type="text" class="form-control" name="MainProduct" value="">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Validated Speed :</label>
+                                                                    <input type="number" class="form-control" name="ValidatedSpeed" value="">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <button class="btn btn-primary" onclick="return confirm('คุณต้องการอัพเดตข้อมูลหรือไม่?')" type="submit">Add</button>
+                                                                    <label>Set Time (min) :</label>
+                                                                    <input type="number" class="form-control" name="SetTime" value="">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Max Speed :</label>
+                                                                    <input type="number" class="form-control" name="MaxSpeed" value="">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button class="btn btn-primary" onclick="return confirm('คุณต้องการอัพเดตข้อมูลหรือไม่?')" type="submit">Update</button>
                                                                 </div>
 
                                                             </form>
