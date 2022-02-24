@@ -1859,6 +1859,7 @@ def Report_OEE_Excel():
         excelOEE_StartDate = 'ALL'
   
     df = pd.read_json('http://172.30.2.2:5001//Report_OEE_API_EXCEL')
+    print(df)
     df.to_excel('OEE_Report.xlsx',index=False)
     
     time.sleep(1)
