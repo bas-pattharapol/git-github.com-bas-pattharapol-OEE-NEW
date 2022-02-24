@@ -1863,6 +1863,7 @@ def Report_OEE_Excel():
     df.to_excel('OEE_Report.xlsx',index=False)
     
     time.sleep(1)
+    """
     wabu = openpyxl.load_workbook('OEE_Report.xlsx')
     washi = wabu.active
     washi.insert_rows(1,5)
@@ -1947,7 +1948,7 @@ def Report_OEE_Excel():
     washi.column_dimensions['E'].width = 20
     washi.column_dimensions['F'].width = 25
     wabu.save('OEE_Report.xlsx')
-    
+    """
     return send_file('OEE_Report.xlsx') 
         
         
