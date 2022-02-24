@@ -1860,7 +1860,7 @@ def Report_OEE_Excel():
   
     df = pd.read_json('http://172.30.2.2:5001//Report_OEE_API_EXCEL')
     print(df)
-    df.to_excel('OEE_Report.xlsx',index=False)
+    df.to_excel('OEE_Report1.xlsx',index=False)
     
     time.sleep(1)
     """
