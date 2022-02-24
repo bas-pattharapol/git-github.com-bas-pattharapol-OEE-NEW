@@ -1863,8 +1863,8 @@ def Report_OEE_Excel():
     df.to_excel('OEE_Report1.xlsx',index=False)
     
     time.sleep(1)
-    """
-    wabu = openpyxl.load_workbook('OEE_Report.xlsx')
+    
+    wabu = openpyxl.load_workbook('OEE_Report1.xlsx')
     washi = wabu.active
     washi.insert_rows(1,5)
     washi['A1'] = 'Report OEE'
@@ -1947,9 +1947,9 @@ def Report_OEE_Excel():
     washi.column_dimensions['D'].width = 20
     washi.column_dimensions['E'].width = 20
     washi.column_dimensions['F'].width = 25
-    wabu.save('OEE_Report.xlsx')
-    """
-    return send_file('OEE_Report.xlsx') 
+    wabu.save('OEE_Report1.xlsx')
+    
+    return send_file('..\OEE_Report1.xlsx') 
         
         
 @app.route('/Report_Yield_API' ,methods=["GET", "POST"])
