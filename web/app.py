@@ -147,23 +147,24 @@ def API_INF_OEE01():
     print(request.get_json())
     data = request.get_json()
     for i in range(0,len(data['Result'])):
-        print('PDOrder --> ' ,data[i]['PDOrder'] )
-        print('MachineID --> ' ,data[i]['MachineID'] )
-        print('Material --> ' ,data[i]['Material'] )
-        print('Description --> ' ,data[i]['Description'] )
-        print('PlanQuantity --> ' ,data[i]['PlanQuantity'] )
-        print('Bacth --> ' ,data[i]['Bacth'] )
-        print('Bulk - Code --> ' ,data[i]['Code'] )
-        print('Bulk - PD_order1 --> ' ,data[i]['PD_order1'] )
-        print('Bulk - PD_order2 --> ' ,data[i]['PD_order2'] )
-        print('Bulk - PD_order3 --> ' ,data[i]['PD_order3'] )
-        print('Bulk - PD_order4 --> ' ,data[i]['PD_order4'] )
-        print('Bulk - PD_order5 --> ' ,data[i]['PD_order5'] )
-        print('Bulk - PD_order6 --> ' ,data[i]['PD_order6'] )
-        print('Bulk - PD_order7 --> ' ,data[i]['PD_order7'] )
-        print('Bulk - PD_order8 --> ' ,data[i]['PD_order8'] )
-        print('Bulk - PD_order9 --> ' ,data[i]['PD_order9'] )
-        print('Bulk - PD_order10 --> ' ,data[i]['PD_order10'] )
+        print('Plant --> ' ,data['Result'][i]['Plant'] )
+        print('PDOrder --> ' ,data['Result'][i]['PDOrder'] )
+        print('MachineID --> ' ,data['Result'][i]['MachineID'] )
+        print('Material --> ' ,data['Result'][i]['Material'] )
+        print('Description --> ' ,data['Result'][i]['Description'] )
+        print('PlanQuantity --> ' ,data['Result'][i]['PlanQuantity'] )
+        print('Bacth --> ' ,data['Result'][i]['Bacth'] )
+        print('Bulk - Code --> ' ,data['Result'][i]['Code'] )
+        print('Bulk - PD_order1 --> ' ,data['Result'][i]['PD_order1'] )
+        print('Bulk - PD_order2 --> ' ,data['Result'][i]['PD_order2'] )
+        print('Bulk - PD_order3 --> ' ,data['Result'][i]['PD_order3'] )
+        print('Bulk - PD_order4 --> ' ,data['Result'][i]['PD_order4'] )
+        print('Bulk - PD_order5 --> ' ,data['Result'][i]['PD_order5'] )
+        print('Bulk - PD_order6 --> ' ,data['Result'][i]['PD_order6'] )
+        print('Bulk - PD_order7 --> ' ,data['Result'][i]['PD_order7'] )
+        print('Bulk - PD_order8 --> ' ,data['Result'][i]['PD_order8'] )
+        print('Bulk - PD_order9 --> ' ,data['Result'][i]['PD_order9'] )
+        print('Bulk - PD_order10 --> ' ,data['Result'][i]['PD_order10'] )
     
         print("------------------------------------")
         
@@ -173,12 +174,14 @@ def API_INF_OEE01():
 def API_INF_OEE03():
     print(request.get_json())
     data = request.get_json()
-    print('PDOrder --> ' ,data['PDOrder'] )
 
-    for i in range(0,len(data['GR_QTY'])):
-        print("-->> GR_QTY [",i,"]")
-        print('GR_QTY - QTY --> ' ,data['GR_QTY'][i]['QTY'] )
-        
+    for i in range(0,len(data['Machine'])):
+        print('PDOrder --> ' ,data['PDOrder'] )
+        print('Machine - ID --> ' ,data['Machine'][i]['ID'] )
+        for j in range(0,len(data['Machine'][i]['GR_QTY'])):
+            print('GR_QTY - ID --> ' ,data['Machine'][i]['GR_QTY'][j]['QTY'] )
+            print('GR_QTY - Date --> ' ,data['Machine'][i]['GR_QTY'][j]['Date'] )
+            print('GR_QTY - Time --> ' ,data['Machine'][i]['GR_QTY'][j]['Time'] )
         print("------------------------------------")
     
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
@@ -187,13 +190,14 @@ def API_INF_OEE03():
 def API_INF_OEE04():
     print(request.get_json())
     data = request.get_json()
-    print('PDOrder --> ' ,data['PDOrder'] )
-
-    for i in range(0,len(data['QC'])):
-        print("-->> QC [",i,"]")
-        print('QC - QTY --> ' ,data['QC'][i]['QTY'] )
-        print('QC - Dep --> ' ,data['QC'][i]['Dep'] )
-        
+    for i in range(0,len(data['Machine'])):
+        print('PDOrder --> ' ,data['PDOrder'] )
+        print('Machine - ID --> ' ,data['Machine'][i]['ID'] )
+        for j in range(0,len(data['Machine'][i]['QC'])):
+            print('QC - ID --> ' ,data['Machine'][i]['QC'][j]['QTY'] )
+            print('QC - Dep --> ' ,data['Machine'][i]['QC'][j]['Dep'] )
+            print('QC - Date --> ' ,data['Machine'][i]['QC'][j]['Date'] )
+            print('QC - Time --> ' ,data['Machine'][i]['QC'][j]['Time'] )
         print("------------------------------------")
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
@@ -202,13 +206,14 @@ def API_INF_OEE04():
 def API_INF_OEE05():
     print(request.get_json())
     data = request.get_json()
-    print('PDOrder --> ' ,data['PDOrder'] )
-
-    for i in range(0,len(data['Return'])):
-        print("-->> Return [",i,"]")
-        print('Return - QTY --> ' ,data['Return'][i]['QTY'] )
-        print('Return - Text --> ' ,data['Return'][i]['Text'] )
-        
+    for i in range(0,len(data['Machine'])):
+        print('PDOrder --> ' ,data['PDOrder'] )
+        print('Machine - ID --> ' ,data['Machine'][i]['ID'] )
+        for j in range(0,len(data['Machine'][i]['Return'])):
+            print('Return - ID --> ' ,data['Machine'][i]['Return'][j]['QTY'] )
+            print('Return - Text --> ' ,data['Machine'][i]['Return'][j]['Text'] )
+            print('Return - Date --> ' ,data['Machine'][i]['Return'][j]['Date'] )
+            print('Return - Time --> ' ,data['Machine'][i]['Return'][j]['Time'] )
         print("------------------------------------")
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 

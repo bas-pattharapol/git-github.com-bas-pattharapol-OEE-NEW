@@ -1,7 +1,7 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://192.168.1.62:5001/API_INF_OEE01"
+url = "http://192.168.1.38:5001/API_INF_OEE05"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
@@ -48,7 +48,7 @@ data = """
             }]
         }
     ]
-    
+
 }
 """
 
