@@ -5,7 +5,7 @@ url = "http://192.168.1.38:5001/API_INF_OEE05"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
-
+#ok
 data = """
 {
     "PDOrder": "90066773",
