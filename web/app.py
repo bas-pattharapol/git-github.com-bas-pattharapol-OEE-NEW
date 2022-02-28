@@ -146,26 +146,26 @@ def format_datetime(value, format='medium'):
 def API_INF_OEE01():
     print(request.get_json())
     data = request.get_json()
-    print('PDOrder --> ' ,data['PDOrder'] )
-    print('MachineID --> ' ,data['MachineID'] )
-    print('PlanQuantity --> ' ,data['PlanQuantity'] )
-    print('Bacth --> ' ,data['Bacth'] )
-
+    for i in range(0,len(data['Result'])):
+        print('PDOrder --> ' ,data[i]['PDOrder'] )
+        print('MachineID --> ' ,data[i]['MachineID'] )
+        print('Material --> ' ,data[i]['Material'] )
+        print('Description --> ' ,data[i]['Description'] )
+        print('PlanQuantity --> ' ,data[i]['PlanQuantity'] )
+        print('Bacth --> ' ,data[i]['Bacth'] )
+        print('Bulk - Code --> ' ,data[i]['Code'] )
+        print('Bulk - PD_order1 --> ' ,data[i]['PD_order1'] )
+        print('Bulk - PD_order2 --> ' ,data[i]['PD_order2'] )
+        print('Bulk - PD_order3 --> ' ,data[i]['PD_order3'] )
+        print('Bulk - PD_order4 --> ' ,data[i]['PD_order4'] )
+        print('Bulk - PD_order5 --> ' ,data[i]['PD_order5'] )
+        print('Bulk - PD_order6 --> ' ,data[i]['PD_order6'] )
+        print('Bulk - PD_order7 --> ' ,data[i]['PD_order7'] )
+        print('Bulk - PD_order8 --> ' ,data[i]['PD_order8'] )
+        print('Bulk - PD_order9 --> ' ,data[i]['PD_order9'] )
+        print('Bulk - PD_order10 --> ' ,data[i]['PD_order10'] )
     
-    print('Bulk - Code --> ' ,data['Code'] )
-    print('Bulk - PD_order1 --> ' ,data['PD_order1'] )
-    print('Bulk - PD_order2 --> ' ,data['PD_order2'] )
-    print('Bulk - PD_order3 --> ' ,data['PD_order3'] )
-    print('Bulk - PD_order4 --> ' ,data['PD_order4'] )
-    print('Bulk - PD_order5 --> ' ,data['PD_order5'] )
-    print('Bulk - PD_order6 --> ' ,data['PD_order6'] )
-    print('Bulk - PD_order7 --> ' ,data['PD_order7'] )
-    print('Bulk - PD_order8 --> ' ,data['PD_order8'] )
-    print('Bulk - PD_order9 --> ' ,data['PD_order9'] )
-    print('Bulk - PD_order10 --> ' ,data['PD_order10'] )
-    
-  
-    print("------------------------------------")
+        print("------------------------------------")
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
