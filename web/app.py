@@ -146,6 +146,7 @@ def format_datetime(value, format='medium'):
 def API_INF_OEE01():
     print(request.get_json())
     data = request.get_json()
+
     for i in range(0,len(data['Result'])):
         print('Plant --> ' ,data['Result'][i]['Plant'] )
         print('PDOrder --> ' ,data['Result'][i]['PDOrder'] )
