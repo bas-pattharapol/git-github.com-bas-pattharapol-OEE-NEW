@@ -72,8 +72,6 @@ excelOEE_UserGroup_M = 'ALL'
 excelOEE_Month_M = ''
 
 
-   
-
 excelOEE_Plant = 'ALL'
 excelOEE_Machines = 'ALL'
 excelOEE_Shifts   = 'ALL'
@@ -122,7 +120,6 @@ def request_loader(request):
     user = User()
     user.id = email
     return user
-
     
 @app.errorhandler(401)
 def custom_401(error):
