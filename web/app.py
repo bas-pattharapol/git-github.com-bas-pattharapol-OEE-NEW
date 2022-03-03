@@ -18,6 +18,8 @@ import sys
 User = "admin"
 UserLevel = "1"
 
+
+
 class Encoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, decimal.Decimal): return float(obj)
@@ -102,6 +104,7 @@ count = 3
 class User(flask_login.UserMixin):
     pass
 
+            
 @login_manager.user_loader
 def user_loader(email):
     if email not in users:
