@@ -180,20 +180,20 @@ def API_INF_OEE01():
 def API_INF_OEE03():
     print(request.get_json())
     data = request.get_json()
-
-    for i in range(0,len(data['Machine'])):
-       
-        for j in range(0,len(data['Machine'][i]['GR_QTY'])):
-            print('PDOrder --> ' ,data['PDOrder'] )
-            print('Machine - ID --> ' ,data['Machine'][i]['ID'] )
-            print('GR_QTY - ID --> ' ,data['Machine'][i]['GR_QTY'][j]['QTY'] )
-            print('GR_QTY - Date --> ' ,data['Machine'][i]['GR_QTY'][j]['Date'] )
-            print('GR_QTY - Time --> ' ,data['Machine'][i]['GR_QTY'][j]['Time'] )
-            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-            update = cnxn.cursor()
-            update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V3 (PDOrder,MachineID, QTY, [Date], [Time], [DateTime]) VALUES(?,?,?,?,?,?)' ,(data['PDOrder'],data['Machine'][i]['ID'],data['Machine'][i]['GR_QTY'][j]['QTY']))
-            cnxn.commit()
-        print("------------------------------------")
+    for p in range(0,len(data['Result'])):
+        for i in range(0,len(data['Result'][p]['Machine'])):
+        
+            for j in range(0,len(data['Result'][p]['Machine'][i]['GR_QTY'])):
+                print('PDOrder --> ' ,data['Result'][p]['PDOrder'] )
+                print('Machine - ID --> ' ,data['Result'][p]['Machine'][i]['ID'] )
+                print('GR_QTY - ID --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'] )
+                print('GR_QTY - Date --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'] )
+                print('GR_QTY - Time --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['Time'] )
+                #cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+                #update = cnxn.cursor()
+                #update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V3 (PDOrder,MachineID, QTY, [Date], [Time], [DateTime]) VALUES(?,?,?,?,?,?)' ,(data['PDOrder'],data['Machine'][i]['ID'],data['Machine'][i]['GR_QTY'][j]['QTY']))
+                #cnxn.commit()
+            print("------------------------------------")
         
     
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
