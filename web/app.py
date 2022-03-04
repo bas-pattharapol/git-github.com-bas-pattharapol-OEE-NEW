@@ -279,6 +279,7 @@ def API_RunTime_DownTime():
         update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?,?)' ,(data['PDOrder'],"DonwTime",data['DonwTime'][i]['BatchNo'],data['DonwTime'][i]['PostDate'],data['DonwTime'][i]['Shift'],data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'],data['DonwTime'][i]['Time'],data['DonwTime'][i]['DownTimeCode']))
         cnxn.commit()
     
+        
     
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
