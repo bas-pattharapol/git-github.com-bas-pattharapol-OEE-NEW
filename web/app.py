@@ -202,15 +202,16 @@ def API_INF_OEE03():
 def API_INF_OEE04():
     print(request.get_json())
     data = request.get_json()
-    for i in range(0,len(data['Machine'])):
-        print('PDOrder --> ' ,data['PDOrder'] )
-        print('Machine - ID --> ' ,data['Machine'][i]['ID'] )
-        for j in range(0,len(data['Machine'][i]['QC'])):
-            print('QC - ID --> ' ,data['Machine'][i]['QC'][j]['QTY'] )
-            print('QC - Dep --> ' ,data['Machine'][i]['QC'][j]['Dep'] )
-            print('QC - Date --> ' ,data['Machine'][i]['QC'][j]['Date'] )
-            print('QC - Time --> ' ,data['Machine'][i]['QC'][j]['Time'] )
-        print("------------------------------------")
+    for p in range(0,len(data['Result'])):
+        for i in range(0,len(data['Result'][p]['Machine'])):
+            print('PDOrder --> ' ,data['Result'][p]['PDOrder'] )
+            print('Machine - ID --> ' ,data['Result'][p]['Machine'][i]['ID'] )
+            for j in range(0,len(data['Result'][p]['Machine'][i]['QC'])):
+                print('QC - ID --> ' ,data['Result'][p]['Machine'][i]['QC'][j]['QTY'] )
+                print('QC - Dep --> ' ,data['Result'][p]['Machine'][i]['QC'][j]['Dep'] )
+                print('QC - Date --> ' ,data['Result'][p]['Machine'][i]['QC'][j]['Date'] )
+                print('QC - Time --> ' ,data['Result'][p]['Machine'][i]['QC'][j]['Time'] )
+            print("------------------------------------")
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
@@ -218,15 +219,16 @@ def API_INF_OEE04():
 def API_INF_OEE05():
     print(request.get_json())
     data = request.get_json()
-    for i in range(0,len(data['Machine'])):
-        print('PDOrder --> ' ,data['PDOrder'] )
-        print('Machine - ID --> ' ,data['Machine'][i]['ID'] )
-        for j in range(0,len(data['Machine'][i]['Return'])):
-            print('Return - ID --> ' ,data['Machine'][i]['Return'][j]['QTY'] )
-            print('Return - Text --> ' ,data['Machine'][i]['Return'][j]['Text'] )
-            print('Return - Date --> ' ,data['Machine'][i]['Return'][j]['Date'] )
-            print('Return - Time --> ' ,data['Machine'][i]['Return'][j]['Time'] )
-        print("------------------------------------")
+    for p in range(0,len(data['Result'])):
+        for i in range(0,len(data['Result'][p]['Machine'])):
+            print('PDOrder --> ' ,data['Result'][p]['PDOrder'] )
+            print('Machine - ID --> ' ,data['Result'][p]['Machine'][i]['ID'] )
+            for j in range(0,len(data['Result'][p]['Machine'][i]['Return'])):
+                print('Return - ID --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['QTY'] )
+                print('Return - Text --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['Text'] )
+                print('Return - Date --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['Date'] )
+                print('Return - Time --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['Time'] )
+            print("------------------------------------")
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
