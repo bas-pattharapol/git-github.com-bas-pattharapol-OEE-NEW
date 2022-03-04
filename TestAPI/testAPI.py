@@ -11,7 +11,7 @@ data = """
     "PDOrder": "90066773",
     "RunTime": [{
         "BatchNo": "2101210003",
-        "PostDate": "28-01-2022",
+        "PostDate": "2022-01-02",
         "Shift": "1",
         "StartTime": "14:12:01",
         "EndTime": "15:12:10",
@@ -19,15 +19,16 @@ data = """
     }],
     "DonwTime": [{
             "BatchNo": "2101210003",
-            "PostDate": "28-01-2022",
+            "PostDate": "01-02-2021",
             "Shift": "1",
             "StartTime": "15:12:11",
             "EndTime": "15:20:10",
-            "DownTimeCode": "200"
+            "DownTimeCode": "200",
+            "Time": "100"
         },
         {
             "BatchNo": "2101210003",
-            "PostDate": "28-01-2022",
+            "PostDate": "2022-01-02",
             "Shift": "1",
             "StartTime": "15:21:11",
             "EndTime": "15:22:10",
