@@ -1,43 +1,56 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://172.30.1.2:5001/API_RunTime_DownTime"
+url = "http://172.30.1.2:5001/API_INF_OEE01"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
 #ok
 data = """
 {
-    "PDOrder": "90066773",
-    "RunTime": [{
-        "BatchNo": "2101210003",
-        "PostDate": "2022-01-02",
-        "Shift": "1",
-        "StartTime": "14:12:01",
-        "EndTime": "15:12:10",
-        "Time": "100"
-    }],
-    "DonwTime": [{
-            "BatchNo": "2101210003",
-            "PostDate": "01-02-2021",
-            "Shift": "1",
-            "StartTime": "15:12:11",
-            "EndTime": "15:20:10",
-            "DownTimeCode": "200",
-            "Time": "100"
+  "Result":  [
+        {
+            "Plant": "TLT",
+            "PDOrder": "90066773",
+            "MachineID": "xxxxxxxx",
+            "Material": "031-1111",
+            "Description": "BES-........",
+            "PlanQuantity": "4000",
+            "Bacth": "xxxxx",
+            "Code": "4",
+            "PD_order1": "800000000",
+            "PD_order2": "800000000",
+            "PD_order3": "800000000",
+            "PD_order4": "800000000",
+            "PD_order5": "800000000",
+            "PD_order6": "800000000",
+            "PD_order7": "800000000",
+            "PD_order8": "800000000",
+            "PD_order9": "800000000",
+            "PD_order10": "800000000"
         },
         {
-            "BatchNo": "2101210003",
-            "PostDate": "2022-01-02",
-            "Shift": "1",
-            "StartTime": "15:21:11",
-            "EndTime": "15:22:10",
-            "DownTimeCode": "114",
-            "Time": "100"
+            "Plant": "TLT",
+            "PDOrder": "90066772",
+            "MachineID": "xxxxxxxx",
+            "Material": "031-1111",
+            "Description": "BES-........",
+            "PlanQuantity": "4000",
+            "Bacth": "xxxxx",
+            "Code": "4",
+            "PD_order1": "800000000",
+            "PD_order2": "800000000",
+            "PD_order3": "800000000",
+            "PD_order4": "800000000",
+            "PD_order5": "800000000",
+            "PD_order6": "800000000",
+            "PD_order7": "800000000",
+            "PD_order8": "800000000",
+            "PD_order9": "800000000",
+            "PD_order10": "800000000"
         }
     ]
 }
-
 """
 
 
