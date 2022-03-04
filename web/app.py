@@ -223,10 +223,11 @@ def API_INF_OEE05():
 def API_RunTime_DownTime():
     print(request.get_json())
     data = request.get_json()
-    print('PDOrder --> ' ,data['PDOrder'] )
+    
 
     for i in range(0,len(data['RunTime'])):
         print("-->> RunTime [",i,"]")
+        print('PDOrder --> ' ,data['PDOrder'] )
         print('RunTime - BatchNo --> ' ,data['RunTime'][i]['BatchNo'] )
         print('RunTime - PostDate --> ' ,data['RunTime'][i]['PostDate'] )
         print('RunTime - Shift --> ' ,data['RunTime'][i]['Shift'] )
@@ -234,9 +235,21 @@ def API_RunTime_DownTime():
         print('RunTime - EndTime --> ' ,data['RunTime'][i]['EndTime'] )
         print('RunTime - Time --> ' ,data['RunTime'][i]['Time'] )
         print("------------------------------------")
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        update = cnxn.cursor()
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?,?)' ,(data['PDOrder'],
+                                                                                                                                                                               "RunTime",
+                                                                                                                                                                               data['RunTime'][i]['BatchNo'],
+                                                                                                                                                                               data['RunTime'][i]['PostDate'],
+                                                                                                                                                                               data['RunTime'][i]['Shift'],
+                                                                                                                                                                               data['RunTime'][i]['StartTime'],
+                                                                                                                                                                               data['RunTime'][i]['EndTime'],
+                                                                                                                                                                               data['RunTime'][i]['Time']))
+        cnxn.commit()
         
     for i in range(0,len(data['DonwTime'])):
         print("-->> DonwTime [",i,"]")
+        print('PDOrder --> ' ,data['PDOrder'] )
         print('DonwTime - BatchNo --> ' ,data['DonwTime'][i]['BatchNo'] )
         print('DonwTime - PostDate --> ' ,data['DonwTime'][i]['PostDate'] )
         print('DonwTime - Shift --> ' ,data['DonwTime'][i]['Shift'] )
@@ -247,6 +260,18 @@ def API_RunTime_DownTime():
         print('DonwTime - Time --> ' ,data['DonwTime'][i]['Time'] )
                     
         print("------------------------------------")
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        update = cnxn.cursor()
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?,?)' ,(data['PDOrder'],
+                                                                                                                                                                               "DonwTime",
+                                                                                                                                                                               data['DonwTime'][i]['BatchNo'],
+                                                                                                                                                                               data['DonwTime'][i]['PostDate'],
+                                                                                                                                                                               data['DonwTime'][i]['Shift'],
+                                                                                                                                                                               data['DonwTime'][i]['StartTime'],
+                                                                                                                                                                               data['DonwTime'][i]['EndTime'],
+                                                                                                                                                                               data['DonwTime'][i]['Time'],
+                                                                                                                                                                               data['DonwTime'][i]['DownTimeCode']))
+        cnxn.commit()
     
     
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
