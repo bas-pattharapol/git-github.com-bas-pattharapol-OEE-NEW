@@ -211,6 +211,10 @@ def API_INF_OEE04():
                 print('QC - Dep --> ' ,data['Result'][p]['Machine'][i]['QC'][j]['Dep'] )
                 print('QC - Date --> ' ,data['Result'][p]['Machine'][i]['QC'][j]['Date'] )
                 print('QC - Time --> ' ,data['Result'][p]['Machine'][i]['QC'][j]['Time'] )
+                cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+                update = cnxn.cursor()
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE4_V2 (PDOrder,MachineID, QTY,Dep ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['QC'][j]['QTY'],data['Result'][p]['Machine'][i]['QC'][j]['Dep'],data['Result'][p]['Machine'][i]['QC'][j]['Date'],data['Result'][p]['Machine'][i]['QC'][j]['Time']))
+                cnxn.commit()
             print("------------------------------------")
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
@@ -228,6 +232,10 @@ def API_INF_OEE05():
                 print('Return - Text --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['Text'] )
                 print('Return - Date --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['Date'] )
                 print('Return - Time --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['Time'] )
+                cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+                update = cnxn.cursor()
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE5_V2 (PDOrder,MachineID, QTY,Text ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['Return'][j]['QTY'],data['Result'][p]['Machine'][i]['Return'][j]['Text'],data['Result'][p]['Machine'][i]['Return'][j]['Date'],data['Result'][p]['Machine'][i]['Return'][j]['Time']))
+                cnxn.commit()
             print("------------------------------------")
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
