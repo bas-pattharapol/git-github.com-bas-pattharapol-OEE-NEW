@@ -1,7 +1,7 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://192.168.1.38:5001/API_INF_OEE05"
+url = "http://172.30.1.2:5001/API_RunTime_DownTime"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
@@ -9,47 +9,34 @@ headers["Content-Type"] = "application/json"
 data = """
 {
     "PDOrder": "90066773",
-    "Machine": [
+    "RunTime": [{
+        "BatchNo": "2101210003",
+        "PostDate": "28-01-2022",
+        "Shift": "1",
+        "StartTime": "14:12:01",
+        "EndTime": "15:12:10",
+        "Time": "100"
+    }],
+    "DonwTime": [{
+            "BatchNo": "2101210003",
+            "PostDate": "28-01-2022",
+            "Shift": "1",
+            "StartTime": "15:12:11",
+            "EndTime": "15:20:10",
+            "DownTimeCode": "200"
+        },
         {
-            "ID": "xxxxxxxx2",
-            "Return": [{
-                "QTY": "4",
-                "Text": "-----------",
-                "Date": "2021-12-12",
-                "Time": "12:12:12"
-            }, {
-                "QTY": "5",
-                "Text": "-----------",
-                "Date": "2021-12-12",
-                "Time": "12:12:12"
-            }, {
-                "QTY": "4",
-                "Text": "-----------",
-                "Date": "2021-12-12",
-                "Time": "12:12:12"
-            }]
-        },{
-            "ID": "xxxxxxxx3",
-            "Return": [{
-                "QTY": "4",
-                "Text": "-----------",
-                "Date": "2021-12-12",
-                "Time": "12:12:12"
-            }, {
-                "QTY": "5",
-                "Text": "-----------",
-                "Date": "2021-12-12",
-                "Time": "12:12:12"
-            }, {
-                "QTY": "4",
-                "Text": "-----------",
-                "Date": "2021-12-12",
-                "Time": "12:12:12"
-            }]
+            "BatchNo": "2101210003",
+            "PostDate": "28-01-2022",
+            "Shift": "1",
+            "StartTime": "15:21:11",
+            "EndTime": "15:22:10",
+            "DownTimeCode": "114",
+            "Time": "100"
         }
     ]
-
 }
+
 """
 
 
