@@ -282,7 +282,7 @@ def API_RunTime_DownTime():
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur1 = conn.cursor()
-    cur1.execute("SELECT * FROM OEE_DB.dbo.[OEEReport]  WHERE PDOrder = ?",(data['PDOrder'],) )
+    cur1.execute("SELECT * FROM OEE_DB.dbo.[OEEReport]  WHERE PDOrder = ? ",(data['PDOrder'], ) )
     
     for i in cur1 :
         print(i)
@@ -500,8 +500,8 @@ def uploadFile(Level,Fname_Lname):
         dataEnd=[]
             
         dataGet = ['Sat','Sun','Mon','Tue','Wed','The','Fri','Sat1','Sun1']
-        #now = datetime.now()
-        now = datetime(2021, 5, 17)
+        now = datetime.now()
+        #now = datetime(2021, 5, 17)
       
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
