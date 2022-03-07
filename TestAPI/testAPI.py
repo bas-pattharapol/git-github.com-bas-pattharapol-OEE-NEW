@@ -8,10 +8,10 @@ headers["Content-Type"] = "application/json"
 #ok
 data = """
 {
-    "PDOrder": "90067862",
+    "PDOrder": "90066772",
     "RunTime": [{
         "BatchNo": "2101210003",
-        "PostDate": "2022-01-02",
+        "PostDate": "2021-11-25",
         "Shift": "1",
         "StartTime": "14:12:01",
         "EndTime": "15:12:10",
