@@ -305,9 +305,9 @@ def API_RunTime_DownTime():
             plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = '1B' OR ShiftCodeID = '2A'")
         else:
             plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = ?",(i[1],))            
-        for i in plan :
-            startTime.append(i[0])
-            endTime.append(i[0])
+        for o in plan :
+            startTime.append(o[0])
+            endTime.append(o[1])
         print(startTime)
         print(endTime)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
