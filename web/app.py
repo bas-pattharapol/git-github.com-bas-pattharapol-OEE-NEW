@@ -288,10 +288,28 @@ def API_RunTime_DownTime():
                     order by ppt.[DateTime] DESC 
                  """,(data['PDOrder'] ,data['RunTime'][0]['PostDate']))
     
+    startTime = []
+    endTime = []
+    
     for i in cur1 :
         print(i)
-        
-    
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        plan = conn.cursor()
+        if i[1] == 'AA':
+            plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = '1A' OR ShiftCodeID = '2A'")
+        elif i[1] == 'BB':
+            plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = '1B' OR ShiftCodeID = '2B'")
+        elif i[1] == 'TOT':  
+            plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = '1OT' OR ShiftCodeID = '2OT'")
+        elif i[1] == 'HOT': 
+            plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = '1B' OR ShiftCodeID = '2A'")
+        else:
+            plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = ?",(i[1],))            
+        for i in plan :
+            startTime.append(i[0])
+            endTime.append(i[0])
+        print(startTime)
+        print(endTime)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
 @app.route("/", methods=['GET', 'POST'])
