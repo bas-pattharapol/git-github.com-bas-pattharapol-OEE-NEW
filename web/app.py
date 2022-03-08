@@ -385,13 +385,9 @@ def API_RunTime_DownTime():
         else:
             print(l[1] ,"Plan" , chTime(data['PDOrder'],l[1],'Plan'))
             print(l[1] ,"Unplan", chTime(data['PDOrder'],l[1],'Unplan'))
-                #chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
             
-                
-            print(startTime)
-            print(endTime)
             
-        
+               
         
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
