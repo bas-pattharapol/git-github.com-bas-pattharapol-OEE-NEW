@@ -46,10 +46,28 @@ data = """
             "BatchNo": "2101210003",
             "PostDate": "2021-10-06",
             "Shift": "1",
+            "StartTime": "7:30:00",
+            "EndTime": "7:40:00",
+            "DownTimeCode": "200",
+            "Time": "600"
+        }, 
+        {
+            "BatchNo": "2101210003",
+            "PostDate": "2021-10-06",
+            "Shift": "1",
             "StartTime": "21:00:00",
             "EndTime": "21:12:00",
             "DownTimeCode": "222",
             "Time": "900"
+        },
+        {
+            "BatchNo": "2101210003",
+            "PostDate": "2021-10-06",
+            "Shift": "1",
+            "StartTime": "21:30:00",
+            "EndTime": "21:40:00",
+            "DownTimeCode": "222",
+            "Time": "600"
         }
     ]
 }

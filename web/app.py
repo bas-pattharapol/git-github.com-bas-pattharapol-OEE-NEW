@@ -106,59 +106,75 @@ class User(flask_login.UserMixin):
     pass
 
 
-def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,timeMin):
-    planDT = 0
-    unplanDT = 0
+def chTime(pd,ShiftCode,mode):
+    
+    codePlan = []
+    codeUnplan = []
+    count = 0
+   
+    
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    plan = conn.cursor()
-    plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = ?",(ShiftCode1,))
-    for o in plan :
-        print(str(o[0]) , str(o[1]))
-        if datetime.strptime(dataStartTime,'%H:%M:%S') >= datetime.strptime(str(o[0]),'%H:%M:%S') and datetime.strptime(dataEndTime,'%H:%M:%S') <= datetime.strptime(str(o[1]),'%H:%M:%S') :
-            print('1')
-            conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-            codeplan = conn.cursor()
-            codeplan.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode]  WHERE DeleteFlag = 1 AND Type = 'Plan'")
-            
-            for p in codeplan:
-                if dataDownTimeCode == p[0]:
-                    planDT += int(timeMin)//60
-            
-            conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-            codeUnplan = conn.cursor()
-            codeUnplan.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode]  WHERE DeleteFlag = 1 AND Type = 'Unplan'")
-            
-            for p in codeUnplan:
-                if dataDownTimeCode == p[0]:
-                    unplanDT += int(timeMin)//60
-    print(ShiftCode1," planDT : ",planDT)      
-    print(ShiftCode1," unplanDT : ",unplanDT)          
-    planDT = 0
-    unplanDT = 0        
+    DownTimeCode = conn.cursor()
+    DownTimeCode.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode] WHERE DeleteFlag = 1 AND Type = 'Plan' ")
+    
+    for i in DownTimeCode:
+        codePlan.append(i[0])
+        
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    plan = conn.cursor()        
-    plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = ?",(ShiftCode2,))
-    for o in plan :
-        if datetime.strptime(dataStartTime,'%H:%M:%S') >= datetime.strptime(str(o[0]),'%H:%M:%S')  :
-            print('2')
-            conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-            codeplan = conn.cursor()
-            codeplan.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode]  WHERE DeleteFlag = 1 AND Type = 'Plan'")
-            
-            for p in codeplan:
-                if dataDownTimeCode == p[0]:
-                    planDT += int(timeMin)//60
-            
-            conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-            codeUnplan = conn.cursor()
-            codeUnplan.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode]  WHERE DeleteFlag = 1 AND Type = 'Unplan'")
-            
-            for p in codeUnplan:
-                if dataDownTimeCode== p[0]:
-                    unplanDT += int(timeMin)//60
-                    
-    print(ShiftCode2," planDT : ",planDT)      
-    print(ShiftCode2," unplanDT : ",unplanDT) 
+    DownTimeCode = conn.cursor()
+    DownTimeCode.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode] WHERE DeleteFlag = 1 AND Type = 'Unplan' ")
+    
+    for i in DownTimeCode:
+        codeUnplan.append(i[0])
+    
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cur = conn.cursor()
+    cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode] WHERE DeleteFlag = 1 AND ShiftCodeID = ? ",(ShiftCode,))
+    
+    for i in cur:
+        StartTime = i[0]      
+        EndTime = i[1]     
+    
+    if ShiftCode == '1A':
+    
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? AND PDOrder = ?",(StartTime,EndTime,pd))
+    
+    elif ShiftCode == '2A':      
+          
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? PDOrder = ?",(StartTime,pd))
+    
+    elif ShiftCode == '1B' or ShiftCode == '2B':
+    
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? PDOrder = ?",(StartTime,EndTime,pd))
+    elif ShiftCode == '1OT':      
+          
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? PDOrder = ?",(StartTime,EndTime,pd))
+    
+    elif ShiftCode == '2OT':      
+          
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND (StartTime >= ? OR StartTime <= ? ) AND (EndTime <= ? OR EndTime >= ? ) PDOrder = ?",(StartTime,EndTime,EndTime,StartTime,pd))
+    
+    if mode == 'Plan' :
+        for k in cur:
+            if k[1] in codePlan:
+                count += int(k[0])//60
+                
+    elif mode == 'Unplan':
+        for k in cur:
+            if k[1] in codeUnplan:
+                count += int(k[0])//60
+          
+    return count
             
 @login_manager.user_loader
 def user_loader(email):
@@ -330,42 +346,52 @@ def API_RunTime_DownTime():
                     
         print("------------------------------------")
         
-        
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur1 = conn.cursor()
-        cur1.execute(""" SELECT TOP(1) iov.MachineID , ppt.PlannedCode from OEE_DB.dbo.INF_OEE1_V2 iov
-                        INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt
-                        ON iov.MachineID = ppt.MachineID AND iov.PDOrder = ? AND ppt.[Date] = ? 
-                        order by ppt.[DateTime] DESC 
-                    """,(data['PDOrder'] ,data['RunTime'][0]['PostDate']))
-        
-        startTime = []
-        endTime = []
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        update = cnxn.cursor()
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?,?)' ,(data['PDOrder'],"DonwTime",data['DonwTime'][i]['BatchNo'],data['DonwTime'][i]['PostDate'],data['DonwTime'][i]['Shift'],data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'],data['DonwTime'][i]['Time'],data['DonwTime'][i]['DownTimeCode']))
+        cnxn.commit()
     
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cur1 = conn.cursor()
+    cur1.execute(""" SELECT TOP(1) iov.MachineID , ppt.PlannedCode from OEE_DB.dbo.INF_OEE1_V2 iov
+                    INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt
+                    ON iov.MachineID = ppt.MachineID AND iov.PDOrder = ? AND ppt.[Date] = ? 
+                    order by ppt.[DateTime] DESC 
+                """,(data['PDOrder'] ,data['RunTime'][0]['PostDate']))
+    
+    startTime = []
+    endTime = []   
+    
+    for l in cur1 :
+        print(l)
         
-        for l in cur1 :
-            print(l)
-            
-            if l[1] == 'AA':
-                chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'])
-            elif l[1] == 'BB':
-                chTime('1B','2B',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] ,data['DonwTime'][i]['Time'])
-            elif l[1] == 'TOT':  
-                chTime('1OT','2OT',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'] )
-            elif l[1] == 'HOT': 
-                chTime('1B','2A',str(data['DonwTime'][i]['StartTime']),str(data['DonwTime'][i]['EndTime']),str(data['DonwTime'][i]['DownTimeCode']),str(data['DonwTime'][i]['Time']) )
-            else:
-                pass
+        if l[1] == 'AA':
+            print('1A Plan', chTime(data['PDOrder'],'1A','Plan'))
+            print('1A Unplan', chTime(data['PDOrder'],'1A','Unplan'))
+            print('2A Plan', chTime(data['PDOrder'],'2A','Plan'))
+            print('2A Unplan', chTime(data['PDOrder'],'2A','Unplan'))
+        elif l[1] == 'BB':
+            print('1B Plan', chTime(data['PDOrder'],'1B','Plan'))
+            print('1B Unplan', chTime(data['PDOrder'],'1B','Unplan'))
+            print('2B Plan', chTime(data['PDOrder'],'2B','Plan'))
+            print('2B Unplan', chTime(data['PDOrder'],'2B','Unplan'))
+        elif l[1] == 'TOT':  
+            print('1OT Plan', chTime(data['PDOrder'],'1OT','Plan'))
+            print('1OT Unplan', chTime(data['PDOrder'],'1OT','Unplan'))
+            print('2OT Plan', chTime(data['PDOrder'],'2OT','Plan'))
+            print('2OT Unplan', chTime(data['PDOrder'],'2OT','Unplan'))
+        elif l[1] == 'HOT': 
+            chTime(data['PDOrder'],'1A','Plan')
+        else:
+            print(l[1] ,"Plan" , chTime(data['PDOrder'],l[1],'Plan'))
+            print(l[1] ,"Unplan", chTime(data['PDOrder'],l[1],'Unplan'))
                 #chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
             
                 
             print(startTime)
             print(endTime)
             
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?,?)' ,(data['PDOrder'],"DonwTime",data['DonwTime'][i]['BatchNo'],data['DonwTime'][i]['PostDate'],data['DonwTime'][i]['Shift'],data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'],data['DonwTime'][i]['Time'],data['DonwTime'][i]['DownTimeCode']))
-        cnxn.commit()
+        
         
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
