@@ -113,6 +113,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
     plan = conn.cursor()
     plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = ?",(ShiftCode1,))
     for o in plan :
+        print(str(o[0]) , str(o[1]))
         if datetime.strptime(dataStartTime,'%H:%M:%S') > datetime.strptime(str(o[0]),'%H:%M:%S') and datetime.strptime(dataEndTime,'%H:%M:%S') < datetime.strptime(str(o[1]),'%H:%M:%S') :
             print('1')
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
