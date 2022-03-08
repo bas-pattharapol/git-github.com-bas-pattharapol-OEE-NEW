@@ -122,7 +122,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
             
             for p in codeplan:
                 if dataDownTimeCode == p[0]:
-                    planDT += int(timeMin)
+                    planDT += int(timeMin)//60
             
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeUnplan = conn.cursor()
@@ -130,7 +130,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
             
             for p in codeUnplan:
                 if dataDownTimeCode == p[0]:
-                    unplanDT += int(timeMin)
+                    unplanDT += int(timeMin)//60
     print(ShiftCode1," planDT : ",planDT)      
     print(ShiftCode1," unplanDT : ",unplanDT)          
     planDT = 0
@@ -147,7 +147,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
             
             for p in codeplan:
                 if dataDownTimeCode == p[0]:
-                    planDT += int(timeMin)
+                    planDT += int(timeMin)//60
             
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeUnplan = conn.cursor()
@@ -155,7 +155,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
             
             for p in codeUnplan:
                 if dataDownTimeCode== p[0]:
-                    unplanDT += int(timeMin)
+                    unplanDT += int(timeMin)//60
                     
     print(ShiftCode2," planDT : ",planDT)      
     print(ShiftCode2," unplanDT : ",unplanDT) 
