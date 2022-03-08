@@ -8,17 +8,17 @@ headers["Content-Type"] = "application/json"
 #ok
 data = """
 {
-    "PDOrder": "90066772",
+    "PDOrder": "90060694",
     "RunTime": [{
         "BatchNo": "2101210003",
-        "PostDate": "2021-11-25",
+        "PostDate": "2021-10-06",
         "Shift": "1",
         "StartTime": "14:12:01",
         "EndTime": "15:12:10",
         "Time": "60"
     },{
         "BatchNo": "2101210003",
-        "PostDate": "2022-01-02",
+        "PostDate": "2021-10-06",
         "Shift": "1",
         "StartTime": "15:12:01",
         "EndTime": "16:12:10",
@@ -26,21 +26,30 @@ data = """
     }],
     "DonwTime": [{
             "BatchNo": "2101210003",
-            "PostDate": "01-02-2021",
+            "PostDate": "2021-10-06",
             "Shift": "1",
-            "StartTime": "15:12:11",
-            "EndTime": "15:20:10",
-            "DownTimeCode": "200",
-            "Time": "8"
+            "StartTime": "4:00:00",
+            "EndTime": "4:18:00",
+            "DownTimeCode": "5",
+            "Time": "1080"
         },
         {
             "BatchNo": "2101210003",
-            "PostDate": "2022-01-02",
+            "PostDate": "2021-10-06",
             "Shift": "1",
-            "StartTime": "15:21:11",
-            "EndTime": "15:22:10",
-            "DownTimeCode": "114",
-            "Time": "1"
+            "StartTime": "7:00:00",
+            "EndTime": "7:00:15",
+            "DownTimeCode": "200",
+            "Time": "900"
+        }, 
+        {
+            "BatchNo": "2101210003",
+            "PostDate": "2021-10-06",
+            "Shift": "1",
+            "StartTime": "21:00:00",
+            "EndTime": "21:12:00",
+            "DownTimeCode": "222",
+            "Time": "900"
         }
     ]
 }

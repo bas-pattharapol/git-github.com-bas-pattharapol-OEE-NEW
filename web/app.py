@@ -353,7 +353,7 @@ def API_RunTime_DownTime():
             elif i[1] == 'TOT':  
                 chTime('1OT','2OT',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'] )
             elif i[1] == 'HOT': 
-                chTime('1B','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'] )
+                chTime('1B','2A',str(data['DonwTime'][i]['StartTime']),str(data['DonwTime'][i]['EndTime']),str(data['DonwTime'][i]['DownTimeCode']),str(data['DonwTime'][i]['Time']) )
             else:
                 pass
                 #chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
