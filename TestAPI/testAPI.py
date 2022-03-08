@@ -38,7 +38,7 @@ data = """
             "PostDate": "2021-10-06",
             "Shift": "1",
             "StartTime": "7:00:00",
-            "EndTime": "7:00:15",
+            "EndTime": "7:15:00",
             "DownTimeCode": "200",
             "Time": "900"
         }, 
