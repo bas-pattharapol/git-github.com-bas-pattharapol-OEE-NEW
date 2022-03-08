@@ -139,30 +139,30 @@ def chTime(pd,ShiftCode,mode):
     
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
-        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
+        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
     
     elif ShiftCode == '2A':      
           
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
-        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? ",(pd,StartTime))
+        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? ",(pd,StartTime))
     
     elif ShiftCode == '1B' or ShiftCode == '2B':
     
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
-        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
+        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
     elif ShiftCode == '1OT':      
           
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
-        cur.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
+        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
     
     elif ShiftCode == '2OT':      
           
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
-        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE DeleteFlag = 1 AND PDOrder = ? AND TypeTime = 'DonwTime' AND (StartTime >= ? OR StartTime <= ? ) AND (EndTime <= ? OR EndTime >= ? ) ",(pd,StartTime,EndTime,EndTime,StartTime))
+        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND (StartTime >= ? OR StartTime <= ? ) AND (EndTime <= ? OR EndTime >= ? ) ",(pd,StartTime,EndTime,EndTime,StartTime))
     
     if mode == 'Plan' :
         for k in cur:
