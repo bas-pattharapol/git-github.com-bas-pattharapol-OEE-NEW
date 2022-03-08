@@ -344,7 +344,7 @@ def API_RunTime_DownTime():
     
         
         for l in cur1 :
-            print(i)
+            print(l)
             
             if l[1] == 'AA':
                 chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'])
