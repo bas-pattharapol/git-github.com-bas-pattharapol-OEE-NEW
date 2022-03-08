@@ -114,13 +114,14 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
     plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = ?",(ShiftCode1,))
     for o in plan :
         if datetime.strptime(dataStartTime,'%H:%M:%S') > datetime.strptime(str(o[0]),'%H:%M:%S') and datetime.strptime(dataEndTime,'%H:%M:%S') < datetime.strptime(str(o[1]),'%H:%M:%S') :
+            print('1')
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeplan = conn.cursor()
             codeplan.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode]  WHERE DeleteFlag = 1 AND Type = 'Plan'")
             
             for p in codeplan:
                 if dataDownTimeCode == p[0]:
-                    planDT += int(timeMin)//60
+                    planDT += int(timeMin)
             
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeUnplan = conn.cursor()
@@ -128,7 +129,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
             
             for p in codeUnplan:
                 if dataDownTimeCode == p[0]:
-                    unplanDT += int(timeMin)//60
+                    unplanDT += int(timeMin)
     print(ShiftCode1," planDT : ",planDT)      
     print(ShiftCode1," unplanDT : ",unplanDT)          
     planDT = 0
@@ -138,13 +139,14 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
     plan.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode]  WHERE DeleteFlag = 1 AND ShiftCodeID = ?",(ShiftCode2,))
     for o in plan :
         if datetime.strptime(dataStartTime,'%H:%M:%S') > datetime.strptime(str(o[0]),'%H:%M:%S') and datetime.strptime(dataEndTime,'%H:%M:%S') < datetime.strptime(str(o[1]),'%H:%M:%S') :
+            print('2')
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeplan = conn.cursor()
             codeplan.execute("SELECT Code FROM OEE_DB.dbo.[DownTimeCode]  WHERE DeleteFlag = 1 AND Type = 'Plan'")
             
             for p in codeplan:
                 if dataDownTimeCode == p[0]:
-                    planDT += int(timeMin)//60
+                    planDT += int(timeMin)
             
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeUnplan = conn.cursor()
@@ -152,7 +154,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,time
             
             for p in codeUnplan:
                 if dataDownTimeCode== p[0]:
-                    unplanDT += int(timeMin)//60 
+                    unplanDT += int(timeMin)
                     
     print(ShiftCode2," planDT : ",planDT)      
     print(ShiftCode2," unplanDT : ",unplanDT) 
