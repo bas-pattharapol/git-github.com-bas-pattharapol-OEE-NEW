@@ -106,7 +106,7 @@ class User(flask_login.UserMixin):
     pass
 
 
-def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode):
+def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode,timeMin):
     planDT = 0
     unplanDT = 0
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -120,7 +120,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode):
             
             for p in codeplan:
                 if dataDownTimeCode == p[0]:
-                    planDT += int(dataDownTimeCode)
+                    planDT += int(timeMin)//60
             
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeUnplan = conn.cursor()
@@ -128,7 +128,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode):
             
             for p in codeUnplan:
                 if dataDownTimeCode == p[0]:
-                    unplanDT += int(dataDownTimeCode)
+                    unplanDT += int(timeMin)//60
     print(ShiftCode1," planDT : ",planDT)      
     print(ShiftCode1," unplanDT : ",unplanDT)          
     planDT = 0
@@ -144,7 +144,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode):
             
             for p in codeplan:
                 if dataDownTimeCode == p[0]:
-                    planDT += int(dataDownTimeCode)
+                    planDT += int(timeMin)//60
             
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             codeUnplan = conn.cursor()
@@ -152,7 +152,7 @@ def chTime(ShiftCode1,ShiftCode2,dataStartTime,dataEndTime,dataDownTimeCode):
             
             for p in codeUnplan:
                 if dataDownTimeCode== p[0]:
-                    unplanDT += int(dataDownTimeCode) 
+                    unplanDT += int(timeMin)//60 
                     
     print(ShiftCode2," planDT : ",planDT)      
     print(ShiftCode2," unplanDT : ",unplanDT) 
@@ -347,13 +347,13 @@ def API_RunTime_DownTime():
             print(i)
             
             if i[1] == 'AA':
-                chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
+                chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'])
             elif i[1] == 'BB':
-                chTime('1B','2B',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
+                chTime('1B','2B',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] ,data['DonwTime'][i]['Time'])
             elif i[1] == 'TOT':  
-                chTime('1OT','2OT',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
+                chTime('1OT','2OT',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'] )
             elif i[1] == 'HOT': 
-                chTime('1B','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
+                chTime('1B','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'] )
             else:
                 pass
                 #chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] )
