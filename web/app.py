@@ -343,16 +343,16 @@ def API_RunTime_DownTime():
         endTime = []
     
         
-        for i in cur1 :
+        for l in cur1 :
             print(i)
             
-            if i[1] == 'AA':
+            if l[1] == 'AA':
                 chTime('1A','2A',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'])
-            elif i[1] == 'BB':
+            elif l[1] == 'BB':
                 chTime('1B','2B',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'] ,data['DonwTime'][i]['Time'])
-            elif i[1] == 'TOT':  
+            elif l[1] == 'TOT':  
                 chTime('1OT','2OT',data['DonwTime'][i]['StartTime'],data['DonwTime'][i]['EndTime'] ,data['DonwTime'][i]['DownTimeCode'],data['DonwTime'][i]['Time'] )
-            elif i[1] == 'HOT': 
+            elif l[1] == 'HOT': 
                 chTime('1B','2A',str(data['DonwTime'][i]['StartTime']),str(data['DonwTime'][i]['EndTime']),str(data['DonwTime'][i]['DownTimeCode']),str(data['DonwTime'][i]['Time']) )
             else:
                 pass
