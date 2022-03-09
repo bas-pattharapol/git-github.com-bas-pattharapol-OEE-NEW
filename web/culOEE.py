@@ -50,7 +50,7 @@ if __name__ == '__main__':
             OEE_Q2 = GoodCount / TotalCount
             OEE_Q2_Final = FinalGoodCount / TotalCount
             OEE1Calculation = OEE_A1 * OEE_P1 * OEE_Q1 
-            OEE2Calculation = OEE_A1 * OEE_P1 * OEE_Q2 
+            OEE2Calculation = OEE_A2 * OEE_P2 * OEE_Q2 
             OEE1FinalCalculation = OEE_A1 * OEE_P1 * OEE_Q1_Final 
             OEE2FinalCalculation = OEE_A2 * OEE_P2 * OEE_Q2_Final 
 
