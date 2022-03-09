@@ -66,7 +66,7 @@ data = """
             "PostDate": "06-10-2021",
             "Shift": "1",
             "StartTime": "21:30:00",
-            "EndTime": "21:40:00",
+            "EndTime": "1:40:00",
             "DownTimeCode": "222",
             "Time": "600"
         }

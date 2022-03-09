@@ -367,11 +367,11 @@ def API_RunTime_DownTime():
             
             print('row.Date',data['DonwTime'][i]['PostDate']) 
             print('newdate',newdate)    
-            startDate =  str(data['DonwTime'][i]['PostDate']) +' ' + str(data['DonwTime'][i]['StartTime'])
+            startDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['StartTime'])
             endDate =  str(newdate) +' ' + str(data['DonwTime'][i]['EndTime'])
         else:
-            startDate =  str(data['DonwTime'][i]['PostDate']) +' ' + str(data['DonwTime'][i]['StartTime'])
-            endDate =  str(data['DonwTime'][i]['PostDate']) +' ' + str(data['DonwTime'][i]['EndTime'])
+            startDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['StartTime'])
+            endDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['EndTime'])
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
