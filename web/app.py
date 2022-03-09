@@ -125,7 +125,7 @@ def chTime(pd,ShiftCode,mode,date):
     for m in num :
         count = m[0]
         MachineID = m[1]
-    print(count)
+    
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     DownTimeCode = conn.cursor()
@@ -150,8 +150,8 @@ def chTime(pd,ShiftCode,mode,date):
         StartTime = str(i[0])      
         EndTime = str(i[1])     
     
-    print('StartTime' , StartTime)
-    print('EndTime' , EndTime)
+    #print('StartTime' , StartTime)
+    #print('EndTime' , EndTime)
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()
