@@ -328,7 +328,6 @@ def API_RunTime_DownTime():
     print(request.get_json())
     data = request.get_json()
     
-
     for i in range(0,len(data['RunTime'])):
         print("-->> RunTime [",i,"]")
         print('PDOrder --> ' ,data['PDOrder'] )
@@ -372,8 +371,8 @@ def API_RunTime_DownTime():
         cnxn.commit()
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    cur1 = conn.cursor()
-    cur1.execute(""" SELECT TOP(1) iov.MachineID , ppt.PlannedCode from OEE_DB.dbo.INF_OEE1_V2 iov
+    cur1 = conn.cursor() 
+    cur1.execute(""" SELECT TOP(1) iov.MachineID , ppt.PlannedCode from OEE_DB.dbo.INF_OEE1_V2 iov 
                     INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt
                     ON iov.MachineID = ppt.MachineID AND iov.PDOrder = ? AND ppt.[Date] = ? 
                     order by ppt.[DateTime] DESC 
