@@ -420,7 +420,7 @@ def API_RunTime_DownTime():
         PlanDownTime2 = 0
         UnplanDownTime2 = 0
         if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') < datetime.strptime(str(oldStartTime),'%H:%M:%S') :
-            date = str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) + timedelta(days=-1)
+            date = str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=-1))
         else:
             date = str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())
         for l in cur1 :
