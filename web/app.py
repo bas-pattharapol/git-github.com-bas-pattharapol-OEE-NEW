@@ -363,7 +363,8 @@ def API_RunTime_DownTime():
                     
         print("------------------------------------")
         if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') <= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
-            newdate = data['DonwTime'][i]['PostDate'] + timedelta(days=1)                      
+            newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%y') + timedelta(days=1)                      
+            
             print('row.Date',data['DonwTime'][i]['PostDate']) 
             print('newdate',newdate)    
             startDate =  str(data['DonwTime'][i]['PostDate']) +' ' + str(data['DonwTime'][i]['StartTime'])
