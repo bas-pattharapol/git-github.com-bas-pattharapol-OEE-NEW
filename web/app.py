@@ -355,7 +355,32 @@ def API_RunTime_DownTime():
         print('DonwTime - Time --> ' ,data['DonwTime'][i]['Time'] )
                     
         print("------------------------------------")
-        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') >= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur1 = conn.cursor() 
+        cur1.execute("""SELECT TOP(1) iov.MachineID , ppt.PlannedCode from OEE_DB.dbo.INF_OEE1_V2 iov 
+                        INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt
+                        ON iov.MachineID = ppt.MachineID AND iov.PDOrder = ? AND ppt.[Date] = ? 
+                        order by ppt.[DateTime] DESC 
+                    """,(data['PDOrder'] ,str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())))
+        
+        for o in cur1:
+            conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            cur = conn.cursor()
+            cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode] WHERE DeleteFlag = 1 AND  ShiftCodeID = ? ",(o[0],))
+            
+            for m in cur:
+                oldStartTime = m[0]
+        
+        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') > datetime.strptime(str(oldStartTime),'%H:%M:%S') :
+            newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=-1)                      
+            
+            print('row.Date',data['DonwTime'][i]['PostDate']) 
+            print('newdate',newdate)    
+            startDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['StartTime'])
+            endDate =  str(newdate) +' ' + str(data['DonwTime'][i]['EndTime'])
+        
+        
+        elif datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') >= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
             newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=1)                      
             
             print('row.Date',data['DonwTime'][i]['PostDate']) 
