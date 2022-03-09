@@ -373,7 +373,7 @@ def API_RunTime_DownTime():
                 print('cur2')
                 oldStartTime = m[0]
         
-        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') > datetime.strptime(str(oldStartTime),'%H:%M:%S') :
+        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') < datetime.strptime(str(oldStartTime),'%H:%M:%S') :
             newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=-1)                      
             
             print('row.Date',data['DonwTime'][i]['PostDate']) 
