@@ -364,9 +364,10 @@ def API_RunTime_DownTime():
                     """,(data['PDOrder'] ,str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())))
         
         for o in cur1:
+            print(o[1])
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             cur = conn.cursor()
-            cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode] WHERE DeleteFlag = 1 AND  ShiftCodeID = ? ",(o[0],))
+            cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode] WHERE DeleteFlag = 1 AND  ShiftCodeID = ? ",(o[1],))
             print('cur1')
             for m in cur:
                 print('cur2')
