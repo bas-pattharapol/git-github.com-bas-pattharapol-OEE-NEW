@@ -475,10 +475,10 @@ def API_RunTime_DownTime():
                 
             
             
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        DELETE = cnxn.cursor()
-        DELETE.execute('DELETE FROM OEE_DB.dbo.INF_OEE2_V2_Cul')
-        cnxn.commit()          
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            DELETE = cnxn.cursor()
+            DELETE.execute('DELETE FROM OEE_DB.dbo.INF_OEE2_V2_Cul')
+            cnxn.commit()          
          
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
