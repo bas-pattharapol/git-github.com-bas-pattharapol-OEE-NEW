@@ -781,6 +781,8 @@ def uploadFile(Level,Fname_Lname):
                                     'StartTime':dataStart,
                                     'EndTime':dataEnd})
         print(ok_data)
+        print(type(dataStart))
+            
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
         for row in ok_data.itertuples():
