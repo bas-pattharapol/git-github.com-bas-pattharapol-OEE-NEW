@@ -156,6 +156,7 @@ def chTime(pd,ShiftCode,mode,date):
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()
     cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2_Cul] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
+    print("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2_Cul] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,StartTime,EndTime))
 
    
     if mode == 'Plan' :
