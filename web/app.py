@@ -787,15 +787,16 @@ def uploadFile(Level,Fname_Lname):
         cur = conn.cursor()
         for row in ok_data.itertuples():      
               
-            if datetime.strptime(str(row.StartTime),'%H:%M:%S') <= datetime.strptime(str(row.EndTime),'%H:%M:%S'):
+            
+            if datetime.strptime(str(row.StartTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') and datetime.strptime(str(row.EndTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') :
+                startDate = '00:00:00'
+                endDate = '00:00:00' 
+            elif datetime.strptime(str(row.StartTime),'%H:%M:%S') <= datetime.strptime(str(row.EndTime),'%H:%M:%S'):
                 newdate = row.Date + timedelta(days=1)                      
                 print('row.Date',row.Date) 
                 print('newdate',newdate)    
                 startDate =  str(row.Date) +' ' + str(row.StartTime)
                 endDate =  str(newdate) +' ' + str(row.EndTime)
-            elif datetime.strptime(str(row.StartTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') and datetime.strptime(str(row.EndTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') :
-                startDate = '00:00:00'
-                endDate = '00:00:00' 
             else:
                 startDate =  str(row.Date) +' ' + str(row.StartTime)
                 endDate =  str(row.Date) +' ' + str(row.EndTime)       
