@@ -367,7 +367,7 @@ def API_RunTime_DownTime():
                         INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt
                         ON iov.MachineID = ppt.MachineID AND iov.PDOrder = ? AND ppt.[Date] = ? 
                         order by ppt.[DateTime] DESC 
-                    """,(data['PDOrder'] ,data['DonwTime'][i]['PostDate']))
+                    """,(data['PDOrder'] ,str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())))
         
         PlanDownTime1 = 0
         UnplanDownTime1 = 0
