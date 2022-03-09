@@ -195,9 +195,9 @@ def updateGoodCount(pd):
             UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = ?",(numGoodCount1,pd[1],l[1]))
             cnxn.commit()
             
-         
+
             
-        
+            
 def updateRunTime1(sum,pd,ShiftCode):
     runtime1 = 0
     
