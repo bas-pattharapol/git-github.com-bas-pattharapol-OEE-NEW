@@ -8,87 +8,66 @@ database = "OEE_DB"
 username = "sa"
 password = "p@ssw0rd"
 
-def sumV3(pd,ShiftCode):
+def sumV3(pd,ShiftCode,date):
     count = 0
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()
     cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode] WHERE DeleteFlag = 1 AND ShiftCodeID = ? ",(ShiftCode,))
     
     for i in cur:
-        StartTime = i[0]      
-        EndTime = i[1] 
-    if ShiftCode == '1A':
-    
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE3_V2] WHERE PDOrder = ? AND  Time >= ? AND Time <= ? ",(pd,StartTime,EndTime))
-    
-    elif ShiftCode == '2A':      
+        StartTime = str(i[0])      
+        EndTime = str(i[1])   
           
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE3_V2] WHERE PDOrder = ? AND Time >= ? ",(pd,StartTime))
+        if datetime.strptime(StartTime,'%H:%M:%S') >= datetime.strptime(EndTime,'%H:%M:%S'):
+            newdate = datetime.strptime(str(date), '%Y-%m-%d').date() + timedelta(days=1)                      
+            
+            #print('row.Date',date) 
+            #print('newdate',newdate)    
+            startDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + StartTime
+            endDate =  str(newdate) +' ' + EndTime
+        else:
+            startDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + StartTime
+            endDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + EndTime
+            
     
-    elif ShiftCode == '1B' or ShiftCode == '2B':
     
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE3_V2] WHERE PDOrder = ? AND  Time >= ? AND Time <= ? ",(pd,StartTime,EndTime))
-    elif ShiftCode == '1OT':      
-          
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE3_V2] WHERE PDOrder = ? AND Time >= ? AND Time <= ? ",(pd,StartTime,EndTime))
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cur = conn.cursor()
+    cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE3_V2] WHERE PDOrder = ? AND  Time >= ? AND Time <= ? ",(pd,startDate,endDate))
     
-    elif ShiftCode == '2OT':      
-          
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE3_V2] WHERE PDOrder = ? AND (Time >= ? OR Time <= ? ) AND (Time <= ? OR Time >= ? ) ",(pd,StartTime,EndTime,EndTime,StartTime))
-     
+    
     for k in cur:
         count += int(k[0])  
-
     return count
 
-def sumV4(pd,ShiftCode):
+def sumV4(pd,ShiftCode,date):
     count = 0
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()
     cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode] WHERE DeleteFlag = 1 AND ShiftCodeID = ? ",(ShiftCode,))
     
     for i in cur:
-        StartTime = i[0]      
-        EndTime = i[1] 
-    if ShiftCode == '1A':
-    
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE4_V2] WHERE PDOrder = ? AND  Time >= ? AND Time <= ? ",(pd,StartTime,EndTime))
-    
-    elif ShiftCode == '2A':      
+        StartTime = str(i[0])      
+        EndTime = str(i[1])   
           
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE4_V2] WHERE PDOrder = ? AND Time >= ? ",(pd,StartTime))
+        if datetime.strptime(StartTime,'%H:%M:%S') >= datetime.strptime(EndTime,'%H:%M:%S'):
+            newdate = datetime.strptime(str(date), '%Y-%m-%d').date() + timedelta(days=1)                      
+            
+            #print('row.Date',date) 
+            #print('newdate',newdate)    
+            startDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + StartTime
+            endDate =  str(newdate) +' ' + EndTime
+        else:
+            startDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + StartTime
+            endDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + EndTime
+            
     
-    elif ShiftCode == '1B' or ShiftCode == '2B':
     
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE4_V2] WHERE PDOrder = ? AND  Time >= ? AND Time <= ? ",(pd,StartTime,EndTime))
-    elif ShiftCode == '1OT':      
-          
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE4_V2] WHERE PDOrder = ? AND Time >= ? AND Time <= ? ",(pd,StartTime,EndTime))
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cur = conn.cursor()
+    cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE4_V2] WHERE PDOrder = ? AND  Time >= ? AND Time <= ? ",(pd,startDate,endDate))
+
     
-    elif ShiftCode == '2OT':      
-          
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("SELECT QTY FROM OEE_DB.dbo.[INF_OEE4_V2] WHERE PDOrder = ? AND (Time >= ? OR Time <= ? ) AND (Time <= ? OR Time >= ? ) ",(pd,StartTime,EndTime,EndTime,StartTime))
-     
     for k in cur:
         count += int(k[0])  
     print('count', count)
@@ -107,98 +86,98 @@ def updateGoodCount(pd):
     for l in cur1:
         print(l)
         if l[1] == 'AA':
-            numGoodCount1 = sumV3(pd[1],'1A') + sumV4(pd[1],'1A')
-            numGoodCount2 = sumV3(pd[1],'2A') + sumV4(pd[1],'2A')
+            numGoodCount1 = sumV3(pd[1],'1A',pd[2]) + sumV4(pd[1],'1A',pd[2])
+            numGoodCount2 = sumV3(pd[1],'2A',pd[2]) + sumV4(pd[1],'2A',pd[2])
             
             print(pd[1],'1A' , numGoodCount1)
             print(pd[1],'2A' , numGoodCount2)
             
-            updateRunTime1(sumV3(pd[1],'1A'),pd[1],'1A')
-            updateRunTime1(sumV3(pd[1],'2A'),pd[1],'2A')
+            updateRunTime1(sumV3(pd[1],'1A',pd[2]),pd[1],'1A',pd[2])
+            updateRunTime1(sumV3(pd[1],'2A',pd[2]),pd[1],'2A',pd[2])
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1A'",(numGoodCount1,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1A' AND PostingDate = ?",(numGoodCount1,pd[1],pd[2]))
             cnxn.commit()
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2A'",(numGoodCount2,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2A' AND PostingDate = ?",(numGoodCount2,pd[1],pd[2]))
             cnxn.commit()
             
         elif l[1] == 'BB':
-            numGoodCount1 = sumV3(pd[1],'1B') + sumV4(pd[1],'1B')
-            numGoodCount2 = sumV3(pd[1],'2B') + sumV4(pd[1],'2B')
+            numGoodCount1 = sumV3(pd[1],'1B',pd[2]) + sumV4(pd[1],'1B',pd[2])
+            numGoodCount2 = sumV3(pd[1],'2B',pd[2]) + sumV4(pd[1],'2B',pd[2])
             
             print(pd[1],'1B' , numGoodCount1)
             print(pd[1],'2B' , numGoodCount2)
             
-            updateRunTime1(sumV3(pd[1],'1B'),pd[1],'1B')
-            updateRunTime1(sumV3(pd[1],'2B'),pd[1],'2B')
+            updateRunTime1(sumV3(pd[1],'1B',pd[2]),pd[1],'1B',pd[2])
+            updateRunTime1(sumV3(pd[1],'2B',pd[2]),pd[1],'2B',pd[2])
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1B'",(numGoodCount1,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1B' AND PostingDate = ?",(numGoodCount1,pd[1],pd[2]))
             cnxn.commit()
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2B'",(numGoodCount2,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2B' AND PostingDate = ?",(numGoodCount2,pd[1],pd[2]))
             cnxn.commit()
         elif l[1] == 'TOT':
-            numGoodCount1 = sumV3(pd[1],'1OT') + sumV4(pd[1],'1OT')
-            numGoodCount2 = sumV3(pd[1],'2OT') + sumV4(pd[1],'2OT')
+            numGoodCount1 = sumV3(pd[1],'1OT',pd[2]) + sumV4(pd[1],'1OT',pd[2])
+            numGoodCount2 = sumV3(pd[1],'2OT',pd[2]) + sumV4(pd[1],'2OT',pd[2])
             
             print(pd[1],'1OT' , numGoodCount1)
             print(pd[1],'2OT' , numGoodCount2)
             
-            updateRunTime1(sumV3(pd[1],'1OT'),pd[1],'1OT')
-            updateRunTime1(sumV3(pd[1],'2OT'),pd[1],'2OT')
+            updateRunTime1(sumV3(pd[1],'1OT',pd[2]),pd[1],'1OT',pd[2])
+            updateRunTime1(sumV3(pd[1],'2OT',pd[2]),pd[1],'2OT',pd[2])
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1OT'",(numGoodCount1,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1OT' AND PostingDate = ?",(numGoodCount1,pd[1],pd[2]))
             cnxn.commit()
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2OT'",(numGoodCount2,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2OT' AND PostingDate = ?",(numGoodCount2,pd[1],pd[2]))
             cnxn.commit()
         elif l[1] == 'HOT':
-            numGoodCount1 = sumV3(pd[1],'1B') + sumV4(pd[1],'1B')
-            numGoodCount2 = sumV3(pd[1],'2A') + sumV4(pd[1],'2A')
+            numGoodCount1 = sumV3(pd[1],'1B',pd[2]) + sumV4(pd[1],'1B',pd[2])
+            numGoodCount2 = sumV3(pd[1],'2A',pd[2]) + sumV4(pd[1],'2A',pd[2])
             
             print(pd[1],'1B' , numGoodCount1)
             print(pd[1],'2A' , numGoodCount2)
             
-            updateRunTime1(sumV3(pd[1],'1B'),pd[1],'1B')
-            updateRunTime1(sumV3(pd[1],'2A'),pd[1],'2A')
+            updateRunTime1(sumV3(pd[1],'1B',pd[2]),pd[1],'1B',pd[2],pd[2])
+            updateRunTime1(sumV3(pd[1],'2A',pd[2]),pd[1],'2A',pd[2],pd[2])
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1B'",(numGoodCount1,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '1B' AND PostingDate = ?",(numGoodCount1,pd[1],pd[2]))
             cnxn.commit()
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2A'",(numGoodCount2,pd[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = '2A' AND PostingDate = ?",(numGoodCount2,pd[1],pd[2]))
             cnxn.commit()
         else:
-            numGoodCount1 = sumV3(pd[1],l[1] ) + sumV4(pd[1],l[1])
+            numGoodCount1 = sumV3(pd[1],l[1],pd[2] ) + sumV4(pd[1],l[1],pd[2])
             print(pd[1],l[1] , numGoodCount1)
             
-            updateRunTime1(sumV3(pd[1],l[1]),pd[1],l[1])
+            updateRunTime1(sumV3(pd[1],l[1],pd[2]),pd[1],l[1],pd[2])
            
         
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = ?",(numGoodCount1,pd[1],l[1]))
+            UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET GoodCount = ? WHERE PDOrder = ? AND ShiftCode = ? AND PostingDate = ?",(numGoodCount1,pd[1],l[1],pd[2]))
             cnxn.commit()
             
 
             
             
-def updateRunTime1(sum,pd,ShiftCode):
+def updateRunTime1(sum,pd,ShiftCode,date):
     runtime1 = 0
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -213,7 +192,7 @@ def updateRunTime1(sum,pd,ShiftCode):
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         UPDATE = cnxn.cursor()
-        UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET RunTime1 = ? WHERE PDOrder = ? AND ShiftCode = ?",(runtime1,pd,ShiftCode))
+        UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET RunTime1 = ? WHERE PDOrder = ? AND ShiftCode = ? AND PostingDate = ? ",(runtime1,pd,ShiftCode,date))
         cnxn.commit()
         
 

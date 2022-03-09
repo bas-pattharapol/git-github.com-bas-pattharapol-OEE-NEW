@@ -38,6 +38,15 @@ data = """
             "BatchNo": "2101210003",
             "PostDate": "06-10-2021",
             "Shift": "1",
+            "StartTime": "5:00:00",
+            "EndTime": "5:18:00",
+            "DownTimeCode": "5",
+            "Time": "1080"
+        },
+        {
+            "BatchNo": "2101210003",
+            "PostDate": "06-10-2021",
+            "Shift": "1",
             "StartTime": "7:00:00",
             "EndTime": "7:15:00",
             "DownTimeCode": "200",

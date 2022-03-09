@@ -72,5 +72,45 @@ if __name__ == '__main__':
             print('OEE2Calculation ', OEE2Calculation)
             print('OEE1FinalCalculation ', OEE1FinalCalculation)
             print('OEE2FinalCalculation ', OEE2FinalCalculation)
+            
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            UPDATE = cnxn.cursor()
+            UPDATE.execute("""UPDATE OEE_DB.dbo.[OEEReport] 
+                            SET 
+                            RunTime2 = ?,
+                            IdealCount1 = ?,
+                            IdealCount2 = ?,
+                            FinalGoodCount = ?,
+                            OEE_A1 = ?,
+                            OEE_A2 = ?,
+                            OEE_P1 = ?,
+                            OEE_P2 = ?,
+                            OEE_Q1 = ?,
+                            OEE_Q1_Final = ?,
+                            OEE_Q2 = ?,
+                            OEE_Q2_Final = ?,
+                            OEE1Calculation = ?,
+                            OEE2Calculation = ?,
+                            OEE1FinalCalculation = ?,
+                            OEE2FinalCalculation = ?
+                            WHERE RecordID = ? """,(
+                                RunTime2 ,
+                                IdealCount1, 
+                                IdealCount2,
+                                FinalGoodCount ,
+                                OEE_A1 ,
+                                OEE_A2 ,
+                                OEE_P1 ,
+                                OEE_P2 ,
+                                OEE_Q1 ,
+                                OEE_Q1_Final,
+                                OEE_Q2 ,
+                                OEE_Q2_Final ,
+                                OEE1Calculation ,
+                                OEE2Calculation ,
+                                OEE1FinalCalculation,
+                                OEE2FinalCalculation,
+                                i[0]))
+            cnxn.commit()
 
             
