@@ -123,6 +123,7 @@ def chTime(pd,ShiftCode,mode):
     
     for m in num :
         count = m[0]
+    print(count)
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     DownTimeCode = conn.cursor()
@@ -184,10 +185,10 @@ def chTime(pd,ShiftCode,mode):
         for k in cur:
             if k[1] in codeUnplan:
                 count += int(k[0])//60
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    update = cnxn.cursor()
-    update.execute('DELETE FROM OEE_DB.dbo.INF_OEE2_V2_Cul')
-    cnxn.commit()      
+    #cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    #update = cnxn.cursor()
+    #update.execute('DELETE FROM OEE_DB.dbo.INF_OEE2_V2_Cul')
+    #cnxn.commit()      
     return count
             
 @login_manager.user_loader
