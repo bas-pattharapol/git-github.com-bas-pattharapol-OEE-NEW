@@ -373,7 +373,8 @@ def API_RunTime_DownTime():
                 print('cur2')
                 oldStartTime = m[0]
         
-        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') < datetime.strptime(str(oldStartTime),'%H:%M:%S') :
+        
+            """
             newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=-1)                      
             
             print('row.Date',data['DonwTime'][i]['PostDate']) 
@@ -382,9 +383,10 @@ def API_RunTime_DownTime():
             endDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['StartTime'])
             print(startDate)
             print(endDate)
+            """
         
         
-        elif datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') >= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
+        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') >= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
             newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=1)                      
             
             print('row.Date',data['DonwTime'][i]['PostDate']) 
@@ -417,7 +419,10 @@ def API_RunTime_DownTime():
         UnplanDownTime1 = 0
         PlanDownTime2 = 0
         UnplanDownTime2 = 0
-        date = str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())
+        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') < datetime.strptime(str(oldStartTime),'%H:%M:%S') :
+            date = str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) + timedelta(days=-1)
+        else:
+            date = str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())
         for l in cur1 :
             print(l)
             
