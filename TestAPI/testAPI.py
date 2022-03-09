@@ -12,14 +12,14 @@ data = """
     "PDOrder": "90060694",
     "RunTime": [{
         "BatchNo": "2101210003",
-        "PostDate": "2021-10-06",
+        "PostDate": "06-10-2021",
         "Shift": "1",
         "StartTime": "14:12:01",
         "EndTime": "15:12:10",
         "Time": "60"
     },{
         "BatchNo": "2101210003",
-        "PostDate": "2021-10-06",
+        "PostDate": "06-10-2021",
         "Shift": "1",
         "StartTime": "15:12:01",
         "EndTime": "16:12:10",
@@ -27,7 +27,7 @@ data = """
     }],
     "DonwTime": [{
             "BatchNo": "2101210003",
-            "PostDate": "2021-10-06",
+            "PostDate": "06-10-2021",
             "Shift": "1",
             "StartTime": "4:00:00",
             "EndTime": "4:18:00",
@@ -36,7 +36,7 @@ data = """
         },
         {
             "BatchNo": "2101210003",
-            "PostDate": "2021-10-06",
+            "PostDate": "06-10-2021",
             "Shift": "1",
             "StartTime": "7:00:00",
             "EndTime": "7:15:00",
@@ -45,7 +45,7 @@ data = """
         }, 
         {
             "BatchNo": "2101210003",
-            "PostDate": "2021-10-06",
+            "PostDate": "06-10-2021",
             "Shift": "1",
             "StartTime": "7:30:00",
             "EndTime": "7:40:00",
@@ -54,7 +54,7 @@ data = """
         }, 
         {
             "BatchNo": "2101210003",
-            "PostDate": "2021-10-06",
+            "PostDate": "06-10-2021",
             "Shift": "1",
             "StartTime": "21:00:00",
             "EndTime": "21:12:00",
@@ -63,7 +63,7 @@ data = """
         },
         {
             "BatchNo": "2101210003",
-            "PostDate": "2021-10-06",
+            "PostDate": "06-10-2021",
             "Shift": "1",
             "StartTime": "21:30:00",
             "EndTime": "21:40:00",
