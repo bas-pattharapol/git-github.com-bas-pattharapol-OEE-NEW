@@ -116,11 +116,11 @@ def chTime(pd,ShiftCode,mode,date):
     if mode == 'Plan' :
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         num = conn.cursor()
-        num.execute("SELECT PlanDownTime , MachineID FROM OEE_DB.dbo.[OEEReport] WHERE PDOrder = ? AND ShiftCode = ? " , (pd,ShiftCode))
+        num.execute("SELECT PlanDownTime , MachineID FROM OEE_DB.dbo.[OEEReport] WHERE PDOrder = ? AND ShiftCode = ? AND PostingDate = ?" , (pd,ShiftCode,date))
     elif mode == 'Unplan':
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         num = conn.cursor()
-        num.execute("SELECT UnplanDownTime , MachineID FROM OEE_DB.dbo.[OEEReport] WHERE PDOrder = ? AND ShiftCode = ? " , (pd,ShiftCode))
+        num.execute("SELECT UnplanDownTime , MachineID FROM OEE_DB.dbo.[OEEReport] WHERE PDOrder = ? AND ShiftCode = ? AND PostingDate = ? " , (pd,ShiftCode,date))
     
     for m in num :
         count = m[0]
@@ -143,7 +143,7 @@ def chTime(pd,ShiftCode,mode,date):
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()
-    cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[PlannedProductionTime] WHERE DeleteFlag = 1 AND  MachineID = ? AND Date = ? ",(MachineID,str(date)))
+    cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[PlannedProductionTime] WHERE DeleteFlag = 1 AND  MachineID = ? AND Date = ? ",(MachineID,date))
     StartTime = ''
     EndTime = '' 
     for i in cur:
@@ -375,19 +375,20 @@ def API_RunTime_DownTime():
         UnplanDownTime1 = 0
         PlanDownTime2 = 0
         UnplanDownTime2 = 0
+        date = str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())
         for l in cur1 :
             print(l)
             
             if l[1] == 'AA':
-                print('1A Plan', chTime(data['PDOrder'],'1A','Plan',data['DonwTime'][i]['PostDate']))
-                print('1A Unplan', chTime(data['PDOrder'],'1A','Unplan',data['DonwTime'][i]['PostDate']))
-                print('2A Plan', chTime(data['PDOrder'],'2A','Plan',data['DonwTime'][i]['PostDate']))
-                print('2A Unplan', chTime(data['PDOrder'],'2A','Unplan',data['DonwTime'][i]['PostDate']))
+                print('1A Plan', chTime(data['PDOrder'],'1A','Plan',date))
+                print('1A Unplan', chTime(data['PDOrder'],'1A','Unplan',date))
+                print('2A Plan', chTime(data['PDOrder'],'2A','Plan',date))
+                print('2A Unplan', chTime(data['PDOrder'],'2A','Unplan',date))
                 
-                PlanDownTime1 = chTime(data['PDOrder'],'1A','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime1 = chTime(data['PDOrder'],'1A','Unplan',data['DonwTime'][i]['PostDate'])
-                PlanDownTime2 = chTime(data['PDOrder'],'2A','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime2 = chTime(data['PDOrder'],'2A','Unplan',data['DonwTime'][i]['PostDate'])
+                PlanDownTime1 = chTime(data['PDOrder'],'1A','Plan',date)
+                UnplanDownTime1 = chTime(data['PDOrder'],'1A','Unplan',date)
+                PlanDownTime2 = chTime(data['PDOrder'],'2A','Plan',date)
+                UnplanDownTime2 = chTime(data['PDOrder'],'2A','Unplan',date)
                 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 UPDATE = cnxn.cursor()
@@ -400,15 +401,15 @@ def API_RunTime_DownTime():
                 cnxn.commit()
                 
             elif l[1] == 'BB':
-                print('1B Plan', chTime(data['PDOrder'],'1B','Plan',data['DonwTime'][i]['PostDate']))
-                print('1B Unplan', chTime(data['PDOrder'],'1B','Unplan',data['DonwTime'][i]['PostDate']))
-                print('2B Plan', chTime(data['PDOrder'],'2B','Plan',data['DonwTime'][i]['PostDate']))
-                print('2B Unplan', chTime(data['PDOrder'],'2B','Unplan',data['DonwTime'][i]['PostDate']))
+                print('1B Plan', chTime(data['PDOrder'],'1B','Plan',date))
+                print('1B Unplan', chTime(data['PDOrder'],'1B','Unplan',date))
+                print('2B Plan', chTime(data['PDOrder'],'2B','Plan',date))
+                print('2B Unplan', chTime(data['PDOrder'],'2B','Unplan',date))
                 
-                PlanDownTime1 = chTime(data['PDOrder'],'1B','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime1 = chTime(data['PDOrder'],'1B','Unplan',data['DonwTime'][i]['PostDate'])
-                PlanDownTime2 = chTime(data['PDOrder'],'2B','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime2 = chTime(data['PDOrder'],'2B','Unplan',data['DonwTime'][i]['PostDate'])
+                PlanDownTime1 = chTime(data['PDOrder'],'1B','Plan',date)
+                UnplanDownTime1 = chTime(data['PDOrder'],'1B','Unplan',date)
+                PlanDownTime2 = chTime(data['PDOrder'],'2B','Plan',date)
+                UnplanDownTime2 = chTime(data['PDOrder'],'2B','Unplan',date)
                 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 UPDATE = cnxn.cursor()
@@ -420,15 +421,15 @@ def API_RunTime_DownTime():
                 UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET PlanDownTime = ? ,UnplanDownTime = ? WHERE PDOrder = ? AND ShiftCode = '2B'",(PlanDownTime2,UnplanDownTime2,data['PDOrder']))
                 cnxn.commit()
             elif l[1] == 'TOT':  
-                print('1OT Plan', chTime(data['PDOrder'],'1OT','Plan',data['DonwTime'][i]['PostDate']))
-                print('1OT Unplan', chTime(data['PDOrder'],'1OT','Unplan',data['DonwTime'][i]['PostDate']))
-                print('2OT Plan', chTime(data['PDOrder'],'2OT','Plan',data['DonwTime'][i]['PostDate']))
-                print('2OT Unplan', chTime(data['PDOrder'],'2OT','Unplan',data['DonwTime'][i]['PostDate']))
+                print('1OT Plan', chTime(data['PDOrder'],'1OT','Plan',date))
+                print('1OT Unplan', chTime(data['PDOrder'],'1OT','Unplan',date))
+                print('2OT Plan', chTime(data['PDOrder'],'2OT','Plan',date))
+                print('2OT Unplan', chTime(data['PDOrder'],'2OT','Unplan',date))
                 
-                PlanDownTime1 = chTime(data['PDOrder'],'1OT','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime1 = chTime(data['PDOrder'],'1OT','Unplan',data['DonwTime'][i]['PostDate'])
-                PlanDownTime2 = chTime(data['PDOrder'],'2OT','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime2 = chTime(data['PDOrder'],'2OT','Unplan',data['DonwTime'][i]['PostDate'])
+                PlanDownTime1 = chTime(data['PDOrder'],'1OT','Plan',date)
+                UnplanDownTime1 = chTime(data['PDOrder'],'1OT','Unplan',date)
+                PlanDownTime2 = chTime(data['PDOrder'],'2OT','Plan',date)
+                UnplanDownTime2 = chTime(data['PDOrder'],'2OT','Unplan',date)
                 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 UPDATE = cnxn.cursor()
@@ -440,15 +441,15 @@ def API_RunTime_DownTime():
                 UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET PlanDownTime = ? ,UnplanDownTime = ? WHERE PDOrder = ? AND ShiftCode = '2OT'",(PlanDownTime2,UnplanDownTime2,data['PDOrder']))
                 cnxn.commit()
             elif l[1] == 'HOT': 
-                print('1B Plan', chTime(data['PDOrder'],'1B','Plan',data['DonwTime'][i]['PostDate']))
-                print('1B Unplan', chTime(data['PDOrder'],'1B','Unplan',data['DonwTime'][i]['PostDate']))
-                print('2A Plan', chTime(data['PDOrder'],'2A','Plan',data['DonwTime'][i]['PostDate']))
-                print('2A Unplan', chTime(data['PDOrder'],'2A','Unplan',data['DonwTime'][i]['PostDate']))
+                print('1B Plan', chTime(data['PDOrder'],'1B','Plan',date))
+                print('1B Unplan', chTime(data['PDOrder'],'1B','Unplan',date))
+                print('2A Plan', chTime(data['PDOrder'],'2A','Plan',date))
+                print('2A Unplan', chTime(data['PDOrder'],'2A','Unplan',date))
                 
-                PlanDownTime1 = chTime(data['PDOrder'],'1B','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime1 = chTime(data['PDOrder'],'1B','Unplan',data['DonwTime'][i]['PostDate'])
-                PlanDownTime2 = chTime(data['PDOrder'],'2A','Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime2 = chTime(data['PDOrder'],'2A','Unplan',data['DonwTime'][i]['PostDate'])
+                PlanDownTime1 = chTime(data['PDOrder'],'1B','Plan',date)
+                UnplanDownTime1 = chTime(data['PDOrder'],'1B','Unplan',date)
+                PlanDownTime2 = chTime(data['PDOrder'],'2A','Plan',date)
+                UnplanDownTime2 = chTime(data['PDOrder'],'2A','Unplan',date)
                 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 UPDATE = cnxn.cursor()
@@ -461,11 +462,11 @@ def API_RunTime_DownTime():
                 cnxn.commit()
                 
             else:
-                print(l[1] ,"Plan" , chTime(data['PDOrder'],l[1],'Plan',data['DonwTime'][i]['PostDate']))
-                print(l[1] ,"Unplan", chTime(data['PDOrder'],l[1],'Unplan',data['DonwTime'][i]['PostDate']))
+                print(l[1] ,"Plan" , chTime(data['PDOrder'],l[1],'Plan',date))
+                print(l[1] ,"Unplan", chTime(data['PDOrder'],l[1],'Unplan',date))
                 
-                PlanDownTime1 = chTime(data['PDOrder'],l[1],'Plan',data['DonwTime'][i]['PostDate'])
-                UnplanDownTime1 = chTime(data['PDOrder'],l[1],'Unplan',data['DonwTime'][i]['PostDate'])
+                PlanDownTime1 = chTime(data['PDOrder'],l[1],'Plan',date)
+                UnplanDownTime1 = chTime(data['PDOrder'],l[1],'Unplan',date)
                 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 UPDATE = cnxn.cursor()
