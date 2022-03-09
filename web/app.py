@@ -146,10 +146,10 @@ def chTime(pd,ShiftCode,mode,date):
     cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[PlannedProductionTime] WHERE DeleteFlag = 1 AND  MachineID = ? AND Date = ? ",(MachineID,str(date)))
     
     for i in cur:
-        StartTime = str(i[0])      
-        EndTime = str(i[1])     
+        StartTime =i[0]  
+        EndTime = i[1]    
+
     
-   
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()
