@@ -362,7 +362,7 @@ def API_RunTime_DownTime():
         print('DonwTime - Time --> ' ,data['DonwTime'][i]['Time'] )
                     
         print("------------------------------------")
-        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') <= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
+        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') >= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
             newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=1)                      
             
             print('row.Date',data['DonwTime'][i]['PostDate']) 
@@ -803,7 +803,7 @@ def uploadFile(Level,Fname_Lname):
             if datetime.strptime(str(row.StartTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') and datetime.strptime(str(row.EndTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') :
                 startDate = str(row.Date) + ' 00:00:00'
                 endDate = str(row.Date) + ' 00:00:00'
-            elif datetime.strptime(str(row.StartTime),'%H:%M:%S') <= datetime.strptime(str(row.EndTime),'%H:%M:%S'):
+            elif datetime.strptime(str(row.StartTime),'%H:%M:%S') >= datetime.strptime(str(row.EndTime),'%H:%M:%S'):
                 newdate = row.Date + timedelta(days=1)                      
                 print('row.Date',row.Date) 
                 print('newdate',newdate)    
