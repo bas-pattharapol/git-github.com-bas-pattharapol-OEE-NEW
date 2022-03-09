@@ -789,8 +789,8 @@ def uploadFile(Level,Fname_Lname):
               
             
             if datetime.strptime(str(row.StartTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') and datetime.strptime(str(row.EndTime),'%H:%M:%S') == datetime.strptime('00:00:00','%H:%M:%S') :
-                startDate = '00:00:00'
-                endDate = '00:00:00' 
+                startDate = str(row.Date) + ' 00:00:00'
+                endDate = str(row.Date) + ' 00:00:00'
             elif datetime.strptime(str(row.StartTime),'%H:%M:%S') <= datetime.strptime(str(row.EndTime),'%H:%M:%S'):
                 newdate = row.Date + timedelta(days=1)                      
                 print('row.Date',row.Date) 
