@@ -786,7 +786,7 @@ def uploadFile(Level,Fname_Lname):
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur = conn.cursor()
         for row in ok_data.itertuples():      
-            print(row.Date + row.StartTime)                                                                              
+            print(str(row.Date) +' ' + str(row.StartTime))                                                                              
             postgres_insert_query = ' INSERT INTO OEE_DB.dbo.PlannedProductionTime (PlantID,PlantName,MachineID,MachineName,LoadingDate,Date,PlannedCode,StartTime,EndTime,DeleteFlag) VALUES (?,?,?,?,?,?,?,?,?,?)'
             record_to_insert = (row.PlantID,row.PlantName, row.MachineID, row.Machine,row.Loading,row.Date,row.PlannedCode,row.StartTime,row.EndTime,'1')
             cur.execute(postgres_insert_query, record_to_insert)
