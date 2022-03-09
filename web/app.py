@@ -151,15 +151,15 @@ def chTime(pd,ShiftCode,mode,date):
         EndTime = str(i[1])   
           
         if datetime.strptime(StartTime,'%H:%M:%S') >= datetime.strptime(EndTime,'%H:%M:%S'):
-            newdate = datetime.strptime(date, '%d-%m-%Y').date() + timedelta(days=1)                      
+            newdate = date + timedelta(days=1)                      
             
             print('row.Date',date) 
             print('newdate',newdate)    
-            startDate =  str(datetime.strptime(date.date())) +' ' + StartTime
+            startDate =  str(date) +' ' + StartTime
             endDate =  str(newdate) +' ' + EndTime
         else:
-            startDate =  str(datetime.strptime(date , '%d-%m-%Y').date()) +' ' + StartTime
-            endDate =  str(datetime.strptime(date , '%d-%m-%Y').date()) +' ' + EndTime
+            startDate =  str(date) +' ' + StartTime
+            endDate =  str(date) +' ' + EndTime
         
     
     #print('StartTime' , StartTime)
