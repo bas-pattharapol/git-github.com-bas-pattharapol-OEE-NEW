@@ -185,10 +185,7 @@ def chTime(pd,ShiftCode,mode):
         for k in cur:
             if k[1] in codeUnplan:
                 count += int(k[0])//60
-    #cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    #update = cnxn.cursor()
-    #update.execute('DELETE FROM OEE_DB.dbo.INF_OEE2_V2_Cul')
-    #cnxn.commit()      
+       
     return count
             
 @login_manager.user_loader
@@ -407,9 +404,11 @@ def API_RunTime_DownTime():
             print(l[1] ,"Plan" , chTime(data['PDOrder'],l[1],'Plan'))
             print(l[1] ,"Unplan", chTime(data['PDOrder'],l[1],'Unplan'))
             
-            
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    DELETE = cnxn.cursor()
+    DELETE.execute('DELETE FROM OEE_DB.dbo.INF_OEE2_V2_Cul')
+    cnxn.commit()          
                
-        
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
