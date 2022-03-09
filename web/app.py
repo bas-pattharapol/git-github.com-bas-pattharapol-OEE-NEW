@@ -367,8 +367,9 @@ def API_RunTime_DownTime():
             conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             cur = conn.cursor()
             cur.execute("SELECT StartTime , EndTime FROM OEE_DB.dbo.[ShiftCode] WHERE DeleteFlag = 1 AND  ShiftCodeID = ? ",(o[0],))
-            
+            print('cur1')
             for m in cur:
+                print('cur2')
                 oldStartTime = m[0]
         
         if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') > datetime.strptime(str(oldStartTime),'%H:%M:%S') :
