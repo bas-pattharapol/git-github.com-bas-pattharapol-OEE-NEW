@@ -120,18 +120,20 @@ def chTime(pd,ShiftCode,mode,date):
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()
-    cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2_Cul] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
-    print("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2_Cul] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
+    cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
+    print("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
 
    
     if mode == 'Plan' :
         for k in cur:
             if k[1] in codePlan:
+                print('Plan int(k[0])//60' , int(k[0])//60)
                 count += int(k[0])//60
                 
     elif mode == 'Unplan':
         for k in cur:
             if k[1] in codeUnplan:
+                print('Unplan int(k[0])//60' , int(k[0])//60)
                 count += int(k[0])//60
        
     return count
@@ -151,7 +153,7 @@ def updateDownTime(pd):
     PlanDownTime2 = 0
     UnplanDownTime2 = 0
     
-  
+    
     for l in cur1 :
         print(l)
         
@@ -251,10 +253,7 @@ def updateDownTime(pd):
             
         
         
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        DELETE = cnxn.cursor()
-        DELETE.execute('DELETE FROM OEE_DB.dbo.INF_OEE2_V2_Cul')
-        cnxn.commit()          
+       
 
 def updateGoodCount(pd):
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -385,5 +384,5 @@ if __name__ == '__main__':
     pd = cnxn.cursor()
     pd.execute('select RecordID,PDOrder,PostingDate from OEEReport order by RecordID DESC')
     for i in pd:
-        updateGoodCount(i)
-        #updateDownTime(i)
+        #updateGoodCount(i)
+        updateDownTime(i)
