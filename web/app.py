@@ -259,7 +259,7 @@ def API_RunTime_DownTime():
         print("------------------------------------")
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['RunTime'][i]['Operation'],data['RunTime'][i]['Post_Date'],data['RunTime'][i]['Start_Runtime'],data['RunTime'][i]['End_Runtime'],data['RunTime'][i]['Total_Runtime']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['Operation'],data['RunTime'][i]['Post_Date'],data['RunTime'][i]['Start_Runtime'],data['RunTime'][i]['End_Runtime'],data['RunTime'][i]['Total_Runtime']))
         cnxn.commit()
        
         
@@ -318,7 +318,7 @@ def API_RunTime_DownTime():
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['DonwTime'][i]['Operation'],data['DonwTime'][i]['Post_Date'],startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['Operation'],data['DonwTime'][i]['Post_Date'],startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))
         cnxn.commit()
         
        
