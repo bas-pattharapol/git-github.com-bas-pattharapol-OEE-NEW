@@ -259,21 +259,19 @@ def API_RunTime_DownTime():
         print("------------------------------------")
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['RunTime'][i]['BatchNo'],data['RunTime'][i]['PostDate'],data['RunTime'][i]['Shift'],data['RunTime'][i]['StartTime'],data['RunTime'][i]['EndTime'],data['RunTime'][i]['Time']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['RunTime'][i]['Operation'],data['RunTime'][i]['Post_Date'],data['RunTime'][i]['Start_Runtime'],data['RunTime'][i]['End_Runtime'],data['RunTime'][i]['Total_Runtime']))
         cnxn.commit()
        
         
     for i in range(0,len(data['DonwTime'])):
         print("-->> DonwTime [",i,"]")
         print('PDOrder --> ' ,data['Order'] )
-        print('DonwTime - BatchNo --> ' ,data['DonwTime'][i]['BatchNo'] )
-        print('DonwTime - PostDate --> ' ,data['DonwTime'][i]['PostDate'] )
-        print('DonwTime - Shift --> ' ,data['DonwTime'][i]['Shift'] )
-        print('DonwTime - StartTime --> ' ,data['DonwTime'][i]['StartTime'] )
-        print('DonwTime - EndTime --> ' ,data['DonwTime'][i]['EndTime'] )
-        print('DonwTime - DownTimeCode --> ' ,data['DonwTime'][i]['DownTimeCode'] )
-        print('DonwTime - EndTime --> ' ,data['DonwTime'][i]['EndTime'] )
-        print('DonwTime - Time --> ' ,data['DonwTime'][i]['Time'] )
+        print('Operation --> ' ,data['Operation'])
+        print('DonwTime - Post_Date --> ' ,data['DonwTime'][i]['Post_Date'] )
+        print('DonwTime - Start_Downtime --> ' ,data['DonwTime'][i]['Start_Downtime'] )
+        print('DonwTime - End_Downtime --> ' ,data['DonwTime'][i]['End_Downtime'] )
+        print('DonwTime - Total_Downtime --> ' ,data['DonwTime'][i]['Total_Downtime'] )
+        print('DonwTime - Reason_Var --> ' ,data['DonwTime'][i]['Reason_Var'] )
                     
         print("------------------------------------")
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -282,7 +280,7 @@ def API_RunTime_DownTime():
                         INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt
                         ON iov.MachineID = ppt.MachineID AND iov.PDOrder = ? AND ppt.[Date] = ? 
                         order by ppt.[DateTime] DESC 
-                    """,(data['PDOrder'] ,str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date())))
+                    """,(data['Order'] ,str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date())))
         
         for o in cur1:
             print(o[1])
@@ -307,20 +305,20 @@ def API_RunTime_DownTime():
             """
         
         
-        if datetime.strptime(str(data['DonwTime'][i]['StartTime']),'%H:%M:%S') >= datetime.strptime(str(data['DonwTime'][i]['EndTime']),'%H:%M:%S'):
-            newdate = datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date() + timedelta(days=1)                      
+        if datetime.strptime(str(data['DonwTime'][i]['Start_Downtime']),'%H:%M:%S') >= datetime.strptime(str(data['DonwTime'][i]['End_Downtime']),'%H:%M:%S'):
+            newdate = datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date() + timedelta(days=1)                      
             
-            print('row.Date',data['DonwTime'][i]['PostDate']) 
+            print('row.Date',data['DonwTime'][i]['Post_Date']) 
             print('newdate',newdate)    
-            startDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['StartTime'])
-            endDate =  str(newdate) +' ' + str(data['DonwTime'][i]['EndTime'])
+            startDate =  str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['Start_Downtime'])
+            endDate =  str(newdate) +' ' + str(data['DonwTime'][i]['End_Downtime'])
         else:
-            startDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['StartTime'])
-            endDate =  str(datetime.strptime(data['DonwTime'][i]['PostDate'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['EndTime'])
+            startDate =  str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['Start_Downtime'])
+            endDate =  str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['End_Downtime'])
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['DonwTime'][i]['BatchNo'],data['DonwTime'][i]['PostDate'],data['DonwTime'][i]['Shift'],startDate,endDate,data['DonwTime'][i]['Time'],data['DonwTime'][i]['DownTimeCode']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['DonwTime'][i]['Operation'],data['DonwTime'][i]['Post_Date'],startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))
         cnxn.commit()
         
        
