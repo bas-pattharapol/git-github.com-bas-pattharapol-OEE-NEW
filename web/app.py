@@ -247,6 +247,10 @@ def API_INF_OEE05():
 def API_RunTime_DownTime():
     print(request.get_json())
     data = request.get_json()
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cur = conn.cursor()
+    cur.execute("DELETE from OEE_DB.dbo.INF_OEE2_V2  WHERE PDOrder = ? AND Operation = ?",(data['Order'],data['Operation']))
+    conn.commit()     
     
     for i in range(0,len(data['RunTime'])):
         print("-->> RunTime [",i,"]")
@@ -274,10 +278,6 @@ def API_RunTime_DownTime():
         print('DonwTime - Reason_Var --> ' ,data['DonwTime'][i]['Reason_Var'] )
                     
         print("------------------------------------")
-        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        cur = conn.cursor()
-        cur.execute("DELETE from OEE_DB.dbo.INF_OEE2_V2  WHERE PDOrder = ? AND Operation = ?",(data['Order'],data['Operation']))
-            
         
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur1 = conn.cursor() 
