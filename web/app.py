@@ -192,9 +192,12 @@ def API_INF_OEE03():
                 print('GR_QTY - ID --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'] )
                 print('GR_QTY - Date --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'] )
                 print('GR_QTY - Time --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['Time'] )
+                
+                DateTime =  str(datetime.strptime(data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'] , '%d-%m-%Y').date() +' ' + data['Result'][p]['Machine'][i]['GR_QTY'][j]['Time'])
+
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
-                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE3_V2 (PDOrder,MachineID, QTY, [Date], [Time]) VALUES(?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['Time']))
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE3_V2 (PDOrder,MachineID, QTY, [Date], [Time]) VALUES(?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'],DateTime))
                 cnxn.commit()
             print("------------------------------------")
         
@@ -214,9 +217,11 @@ def API_INF_OEE04():
                 print('GI - Dep --> ' ,data['Result'][p]['Machine'][i]['GI'][j]['Dep'] )
                 print('GI - Date --> ' ,data['Result'][p]['Machine'][i]['GI'][j]['Date'] )
                 print('GI - Time --> ' ,data['Result'][p]['Machine'][i]['GI'][j]['Time'] )
+                DateTime =  str(datetime.strptime(data['Result'][p]['Machine'][i]['GI'][j]['Date'] , '%d-%m-%Y').date() +' ' + data['Result'][p]['Machine'][i]['GI'][j]['Time'])
+
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
-                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE4_V2 (PDOrder,MachineID, QTY,Dep ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['QC'][j]['QTY'],data['Result'][p]['Machine'][i]['QC'][j]['Dep'],data['Result'][p]['Machine'][i]['QC'][j]['Date'],data['Result'][p]['Machine'][i]['QC'][j]['Time']))
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE4_V2 (PDOrder,MachineID, QTY,Dep ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['QC'][j]['QTY'],data['Result'][p]['Machine'][i]['QC'][j]['Dep'],data['Result'][p]['Machine'][i]['QC'][j]['Date'],DateTime))
                 cnxn.commit()
             print("------------------------------------")
         
