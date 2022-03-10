@@ -250,26 +250,22 @@ def API_RunTime_DownTime():
     
     for i in range(0,len(data['RunTime'])):
         print("-->> RunTime [",i,"]")
-        print('PDOrder --> ' ,data['PDOrder'] )
-        print('RunTime - BatchNo --> ' ,data['RunTime'][i]['BatchNo'] )
-        print('RunTime - PostDate --> ' ,data['RunTime'][i]['PostDate'] )
-        print('RunTime - Shift --> ' ,data['RunTime'][i]['Shift'] )
-        print('RunTime - StartTime --> ' ,data['RunTime'][i]['StartTime'] )
-        print('RunTime - EndTime --> ' ,data['RunTime'][i]['EndTime'] )
-        print('RunTime - Time --> ' ,data['RunTime'][i]['Time'] )
+        print('PDOrder --> ' ,data['Order'] )
+        print('Operation --> ' ,data['Operation'])
+        print('RunTime - Post_Date --> ' ,data['RunTime'][i]['Post_Date'] )
+        print('RunTime - Start_Runtime --> ' ,data['RunTime'][i]['Start_Runtime'] )
+        print('RunTime - End_Runtime --> ' ,data['RunTime'][i]['End_Runtime'] )
+        print('RunTime - Total_Runtime --> ' ,data['RunTime'][i]['Total_Runtime'] )
         print("------------------------------------")
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?,?)' ,(data['PDOrder'],"RunTime",data['RunTime'][i]['BatchNo'],data['RunTime'][i]['PostDate'],data['RunTime'][i]['Shift'],data['RunTime'][i]['StartTime'],data['RunTime'][i]['EndTime'],data['RunTime'][i]['Time']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['RunTime'][i]['BatchNo'],data['RunTime'][i]['PostDate'],data['RunTime'][i]['Shift'],data['RunTime'][i]['StartTime'],data['RunTime'][i]['EndTime'],data['RunTime'][i]['Time']))
         cnxn.commit()
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2_Cul (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?,?)' ,(data['PDOrder'],"RunTime",data['RunTime'][i]['BatchNo'],data['RunTime'][i]['PostDate'],data['RunTime'][i]['Shift'],data['RunTime'][i]['StartTime'],data['RunTime'][i]['EndTime'],data['RunTime'][i]['Time']))
-        cnxn.commit()
+       
         
     for i in range(0,len(data['DonwTime'])):
         print("-->> DonwTime [",i,"]")
-        print('PDOrder --> ' ,data['PDOrder'] )
+        print('PDOrder --> ' ,data['Order'] )
         print('DonwTime - BatchNo --> ' ,data['DonwTime'][i]['BatchNo'] )
         print('DonwTime - PostDate --> ' ,data['DonwTime'][i]['PostDate'] )
         print('DonwTime - Shift --> ' ,data['DonwTime'][i]['Shift'] )
@@ -324,7 +320,7 @@ def API_RunTime_DownTime():
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?,?)' ,(data['PDOrder'],"DonwTime",data['DonwTime'][i]['BatchNo'],data['DonwTime'][i]['PostDate'],data['DonwTime'][i]['Shift'],startDate,endDate,data['DonwTime'][i]['Time'],data['DonwTime'][i]['DownTimeCode']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, BatchNo, PostDate, Shift, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['DonwTime'][i]['BatchNo'],data['DonwTime'][i]['PostDate'],data['DonwTime'][i]['Shift'],startDate,endDate,data['DonwTime'][i]['Time'],data['DonwTime'][i]['DownTimeCode']))
         cnxn.commit()
         
        

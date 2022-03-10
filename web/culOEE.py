@@ -3,7 +3,7 @@ import json
 from datetime import datetime, timedelta
 
 server = "172.30.1.2"
-port = 5432
+#port = 5432
 database = "OEE_DB"
 username = "sa"
 password = "p@ssw0rd"
@@ -20,7 +20,7 @@ PostReturn = 0
 if __name__ == '__main__':
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     pd = cnxn.cursor()
-    pd.execute('select RecordID,PDOrder,PostingDate from OEEReport where OEE1FinalCalculation IS NULL  order by RecordID DESC')
+    pd.execute('select RecordID,PDOrder,PostingDate from OEEReport  order by RecordID DESC')
     for i in pd:
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         RecordID = cnxn.cursor()
