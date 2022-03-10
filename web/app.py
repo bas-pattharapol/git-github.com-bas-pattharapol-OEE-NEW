@@ -275,6 +275,11 @@ def API_RunTime_DownTime():
                     
         print("------------------------------------")
         conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("DELETE from OEE_DB.dbo.INF_OEE2_V2  WHERE PDOrder = ? AND Operation = ?",(data['Order'],data['Operation']))
+            
+        
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         cur1 = conn.cursor() 
         cur1.execute("""SELECT TOP(1) iov.MachineID , ppt.PlannedCode from OEE_DB.dbo.INF_OEE1_V2 iov 
                         INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt

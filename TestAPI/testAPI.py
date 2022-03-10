@@ -10,7 +10,7 @@ headers["Content-Type"] = "application/json"
 data = """
 {
     "Order": "90060694",
-    "Operation": "0010",
+    "Operation": "0011",
     "RunTime": [{
         "Post_Date": "06-10-2021",
         "Start_Runtime": "14:12:01",
@@ -27,42 +27,42 @@ data = """
             "Start_Downtime": "4:00:00",
             "End_Downtime": "4:18:00",
             "Reason_Var": "5",
-            "Total_Runtime": "1080"
+            "Total_Downtime": "1080"
         },
         {
             "Post_Date": "06-10-2021",
             "Start_Downtime": "5:00:00",
             "End_Downtime": "5:18:00",
             "Reason_Var": "5",
-            "Total_Runtime": "1080"
+            "Total_Downtime": "1080"
         },
         {
             "Post_Date": "06-10-2021",
             "Start_Downtime": "7:00:00",
             "End_Downtime": "7:15:00",
             "Reason_Var": "200",
-            "Total_Runtime": "900"
+            "Total_Downtime": "900"
         }, 
         {
             "Post_Date": "06-10-2021",
             "Start_Downtime": "7:30:00",
             "End_Downtime": "7:40:00",
             "Reason_Var": "200",
-            "Total_Runtime": "600"
+            "Total_Downtime": "600"
         }, 
         {
             "Post_Date": "06-10-2021",
             "Start_Downtime": "21:00:00",
             "End_Downtime": "21:12:00",
             "Reason_Var": "222",
-            "Total_Runtime": "900"
+            "Total_Downtime": "900"
         },
         {
             "Post_Date": "06-10-2021",
             "Start_Downtime": "21:30:00",
-            "End_Downtime": "21:40:00",
+            "End_Downtime": "21:51:00",
             "Reason_Var": "222",
-            "Total_Runtime": "600"
+            "Total_Downtime": "600"
         }
     ]
 }
