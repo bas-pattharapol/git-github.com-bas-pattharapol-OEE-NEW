@@ -193,7 +193,7 @@ def API_INF_OEE03():
                 print('GR_QTY - Date --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'] )
                 print('GR_QTY - Time --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['Time'] )
                 
-                DateTime =  str(datetime.strptime(data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'] , '%d-%m-%Y').date() +' ' + data['Result'][p]['Machine'][i]['GR_QTY'][j]['Time'])
+                DateTime =  str(datetime.strptime(data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'] , '%Y-%m-%d').date() +' ' + data['Result'][p]['Machine'][i]['GR_QTY'][j]['Time'])
 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
