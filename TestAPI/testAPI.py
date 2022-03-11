@@ -1,7 +1,7 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://172.30.1.2:5001/API_INF_OEE03"
+url = "http://172.30.1.2:5001/API_RunTime_DownTime"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
@@ -9,7 +9,7 @@ headers["Content-Type"] = "application/json"
 
 data2 = """
 {
-    "Order": "90060694",
+    "Order": "90065292",
     "Operation": "0012",
     "RunTime": [{
         "Post_Date": "06-10-2021",
@@ -23,46 +23,18 @@ data2 = """
         "Total_Runtime": "60"
     }],
     "DonwTime": [{
-            "Post_Date": "06-10-2021",
-            "Start_Downtime": "4:00:00",
-            "End_Downtime": "4:18:00",
-            "Reason_Var": "5",
-            "Total_Downtime": "1080"
+            "Post_Date": "27-10-2021",
+            "Start_Downtime": "17:00:00",
+            "End_Downtime": "17:30:00",
+            "Reason_Var": "221",
+            "Total_Downtime": "1800"
         },
         {
-            "Post_Date": "06-10-2021",
-            "Start_Downtime": "5:00:00",
-            "End_Downtime": "5:18:00",
-            "Reason_Var": "5",
-            "Total_Downtime": "1080"
-        },
-        {
-            "Post_Date": "06-10-2021",
-            "Start_Downtime": "7:00:00",
-            "End_Downtime": "7:15:00",
-            "Reason_Var": "200",
-            "Total_Downtime": "900"
-        }, 
-        {
-            "Post_Date": "06-10-2021",
-            "Start_Downtime": "7:30:00",
-            "End_Downtime": "7:40:00",
-            "Reason_Var": "200",
-            "Total_Downtime": "600"
-        }, 
-        {
-            "Post_Date": "06-10-2021",
-            "Start_Downtime": "21:00:00",
-            "End_Downtime": "21:12:00",
+            "Post_Date": "27-10-2021",
+            "Start_Downtime": "19:00:00",
+            "End_Downtime": "19:30:00",
             "Reason_Var": "222",
-            "Total_Downtime": "900"
-        },
-        {
-            "Post_Date": "06-10-2021",
-            "Start_Downtime": "21:30:00",
-            "End_Downtime": "21:40:00",
-            "Reason_Var": "222",
-            "Total_Downtime": "600"
+            "Total_Downtime": "1800"
         }
     ]
 }
@@ -563,6 +535,6 @@ data3 = """
 """
 
 
-resp = requests.post(url, headers=headers, data=data3)
+resp = requests.post(url, headers=headers, data=data2)
 
 print(resp.status_code)

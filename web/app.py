@@ -325,7 +325,8 @@ def API_RunTime_DownTime():
         else:
             startDate =  str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['Start_Downtime'])
             endDate =  str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['End_Downtime'])
-        
+        print(startDate)
+        print(endDate)
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
         update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['Operation'],data['DonwTime'][i]['Post_Date'],startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))

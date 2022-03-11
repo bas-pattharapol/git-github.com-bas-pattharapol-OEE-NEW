@@ -27,6 +27,19 @@ if __name__ == '__main__':
         RecordID.execute('select * from OEEReport where RecordID = ? ',(i[0],))
         
         for j in RecordID:
+            pdorder = j[4]
+            total_TotalCount = 0
+            total_GoodCount = 0
+            total_FinalGoodCount = 0
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            total = cnxn.cursor()
+            total.execute('select TotalCount , GoodCount , FinalGoodCount from OEEReport where PDOrder = ? ',(pdorder,))
+            
+            for t in total :
+                total_TotalCount += int(t[0])
+                total_GoodCount += int(t[1])
+                total_FinalGoodCount += int(t[2])
+            
             ValidateSpeed = j[9]
             PlanDownTime =  j[10]
             UnplanDownTime =  j[11]
@@ -45,8 +58,8 @@ if __name__ == '__main__':
             OEE_A2 = (RunTime2 - UnplanDownTime)/RunTime2
             OEE_P1 = TotalCount / IdealCount1
             OEE_P2 = TotalCount / IdealCount2
-            OEE_Q1 = GoodCount / TotalCount
-            OEE_Q1_Final = FinalGoodCount / TotalCount
+            OEE_Q1 = total_GoodCount / total_TotalCount
+            OEE_Q1_Final = total_FinalGoodCount / total_TotalCount
             OEE_Q2 = GoodCount / TotalCount
             OEE_Q2_Final = FinalGoodCount / TotalCount
             OEE1Calculation = OEE_A1 * OEE_P1 * OEE_Q1 
