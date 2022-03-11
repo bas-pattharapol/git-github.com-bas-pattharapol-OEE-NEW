@@ -31,14 +31,6 @@ if __name__ == '__main__':
             total_TotalCount = 0
             total_GoodCount = 0
             total_FinalGoodCount = 0
-            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-            total = cnxn.cursor()
-            total.execute('select TotalCount , GoodCount , FinalGoodCount from OEEReport where PDOrder = ? ',(pdorder,))
-            
-            for t in total :
-                total_TotalCount += int(t[0])
-                total_GoodCount += int(t[1])
-                total_FinalGoodCount += int(t[2])
             
             ValidateSpeed = j[9]
             PlanDownTime =  j[10]
@@ -53,6 +45,21 @@ if __name__ == '__main__':
             IdealCount1 = RunTime1 * ValidateSpeed
             IdealCount2 = RunTime2 * ValidateSpeed
             FinalGoodCount = GoodCount - PostReturn
+            
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            UPDATE = cnxn.cursor()
+            UPDATE.execute('UPDATE OEE_DB.dbo.[OEEReport] SET FinalGoodCount = ?',(FinalGoodCount,))
+            cnxn.commit()
+            
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            total = cnxn.cursor()
+            total.execute('select TotalCount , GoodCount , FinalGoodCount from OEEReport where PDOrder = ? ',(pdorder,))
+            
+            for t in total :
+                total_TotalCount += int(t[0])
+                total_GoodCount += int(t[1])
+                total_FinalGoodCount += int(t[2])
+            
             
             OEE_A1 = (RunTime1 - UnplanDownTime)/RunTime1
             OEE_A2 = (RunTime2 - UnplanDownTime)/RunTime2
