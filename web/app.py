@@ -266,9 +266,10 @@ def API_RunTime_DownTime():
         print('RunTime - End_Runtime --> ' ,data['RunTime'][i]['End_Runtime'] )
         print('RunTime - Total_Runtime --> ' ,data['RunTime'][i]['Total_Runtime'] )
         print("------------------------------------")
+        DateDate  = str(datetime.strptime(data['RunTime'][i]['Post_Date'] , '%d-%m-%Y').date())
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['Operation'],data['RunTime'][i]['Post_Date'],data['RunTime'][i]['Start_Runtime'],data['RunTime'][i]['End_Runtime'],data['RunTime'][i]['Total_Runtime']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['Operation'],DateDate,data['RunTime'][i]['Start_Runtime'],data['RunTime'][i]['End_Runtime'],data['RunTime'][i]['Total_Runtime']))
         cnxn.commit()
        
         
@@ -327,13 +328,13 @@ def API_RunTime_DownTime():
             endDate =  str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date()) +' ' + str(data['DonwTime'][i]['End_Downtime'])
         print(startDate)
         print(endDate)
-        print(data['DonwTime'][i]['Post_Date'])
+        DateDate  = str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date())
         
         startDate = '2021-11-1 06:00:00'
         endDate = '2021-11-1 06:00:00'
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['Operation'],'2021-10-1',startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['Operation'],DateDate,startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))
         cnxn.commit()
        
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
