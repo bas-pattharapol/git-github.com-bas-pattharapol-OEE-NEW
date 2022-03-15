@@ -1,7 +1,7 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://172.30.2.2:5001/API_RunTime_DownTime"
+url = "http://172.30.2.2:5001/API_INF_OEE04"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
@@ -527,7 +527,212 @@ data3 = """
 }
 """
 
-
-resp = requests.post(url, headers=headers, data=data2)
+data4 = """
+{
+    "Result":
+    [
+        {
+            "PDOrder": "90060694",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "1",
+                            "Dep": "Other GI",
+                            "Date": "2021-10-06",
+                            "Time": "19:34:24"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90065292",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "2",
+                            "Dep": "Other GI",
+                            "Date": "2021-10-27",
+                            "Time": "11:58:02"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90065293",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "3",
+                            "Dep": "Other GI",
+                            "Date": "2021-10-28",
+                            "Time": "9:49:11"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90065227",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "4",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-15",
+                            "Time": "3:04:27"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90065217",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "10",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-14",
+                            "Time": "19:57:58"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90066867",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "5",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-9",
+                            "Time": "0:46:29"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90066817",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "6",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-4",
+                            "Time": "8:58:38"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90068859",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "7",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-18",
+                            "Time": "23:38:18"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90068871",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "8",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-20",
+                            "Time": "9:11:52"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90068882",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "9",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-30",
+                            "Time": "11:42:45"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "PDOrder": "90068895",
+            "Machine":
+            [
+                {
+                    "ID": "10001662",
+                    "GI":
+                    [
+                        {
+                            "QTY": "10",
+                            "Dep": "Other GI",
+                            "Date": "2021-11-18",
+                            "Time": "4:51:47"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+                
+"""
+resp = requests.post(url, headers=headers, data=data4)
 
 print(resp.status_code)

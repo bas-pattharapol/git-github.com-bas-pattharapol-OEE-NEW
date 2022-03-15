@@ -116,23 +116,35 @@ def chTime(pd,ShiftCode,mode,date):
             endDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + EndTime
         
     
-    #print('StartTime' , StartTime)
-    #print('EndTime' , EndTime)
-    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    cc1 = conn.cursor()
-    cc1.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' ",(pd,))
-    
-    for i in cc1:
-        if i[6] > startDate and i[6] > endDate :
-            print("day to newday order ", i[1])
+    print('startDate' , startDate)
+    print('endDate' , endDate)
+
+    print("----------------- ",pd,ShiftCode,mode,date,"-----------------------")
+   
+    try:
         
-        if i[6] < startDate and i[6] < endDate :
-            print("day to oldday order ", i[1])
-    
-    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    cur = conn.cursor()
-    cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
-    print("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("""IF ((SELECT StartTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') >= ? ) AND ((SELECT EndTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') <= ? )
+                            SELECT  Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? 
+                        ELSE 
+                            IF ((SELECT StartTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') >= ?) AND  ((SELECT EndTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') >= ?) 
+                                SELECT DATEDIFF(second,StartTime,?) , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' 
+                            ELSE 
+                                SELECT DATEDIFF(second,?,EndTime) , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' 
+                        """
+                ,(pd,startDate,pd,endDate,pd,startDate,endDate,
+                pd,startDate,pd,endDate,
+                endDate,pd,
+                startDate,pd))
+    except:
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cur = conn.cursor()
+        cur.execute("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
+
+
+    # 
+    # print("SELECT Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? ",(pd,startDate,endDate))
 
    
     if mode == 'Plan' :

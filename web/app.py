@@ -217,7 +217,7 @@ def API_INF_OEE04():
                 print('GI - Dep --> ' ,data['Result'][p]['Machine'][i]['GI'][j]['Dep'] )
                 print('GI - Date --> ' ,data['Result'][p]['Machine'][i]['GI'][j]['Date'] )
                 print('GI - Time --> ' ,data['Result'][p]['Machine'][i]['GI'][j]['Time'] )
-                DateTime =  str(datetime.strptime(data['Result'][p]['Machine'][i]['GI'][j]['Date'] , '%d-%m-%Y').date()) +' ' + data['Result'][p]['Machine'][i]['GI'][j]['Time']
+                DateTime =  str(datetime.strptime(data['Result'][p]['Machine'][i]['GI'][j]['Date'] ,'%Y-%m-%d').date()) +' ' + data['Result'][p]['Machine'][i]['GI'][j]['Time']
 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
