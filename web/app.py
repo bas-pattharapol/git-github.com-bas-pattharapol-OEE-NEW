@@ -221,7 +221,7 @@ def API_INF_OEE04():
 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
-                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE4_V2 (PDOrder,MachineID, QTY,Dep ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['QC'][j]['QTY'],data['Result'][p]['Machine'][i]['QC'][j]['Dep'],data['Result'][p]['Machine'][i]['QC'][j]['Date'],DateTime))
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE4_V2 (PDOrder,MachineID, QTY,Dep ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['GI'][j]['QTY'],data['Result'][p]['Machine'][i]['GI'][j]['Dep'],data['Result'][p]['Machine'][i]['GI'][j]['Date'],DateTime))
                 cnxn.commit()
             print("------------------------------------")
         
