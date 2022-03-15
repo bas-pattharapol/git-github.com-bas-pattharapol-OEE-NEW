@@ -337,32 +337,7 @@
                                                     </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label> By Shifts</label>
-                                                        <select class="form-control select2" style="width: 100%;" name="Shifts">
-                                                      <option selected="selected">ALL</option>
-                                                      {%for i in Shifts%}
-                                                      <option value="{{i[1]}}">{{i[0]}} / {{i[1]}}</option>
-                                                      {%endfor%}
-                                                      
-                                                    </select>
-                                                    </div>
 
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label> By UserGroup</label>
-                                                        <select class="form-control select2" style="width: 100%;" name="UserGroup">
-                                                      <option selected="selected">ALL</option>
-                                                      {%for i in UserGroup%}
-                                                      <option value="{{i[1]}}">{{i[0]}}</option>
-                                                      {%endfor%}
-                                                      
-                                                    </select>
-                                                    </div>
-
-                                                </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label>Start Date</label>
@@ -378,19 +353,21 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-md-2">
                                             <br>
                                             <div class="btn-group " style="float: right;">
-                                                <button type="submit" class="btn btn-success">Submit</button>
-                                                <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                                                  <span class="caret"></span>
-                                                  <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="/Report_Yield_Excel">Excel</a></li>
-                                                    <li><a href="#">PDF</a></li>
+                                                <button type="submit" class="btn btn-success">Submit</button> &nbsp;&nbsp;&nbsp;
 
-                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <br>
+                                            <div class="btn-group " style="float: right;">
+
+
+                                                <a class="btn btn-success" href="/Report_Yield_Excel">Excel</a></li>
+
                                             </div>
                                         </div>
 

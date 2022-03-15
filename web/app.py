@@ -1590,10 +1590,10 @@ def ReportYield(Level,Fname_Lname):
     if request.method == 'POST':
         ansYield_Plant = request.form['Plant']
         ansYield_Machines = request.form['Machines']
-        ansYield_Shifts = request.form['Shifts']
+        ansYield_Shifts = 'ALL'
         ansYield_StartDate = request.form['StartDate']
         ansYield_StopDate = request.form['StopDate']
-        ansYield_UserGroup = request.form['UserGroup']
+        ansYield_UserGroup = 'ALL'
         print("---------------")
         print(ansYield_Plant)
         print(ansYield_Machines)
@@ -1817,9 +1817,9 @@ def ReportYieldMontly(Level,Fname_Lname):
     if request.method == 'POST':
         ansYield_Plant_M = request.form['Plant']
         ansYield_Machines_M = request.form['Machines']
-        ansYield_Shifts_M = request.form['Shifts']
+        ansYield_Shifts_M = 'ALL'
         ansYield_Month_M = request.form['Month12']
-        ansYield_UserGroup_M = request.form['UserGroup']
+        ansYield_UserGroup_M = 'ALL'
         ansYield_Month_M_Report = ansYield_Month_M
         ansYield_Month_M = ansYield_Month_M.replace("-", "")
      
@@ -2159,17 +2159,16 @@ def Report_Yield_Excel():
     washi['A4'].fill = PatternFill(patternType='solid',fgColor='154360')
 
     
-    washi['E3'] = 'Start Date'
-    washi['E3'].font = Font(color='FFFFFF',
+    washi['D3'] = 'Start Date'
+    washi['D3'].font = Font(color='FFFFFF',
                        size=12,bold=True)
-    washi['E3'].fill = PatternFill(patternType='solid',fgColor='154360')
+    washi['D3'].fill = PatternFill(patternType='solid',fgColor='154360')
     
-    washi['E4'] = 'Stop Date'
-    washi['E4'].font = Font(color='FFFFFF',
+    washi['D4'] = 'Stop Date'
+    washi['D4'].font = Font(color='FFFFFF',
                        size=12,bold=True)
-    washi['E4'].fill = PatternFill(patternType='solid',fgColor='154360')
+    washi['D4'].fill = PatternFill(patternType='solid',fgColor='154360')
     
-
     
     washi['B3'] = str(excelYield_Plant)
     washi['B3'].font = Font(color='000000',
@@ -2181,32 +2180,23 @@ def Report_Yield_Excel():
                        size=12,bold=True)
     washi['B4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
     
-    washi['D3'] = str(excelYield_Shifts)
-    washi['D3'].font = Font(color='000000',
-                       size=12,bold=True)
-    washi['D3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
     
-    washi['D4'] = str(excelYield_UserGroup)
-    washi['D4'].font = Font(color='000000',
+    washi['E3'] = str(excelYield_StartDate)
+    washi['E3'].font = Font(color='000000',
                        size=12,bold=True)
-    washi['D4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    washi['E3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
     
-    washi['F3'] = str(excelYield_StartDate)
-    washi['F3'].font = Font(color='000000',
+    washi['E4'] = str(excelYield_StopDate)
+    washi['E4'].font = Font(color='000000',
                        size=12,bold=True)
-    washi['F3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
-    
-    washi['F4'] = str(excelYield_StopDate)
-    washi['F4'].font = Font(color='000000',
-                       size=12,bold=True)
-    washi['F4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    washi['E4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
     
     washi.column_dimensions['A'].width = 16
     washi.column_dimensions['B'].width = 25
     washi.column_dimensions['C'].width = 20
     washi.column_dimensions['D'].width = 20
-    washi.column_dimensions['E'].width = 20
-    washi.column_dimensions['F'].width = 25
+    washi.column_dimensions['E'].width = 25
+
     wabu.save('Yield_Report1.xlsx')
     
     return send_file('..\Yield_Report1.xlsx') 
