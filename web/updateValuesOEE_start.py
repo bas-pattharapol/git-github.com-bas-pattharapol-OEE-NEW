@@ -128,7 +128,7 @@ def chTime(pd,ShiftCode,mode,date):
         cur.execute("""IF ((SELECT StartTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') >= ? ) AND ((SELECT EndTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') <= ? )
                             SELECT  Min , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' AND StartTime >= ? AND EndTime <= ? 
                         ELSE 
-                            IF ((SELECT StartTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') >= ?) AND  ((SELECT EndTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') >= ?) 
+                            IF ((SELECT StartTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') >= ?) AND  ((SELECT EndTime FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime') > ?) 
                                 SELECT DATEDIFF(second,StartTime,?) , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' 
                             ELSE 
                                 SELECT DATEDIFF(second,?,EndTime) , DownTimeCode FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' 
@@ -158,7 +158,8 @@ def chTime(pd,ShiftCode,mode,date):
             if k[1] in codeUnplan:
                 print('Unplan int(k[0])//60' , int(k[0])//60)
                 count += int(k[0])//60
-       
+    if count < 0 :
+        count = 0
     return count
 
 def updateDownTime(pd):
@@ -401,12 +402,42 @@ def updateRunTime1(sum,pd,ShiftCode,date):
         UPDATE.execute("UPDATE OEE_DB.dbo.[OEEReport] SET RunTime1 = ? WHERE PDOrder = ? AND ShiftCode = ? AND DateTime = ? ",(runtime1,pd,ShiftCode,date))
         cnxn.commit()
         
-
+def updateYield(i):
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    GoodCount = cnxn.cursor()
+    GoodCount.execute("""SELECT sum(o.GoodCount) 
+                        FROM  OEE_DB.dbo.OEEReport o 
+                        INNER JOIN OEE_DB.dbo.YieldReport y
+                        ON o.PDOrder = y.PDOrder AND y.PDOrder = ? AND o.PDOrder = ? """,
+                        (i[1],i[1]))
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    ReturnQty = cnxn.cursor()
+    ReturnQty.execute('select PDOrder,QTY from OEE_DB.dbo.[INF_OEE5_V2] WHERE PDOrder = ? ',(i[1],))
+    
+    for p in ReturnQty:
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        UPDATE = cnxn.cursor()
+        UPDATE.execute("UPDATE OEE_DB.dbo.[YieldReport] SET ReturnQty = ? WHERE PDOrder = ?  ",(p[1],i[1]))
+        cnxn.commit()
+    
+    for p in GoodCount:
+        
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        UPDATE = cnxn.cursor()
+        UPDATE.execute("UPDATE OEE_DB.dbo.[YieldReport] SET OutputQty = ? WHERE PDOrder = ?  ",(p[0],i[1]))
+        cnxn.commit()
         
 if __name__ == '__main__':
+    #cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    #pd = cnxn.cursor()
+    #pd.execute('select RecordID,PDOrder,DateTime from OEEReport order by RecordID DESC')
+    #for i in pd:
+    #    updateGoodCount(i)
+    #    updateDownTime(i)
+        
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     pd = cnxn.cursor()
-    pd.execute('select RecordID,PDOrder,DateTime from OEEReport order by RecordID DESC')
+    pd.execute('select RecordID,PDOrder from OEE_DB.dbo.[YieldReport]  order by RecordID DESC')
     for i in pd:
-        updateGoodCount(i)
-        updateDownTime(i)
+        updateYield(i)

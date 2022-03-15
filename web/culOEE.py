@@ -2,7 +2,7 @@ import pyodbc
 import json
 from datetime import datetime, timedelta
 
-server = "172.30.1.2"
+server = "172.30.2.2"
 #port = 5432
 database = "OEE_DB"
 username = "sa"
@@ -17,7 +17,7 @@ TotalCount = 0
 GoodCount = 0
 PostReturn = 0
 
-if __name__ == '__main__':
+def startOEE():
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     pd = cnxn.cursor()
     pd.execute('select RecordID,PDOrder,PostingDate from OEEReport  order by RecordID DESC')
@@ -27,6 +27,7 @@ if __name__ == '__main__':
         RecordID.execute('select * from OEEReport where RecordID = ? ',(i[0],))
         
         for j in RecordID:
+            print('i[0]' , i[0])
             pdorder = j[4]
             total_TotalCount = 0
             total_GoodCount = 0
@@ -48,7 +49,7 @@ if __name__ == '__main__':
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             UPDATE = cnxn.cursor()
-            UPDATE.execute('UPDATE OEE_DB.dbo.[OEEReport] SET FinalGoodCount = ?',(FinalGoodCount,))
+            UPDATE.execute('UPDATE OEE_DB.dbo.[OEEReport] SET FinalGoodCount = ?  WHERE  RecordID = ?  ',(FinalGoodCount,i[0]))
             cnxn.commit()
             
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -60,19 +61,32 @@ if __name__ == '__main__':
                 total_GoodCount += int(t[1])
                 total_FinalGoodCount += int(t[2])
             
-            
-            OEE_A1 = (RunTime1 - UnplanDownTime)/RunTime1
-            OEE_A2 = (RunTime2 - UnplanDownTime)/RunTime2
-            OEE_P1 = TotalCount / IdealCount1
-            OEE_P2 = TotalCount / IdealCount2
-            OEE_Q1 = total_GoodCount / total_TotalCount
-            OEE_Q1_Final = total_FinalGoodCount / total_TotalCount
-            OEE_Q2 = GoodCount / TotalCount
-            OEE_Q2_Final = FinalGoodCount / TotalCount
-            OEE1Calculation = OEE_A1 * OEE_P1 * OEE_Q1 
-            OEE2Calculation = OEE_A2 * OEE_P2 * OEE_Q2 
-            OEE1FinalCalculation = OEE_A1 * OEE_P1 * OEE_Q1_Final 
-            OEE2FinalCalculation = OEE_A2 * OEE_P2 * OEE_Q2_Final 
+            try:
+                OEE_A1 = (RunTime1 - UnplanDownTime)/RunTime1
+                OEE_A2 = (RunTime2 - UnplanDownTime)/RunTime2
+                OEE_P1 = TotalCount / IdealCount1
+                OEE_P2 = TotalCount / IdealCount2
+                OEE_Q1 = total_GoodCount / total_TotalCount
+                OEE_Q1_Final = total_FinalGoodCount / total_TotalCount
+                OEE_Q2 = GoodCount / TotalCount
+                OEE_Q2_Final = FinalGoodCount / TotalCount
+                OEE1Calculation = OEE_A1 * OEE_P1 * OEE_Q1 
+                OEE2Calculation = OEE_A2 * OEE_P2 * OEE_Q2 
+                OEE1FinalCalculation = OEE_A1 * OEE_P1 * OEE_Q1_Final 
+                OEE2FinalCalculation = OEE_A2 * OEE_P2 * OEE_Q2_Final 
+            except:
+                OEE_A1 = (RunTime1 - UnplanDownTime)/RunTime1
+                OEE_A2 = (RunTime2 - UnplanDownTime)/RunTime2
+                OEE_P1 = 0
+                OEE_P2 = 0
+                OEE_Q1 = total_GoodCount / total_TotalCount
+                OEE_Q1_Final = total_FinalGoodCount / total_TotalCount
+                OEE_Q2 = 0
+                OEE_Q2_Final = 0
+                OEE1Calculation = OEE_A1 * OEE_P1 * OEE_Q1 
+                OEE2Calculation = OEE_A2 * OEE_P2 * OEE_Q2 
+                OEE1FinalCalculation = OEE_A1 * OEE_P1 * OEE_Q1_Final 
+                OEE2FinalCalculation = OEE_A2 * OEE_P2 * OEE_Q2_Final 
 
         
             print('RunTime2' , RunTime2)
@@ -133,4 +147,32 @@ if __name__ == '__main__':
                                 i[0]))
             cnxn.commit()
 
+def startYield():
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    pd = cnxn.cursor()
+    pd.execute('select PDOrder from OEE_DB.dbo.[YieldReport] ')
+    
+    for i in pd:
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        data = cnxn.cursor()
+        data.execute('select * from OEE_DB.dbo.[YieldReport] WHERE PDOrder = ? ',(i[0]))
+        
+        for j in data:
+            InputQty = j[13]
+            OutputQty = j[14]
+            ReturnQty = j[15]
+            
+            Yield = (OutputQty / InputQty) *100
+            FinalYield =( (OutputQty - ReturnQty) / InputQty) *100
+            print('Yield' , Yield)
+            print('FinalYield' , FinalYield)
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            UPDATE = cnxn.cursor()
+            UPDATE.execute("UPDATE OEE_DB.dbo.[YieldReport] SET Yield = ? , FinalYield = ? WHERE PDOrder = ?  ",(Yield,FinalYield,i[0]))
+            cnxn.commit()
+
+if __name__ == '__main__':
+    #startOEE()
+    #startOEE()
+    startYield()
             
