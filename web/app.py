@@ -2133,10 +2133,10 @@ def Report_Yield_Excel():
         excelYield_StartDate = 'ALL'
   
     df = pd.read_json('http://172.30.2.2:5001//Report_Yield_API_EXCEL')
-    df.to_excel('Yield_Report.xlsx',index=False)
+    df.to_excel('Yield_Report1.xlsx',index=False)
     
     time.sleep(1)
-    wabu = openpyxl.load_workbook('Yield_Report.xlsx')
+    wabu = openpyxl.load_workbook('Yield_Report1.xlsx')
     washi = wabu.active
     washi.insert_rows(1,5)
     washi['A1'] = 'Report Yield'
@@ -2207,9 +2207,9 @@ def Report_Yield_Excel():
     washi.column_dimensions['D'].width = 20
     washi.column_dimensions['E'].width = 20
     washi.column_dimensions['F'].width = 25
-    wabu.save('Yield_Report.xlsx')
+    wabu.save('Yield_Report1.xlsx')
     
-    return send_file('Yield_Report.xlsx') 
+    return send_file('..\Yield_Report1.xlsx') 
 
 @app.route('/Report_M_OEE_API' ,methods=["GET", "POST"])
 
