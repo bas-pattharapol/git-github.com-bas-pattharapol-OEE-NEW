@@ -35,7 +35,7 @@ class create_dict(dict):
     def add(self, key, value): 
         self[key] = value
 
-server = "172.30.1.2"
+server = "172.30.2.2"
 port = 5432
 database = "OEE_DB"
 username = "sa"
