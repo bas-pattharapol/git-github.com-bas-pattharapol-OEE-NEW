@@ -2108,7 +2108,7 @@ def Report_Yield_API_EXCEL():
     payload = []
     content = {}
     for result in ReportYield:
-        content = {'Plant': result[3], 'Posting_Date': str(result[4]),'PD_order': result[5],'Material_number': result[6],'Material_Description': result[7],'MachineName': result[9],'MachineID': result[8],'QA_Status': result[10],'Input_Qty':  result[13],'Output_Qty': result[14],'Return_Qty': result[15],'Shifts': result[11] + '/' + result[12],'Yield': float("{:.2f}".format(result[17])),'Final_Yield': float("{:.2f}".format(result[18]))}
+        content = {'Plant': result[3], 'Posting_Date': str(result[4]),'PD_order': result[5],'Material_number': result[6],'Material_Description': result[7],'MachineName': result[9],'MachineID': result[8],'QA_Status': result[10],'Input_Qty':  result[13],'Output_Qty': result[14],'Return_Qty': result[15],'Yield': float("{:.2f}".format(result[17])),'Final_Yield': float("{:.2f}".format(result[18]))}
         payload.append(content)
         content = {}
     print(payload)
@@ -2157,16 +2157,7 @@ def Report_Yield_Excel():
     washi['A4'].font = Font(color='FFFFFF',
                         size=12,bold=True)
     washi['A4'].fill = PatternFill(patternType='solid',fgColor='154360')
-    
-    washi['C3'] = 'By Shifts'
-    washi['C3'].font = Font(color='FFFFFF',
-                        size=12,bold=True)
-    washi['C3'].fill = PatternFill(patternType='solid',fgColor='154360')
-    
-    washi['C4'] = 'By UserGroup'
-    washi['C4'].font = Font(color='FFFFFF',
-                        size=12,bold=True)
-    washi['C4'].fill = PatternFill(patternType='solid',fgColor='154360')
+
     
     washi['E3'] = 'Start Date'
     washi['E3'].font = Font(color='FFFFFF',
@@ -2178,10 +2169,7 @@ def Report_Yield_Excel():
                        size=12,bold=True)
     washi['E4'].fill = PatternFill(patternType='solid',fgColor='154360')
     
-    washi['E3'] = 'Start Date'
-    washi['E3'].font = Font(color='FFFFFF',
-                       size=12,bold=True)
-    washi['E3'].fill = PatternFill(patternType='solid',fgColor='154360')
+
     
     washi['B3'] = str(excelYield_Plant)
     washi['B3'].font = Font(color='000000',
