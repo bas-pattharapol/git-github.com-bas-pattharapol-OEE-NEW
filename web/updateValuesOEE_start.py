@@ -110,6 +110,7 @@ def chTime(pd,ShiftCode,mode,date):
             print('newdate',newdate)    
             startDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + StartTime
             endDate =  str(newdate) +' ' + EndTime
+        
         else:
             startDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + StartTime
             endDate =  str(datetime.strptime(str(date), '%Y-%m-%d').date()) +' ' + EndTime
@@ -117,6 +118,16 @@ def chTime(pd,ShiftCode,mode,date):
     
     #print('StartTime' , StartTime)
     #print('EndTime' , EndTime)
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cc1 = conn.cursor()
+    cc1.execute("SELECT * FROM OEE_DB.dbo.[INF_OEE2_V2] WHERE PDOrder = ? AND TypeTime = 'DonwTime' ",(pd,))
+    
+    for i in cc1:
+        if i[6] > startDate and i[6] > endDate :
+            print("day to newday order ", i[1])
+        
+        if i[6] < startDate and i[6] < endDate :
+            print("day to oldday order ", i[1])
     
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cur = conn.cursor()

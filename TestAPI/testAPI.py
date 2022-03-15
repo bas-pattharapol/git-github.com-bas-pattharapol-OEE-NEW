@@ -27,7 +27,7 @@ data2 = """
             "Start_Downtime": "5:00:00",
             "End_Downtime": "7:15:00",
             "Reason_Var": "224",
-            "Total_Downtime": "900"
+            "Total_Downtime": "8100"
         }
     ]
 }
