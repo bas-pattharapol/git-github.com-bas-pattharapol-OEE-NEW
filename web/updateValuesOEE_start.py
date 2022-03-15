@@ -2,7 +2,7 @@ import pyodbc
 import json
 from datetime import datetime, timedelta
 
-server = "172.30.1.2"
+server = "172.30.2.2"
 port = 5432
 database = "OEE_DB"
 username = "sa"

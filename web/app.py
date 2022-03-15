@@ -1910,7 +1910,7 @@ def Report_OEE_API():
         
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     ReportOEE = cnxn.cursor()
-    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Plant+ansOEE_Machines+ansOEE_Shifts+ansOEE_UserGroup+ansOEE_StartDate+ansOEE_StopDate + " ORDER BY PostingDate ASC ")
+    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Plant+ansOEE_Machines+ansOEE_Shifts+ansOEE_UserGroup+ansOEE_StartDate+ansOEE_StopDate + " ORDER BY PDOrder ASC ")
    
     payload = []
     content = {}
@@ -1936,7 +1936,7 @@ def Report_OEE_API_EXCEL():
         
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     ReportOEE = cnxn.cursor()
-    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Plant+ansOEE_Machines+ansOEE_Shifts+ansOEE_UserGroup+ansOEE_StartDate+ansOEE_StopDate + " ORDER BY PostingDate ASC ")
+    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Plant+ansOEE_Machines+ansOEE_Shifts+ansOEE_UserGroup+ansOEE_StartDate+ansOEE_StopDate + " ORDER BY PDOrder ASC ")
    
     payload = []
     content = {}
