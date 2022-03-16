@@ -1707,9 +1707,9 @@ def ReportOEEMontly(Level,Fname_Lname):
     if request.method == 'POST':
         ansOEE_Plant_M = request.form['Plant']
         ansOEE_Machines_M = request.form['Machines']
-        ansOEE_Shifts_M = request.form['Shifts']
+        ansOEE_Shifts_M = 'ALL'
         ansOEE_Month_M = request.form['Month12']
-        ansOEE_UserGroup_M = request.form['UserGroup']
+        ansOEE_UserGroup_M = 'ALL'
         ansOEE_Month_M_Report = ansOEE_Month_M
         ansOEE_Month_M = ansOEE_Month_M.replace("-", "")
      
