@@ -59,7 +59,7 @@
     
     th,
     td {
-        font-size: 14px;
+        font-size: 11px;
         margin: 0;
     }
     
@@ -200,7 +200,7 @@
                         </ul>
                     </li>
 
-                    <li class="treeview">
+                    <li class="active treeview">
                         <a href="#">
                             <i class="fa fa-table"></i> <span>Report</span>
                             <span class="pull-right-container">
@@ -245,7 +245,7 @@
                     </li>
 
                     {% if Level == '1' or Level == '2' or Level == '3' or Level == '5' or Level == '6' %}
-                    <li class="active treeview">
+                    <li class="treeview">
                         <a href="#">
                             <i class="fa fa-share"></i> <span>Master Data</span>
                             <span class="pull-right-container">
@@ -253,7 +253,7 @@
                             </span>
                         </a>
 
-                        <ul class="active treeview-menu">
+                        <ul class="treeview-menu">
                             <li><a href="/Edit_Plant/normal/normal/{{Level}}/{{Fname_Lname}}"><i
                                         class="fa fa-circle-o"></i>Plant</a></li>
                             <li><a href="/Edit_Shift/normal/normal/{{Level}}/{{Fname_Lname}}"><i
@@ -306,12 +306,12 @@
         <div class="content-wrapper">
             <section class="content-header">
                 <h1>
-                    Record
+                    Report OEE (Total)
                     <small>Control panel</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">Record</li>
+                    <li class="active">Report OEE (Total)</li>
                 </ol>
             </section>
             <section class="content">
@@ -320,40 +320,124 @@
                         <div class="box">
                             <div class="box-body">
 
+                                <div class="row">
+                                    <form action="/ReportOEE_Total/{{Level}}/{{Fname_Lname}}" method="POST">
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>Plant</label>
+                                                        <select class="form-control select2" style="width: 100%;" name="Plant">
+                                                      <option selected="selected">ALL</option>
+                                                      
+                                                      {%for i in Plant%}
+                                                        <option value="{{i[0]}}">{{i[0]}}</option>
+                                                      {%endfor%}
+                                                    </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+
+                                                    <div class="form-group">
+                                                        <label>  By Machine</label>
+                                                        <select class="form-control select2" style="width: 100%;" name="Machines">
+                                                      <option selected="selected">ALL</option>
+                                                      {%for i in Machines%}
+                                                      <option value="{{i[1]}}">{{i[0]}} / {{i[1]}}</option>
+                                                      {%endfor%}
+                                                      
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label> By Shifts</label>
+                                                        <select class="form-control select2" style="width: 100%;" name="Shifts">
+                                                      <option selected="selected">ALL</option>
+                                                      {%for i in Shifts%}
+                                                      <option value="{{i[1]}}">{{i[0]}} / {{i[1]}}</option>
+                                                      {%endfor%}
+                                                      
+                                                    </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label> By UserGroup</label>
+                                                        <select class="form-control select2" style="width: 100%;" name="UserGroup">
+                                                      <option selected="selected">ALL</option>
+                                                      {%for i in UserGroup%}
+                                                      <option value="{{i[1]}}">{{i[0]}}</option>
+                                                      {%endfor%}
+                                                      
+                                                    </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>Start Date</label>
+                                                        <input class="form-control" type="date" style="font-size: 13px;" name="StartDate">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>Stop Date</label>
+                                                        <input class="form-control" type="date" style="font-size: 13px;" name="StopDate">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <br>
+                                            <div class="btn-group " style="float: right;">
+                                                <button type="submit" class="btn btn-success">Submit</button> &nbsp;&nbsp;&nbsp;
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <br>
+                                            <div class="btn-group " style="float: right;">
+
+
+                                                <a class="btn btn-success" href="/Report_OEE_Total_Excel">Excel</a></li>
+
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
 
                                 <div class="table-responsive">
 
-
-                                    <table id="example" class="display nowrap" style="width:100%">
+                                    <table cellspacing="0" id="example" class="display" style="text-align: center; width: 100% ">
                                         <thead>
                                             <tr>
 
-                                                <th>Date</th>
-                                                <th>Topic</th>
-                                                <th>Do</th>
-                                                <th>Value</th>
-                                                <th>User</th>
-                                                <th>UserLevel</th>
-
-
+                                                <th style="text-align: center; "></th>
+                                                <th style="text-align: center;width: 1%;">Plant</th>
+                                                <th style="text-align: center; ">กะการทำงาน</th>
+                                                <th style="text-align: center; ">Posting Date</th>
+                                                <th style="text-align: center;">PD order</th>
+                                                <th style="text-align: center;">Material number</th>
+                                                <th style="text-align: center;">Machine Text</th>
+                                                <th style="text-align: center;">Availability (A1)</th>
+                                                <th style="text-align: center;">Availability (A2)</th>
+                                                <th style="text-align: center;">Performance (P1)</th>
+                                                <th style="text-align: center;">Performance (P2)</th>
+                                                <th style="text-align: center;">Quality final PDOrder (FQ1)</th>
+                                                <th style="text-align: center;">Quality final Shift (FQ2) </th>
+                                                <th style="text-align: center;">OEE 1</th>
+                                                <th style="text-align: center;">OEE 2</th>
+                                                <th style="text-align: center;">OEE 1 (F)</th>
+                                                <th style="text-align: center;">OEE 2 (F)</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            {% for i in Record %}
-
-                                            <tr>
-
-                                                <td>{{i[6].strftime('%Y-%m-%d %H:%M:%S')}}</td>
-                                                <td>{{i[-1]}}</td>
-                                                <td>{{i[1]}}</td>
-                                                <td>{{i[2]}}</td>
-                                                <td>{{i[4]}}</td>
-                                                <td></td>
-                                            </tr>
-
-                                            {%endfor%}
-
-                                        </tbody>
 
 
                                     </table>
@@ -362,65 +446,170 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
             </section>
             <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.1
             </div>
-            <strong>Web OEE </strong> Foster pattharapol
-        </footer>
+            <!-- /.content-wrapper -->
 
 
-        <div class="control-sidebar-bg"></div>
-    </div>
-    <!-- ./wrapper -->
-    <script>
-        $(document).ready(function() {
-            var table = $('#example').DataTable({
+            <div class="control-sidebar-bg"></div>
+        </div>
+        <!-- ./wrapper -->
+        <script>
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="0" colspan="1" cellspacing="1" border="0" style="padding-left:0%; text-align: left;">' +
+                    '<tr >' +
+                    '<td >Material Description:</td>' +
+                    '<td >' + d.Material_Description + '</td>' +
+                    '<td>Machine ID:</td>' +
+                    '<td>' + d.MachineID + '</td>' +
+                    '<td>Validate Speed:</td>' +
+                    '<td>' + d.Validate_Speed + '</td>' +
+                    '<td>Quality by PD order (Q1):</td>' +
+                    '<td>' + d.Q1 + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Plan DT:</td>' +
+                    '<td>' + d.Plan_DT + '</td>' +
+                    '<td>Unlan DT:</td>' +
+                    '<td>' + d.Unlan_DT + '</td>' +
+                    '<td>กะเวลา:</td>' +
+                    '<td>' + d.ka_time + '</td>' +
+                    '<td>Quality by shift (Q2):</td>' +
+                    '<td>' + d.Q2 + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>เวลารับภาระงาน 1:</td>' +
+                    '<td>' + d.getwork_time_1 + '</td>' +
+                    '<td>เวลารับภาระงาน 2:</td>' +
+                    '<td>' + d.getwork_time_2 + '</td>' +
+                    '<td>จำนวนชิ้นงานที่ผลิตได้:</td>' +
+                    '<td>' + d.number_of_product + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>จำนวนชิ้นงานที่ควรจะผลิตได้ 1:</td>' +
+                    '<td>' + d.number_should_of_product_1 + '</td>' +
+                    '<td>จำนวนชิ้นงานที่ควรจะผลิตได้ 2:</td>' +
+                    '<td>' + d.number_should_of_product_2 + '</td>' +
+                    '<td>จำนวนชิ้นงานที่ผ่านคุณภาพ:</td>' +
+                    '<td>' + d.product_Qty + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Return Qty (after 30 day):</td>' +
+                    '<td>' + d.Return_Qty + '</td>' +
+                    '<td>จำนวนชิ้นงานที่ผ่านคุณภาพสุดท้าย:</td>' +
+                    '<td>' + d.product_Qty_F + '</td>' +
+                    '<td>User Group:</td>' +
+                    '<td>' + d.UserGroup + '</td>' +
+                    '</tr>' +
 
-                "ordering": false,
-            });
-            // Add event listener for opening and closing details
+                    '</table>';
+            }
 
-        });;
-    </script>
+            $(document).ready(function() {
+                var table = $('#example').DataTable({
+                    'order': [0, 'desc'],
+                    select: "single",
+                    fixedColumns: true,
+                    "orderable": false,
+                    "ordering": false,
 
-    <!-- jQuery 3 -->
+                    ajax: "/Report_OEE_Total_API",
+                    "columns": [{
+                        "className": 'details-control',
+                        "orderable": false,
+                        "data": null,
 
-    <!-- jQuery UI 1.11.4 -->
+                        "defaultContent": ''
+                    }, {
+                        "data": "Plant"
+                    }, {
+                        "data": "work_time"
+                    }, {
+                        "data": "Posting_Date"
+                    }, {
+                        "data": "PD_order"
+                    }, {
+                        "data": "Material_number"
+                    }, {
+                        "data": "Machine_Text"
+                    }, {
+                        "data": "Availability_A1"
+                    }, {
+                        "data": "Availability_A2"
+                    }, {
+                        "data": "Performance_P1"
+                    }, {
+                        "data": "Performance_P2"
+                    }, {
+                        "data": "Quality1F"
+                    }, {
+                        "data": "Quality2F"
+                    }, {
+                        "data": "OEE1"
+                    }, {
+                        "data": "OEE2"
+                    }, {
+                        "data": "OEE1_F"
+                    }, {
+                        "data": "OEE2_F"
+                    }, ],
+                    "order": [
+                        [1, 'asc']
+                    ],
 
-    <!-- Bootstrap 3.3.7 -->
-    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    <!-- Select2 -->
-    <script src="{{ url_for('static', filename='bower_components/select2/dist/js/select2.full.min.js')}}"></script>
-    <!-- InputMask -->
-    <script src="{{ url_for('static', filename='plugins/input-mask/jquery.inputmask.js')}}"></script>
-    <script src="{{ url_for('static', filename='plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
-    <script src="{{ url_for('static', filename='plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
-    <!-- date-range-picker -->
-    <script src="{{ url_for('static', filename='bower_components/moment/min/moment.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-    <!-- bootstrap datepicker -->
-    <script src="{{ url_for('static', filename='bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-    <!-- bootstrap color picker -->
-    <script src="{{ url_for('static', filename='bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
-    <!-- bootstrap time picker -->
-    <script src="{{ url_for('static', filename='plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
-    <!-- SlimScroll -->
-    <script src="{{ url_for('static', filename='bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-    <!-- iCheck 1.0.1 -->
-    <script src="{{ url_for('static', filename='plugins/iCheck/icheck.min.js')}}"></script>
-    <!-- FastClick -->
-    <script src="{{ url_for('static', filename='bower_components/fastclick/lib/fastclick.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ url_for('static', filename='dist/js/adminlte.min.js')}}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ url_for('static', filename='dist/js/demo.js')}}"></script>
+                });
+
+                // Add event listener for opening and closing details
+                $('#example tbody').on('click', 'td.details-control', function() {
+                    var tr = $(this).closest('tr');
+                    var row = table.row(tr);
+
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    } else {
+                        // Open this row
+                        row.child(format(row.data())).show();
+                        tr.addClass('shown');
+                    }
+                });
+            });;
+        </script>
+
+        <!-- jQuery 3 -->
+
+        <!-- jQuery UI 1.11.4 -->
+
+        <!-- Bootstrap 3.3.7 -->
+        <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+        <!-- Select2 -->
+        <script src="{{ url_for('static', filename='bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+        <!-- InputMask -->
+        <script src="{{ url_for('static', filename='plugins/input-mask/jquery.inputmask.js')}}"></script>
+        <script src="{{ url_for('static', filename='plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
+        <script src="{{ url_for('static', filename='plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
+        <!-- date-range-picker -->
+        <script src="{{ url_for('static', filename='bower_components/moment/min/moment.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+        <!-- bootstrap datepicker -->
+        <script src="{{ url_for('static', filename='bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+        <!-- bootstrap color picker -->
+        <script src="{{ url_for('static', filename='bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
+        <!-- bootstrap time picker -->
+        <script src="{{ url_for('static', filename='plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+        <!-- SlimScroll -->
+        <script src="{{ url_for('static', filename='bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="{{ url_for('static', filename='plugins/iCheck/icheck.min.js')}}"></script>
+        <!-- FastClick -->
+        <script src="{{ url_for('static', filename='bower_components/fastclick/lib/fastclick.js')}}"></script>
+        <!-- AdminLTE App -->
+        <script src="{{ url_for('static', filename='dist/js/adminlte.min.js')}}"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="{{ url_for('static', filename='dist/js/demo.js')}}"></script>
 
 
 </body>
