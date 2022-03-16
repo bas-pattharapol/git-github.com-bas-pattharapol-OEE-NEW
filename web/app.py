@@ -48,6 +48,13 @@ ansOEE_StartDate = ''
 ansOEE_StopDate = ''
 ansOEE_UserGroup = 'ALL'
 
+ansOEE_Total_Plant = 'ALL'
+ansOEE_Total_Machines = 'ALL'
+ansOEE_Total_Shifts   = 'ALL'
+ansOEE_Total_StartDate = ''
+ansOEE_Total_StopDate = ''
+ansOEE_Total_UserGroup = 'ALL'
+
 ansOEE_Plant_M = 'ALL'
 ansOEE_Machines_M = 'ALL'
 ansOEE_Shifts_M   = 'ALL'
@@ -74,6 +81,13 @@ excelOEE_StopDate_M = ''
 excelOEE_UserGroup_M = 'ALL'
 excelOEE_Month_M = ''
 
+
+excelOEE_Total_Plant = 'ALL'
+excelOEE_Total_Machines = 'ALL'
+excelOEE_Total_Shifts   = 'ALL'
+excelOEE_Total_StartDate = ''
+excelOEE_Total_StopDate = ''
+excelOEE_Total_UserGroup = 'ALL'
 
 excelOEE_Plant = 'ALL'
 excelOEE_Machines = 'ALL'
@@ -1561,6 +1575,116 @@ def ReportOEE(Level,Fname_Lname):
 
     return render_template('Report_OEE.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
+@app.route('/ReportOEE_Total/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
+@flask_login.login_required
+def ReportOEE_Total(Level,Fname_Lname):
+    global ansOEE_Total_Plant
+    global ansOEE_Total_Machines
+    global ansOEE_Total_Shifts
+    global ansOEE_Total_StartDate
+    global ansOEE_Total_StopDate
+    global where
+    global ansOEE_Total_UserGroup
+    
+    global excelOEE_Total_Plant
+    global excelOEE_Total_Machines 
+    global excelOEE_Total_Shifts   
+    global excelOEE_Total_StartDate 
+    global excelOEE_Total_StopDate 
+    global excelOEE_Total_UserGroup 
+    
+    ansOEE_Total_Plant = 'ALL'
+    ansOEE_Total_Machines = 'ALL'
+    ansOEE_Total_Shifts   = 'ALL'
+    ansOEE_Total_UserGroup = 'ALL'
+    ansOEE_Total_StartDate = ''
+    ansOEE_Total_StopDate = ''
+    
+    
+    if request.method == 'POST':
+        ansOEE_Total_Plant = request.form['Plant']
+        ansOEE_Total_Machines = request.form['Machines']
+        ansOEE_Total_Shifts = request.form['Shifts']
+        ansOEE_Total_StartDate = request.form['StartDate']
+        ansOEE_Total_StopDate = request.form['StopDate']
+        ansOEE_Total_UserGroup = request.form['UserGroup']
+        print("---------------")
+        print(ansOEE_Total_Plant)
+        print(ansOEE_Total_Machines)
+        print(ansOEE_Total_Shifts)
+        print(ansOEE_Total_StartDate)
+        print(ansOEE_Total_StopDate)
+        print(ansOEE_Total_UserGroup)
+        
+        
+        excelOEE_Total_Plant = ansOEE_Total_Plant
+        excelOEE_Total_Machines = ansOEE_Total_Machines
+        excelOEE_Total_Shifts   = ansOEE_Total_Shifts
+        excelOEE_Total_StartDate = ansOEE_Total_StartDate
+        excelOEE_Total_StopDate = ansOEE_Total_StopDate
+        excelOEE_Total_UserGroup = ansOEE_Total_UserGroup
+    
+   
+    if ansOEE_Total_Plant == 'ALL':
+        ansOEE_Total_Plant = ''
+    else : 
+        ansOEE_Total_Plant = " AND PlantName = '"+ ansOEE_Total_Plant +"'"
+        
+    if ansOEE_Total_Machines == 'ALL':
+        ansOEE_Total_Machines = ''
+    else :  
+        ansOEE_Total_Machines = " AND MachineID = '"+ ansOEE_Total_Machines +"'"
+       
+    if ansOEE_Total_Shifts == 'ALL':
+        ansOEE_Total_Shifts = ''
+    else : 
+        ansOEE_Total_Shifts = " AND ShiftCode = '"+ ansOEE_Total_Shifts +"'"
+        
+    if ansOEE_Total_UserGroup == 'ALL':
+        ansOEE_Total_UserGroup = ''
+    else : 
+        ansOEE_Total_UserGroup = " AND UserGroupID = '"+ ansOEE_Total_UserGroup +"'"
+        
+    if ansOEE_Total_StartDate == '':
+        ansOEE_Total_StartDate = ''
+    else : 
+        ansOEE_Total_StartDate = " AND CONVERT(DATE, DateTime) >= '"+ ansOEE_Total_StartDate +"'"
+         
+    if ansOEE_Total_StopDate == '':
+        ansOEE_Total_StopDate = ''
+    else : 
+        ansOEE_Total_StopDate = " AND CONVERT(DATE, DateTime)  <= '"+ ansOEE_Total_StopDate +"'"
+      
+  
+        
+    print("---------------")
+    print(ansOEE_Total_Plant)
+    print(ansOEE_Total_Machines)
+    print(ansOEE_Total_Shifts)
+    print(ansOEE_Total_StartDate)
+    print(ansOEE_Total_StopDate)
+     
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Plant = cnxn.cursor()
+    Plant.execute('SELECT PlantName FROM OEE_DB.dbo.Plant  WHERE DeleteFlag = 1')
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Machines = cnxn.cursor()
+    Machines.execute('SELECT MachineName ,MachineID FROM OEE_DB.dbo.Machines  WHERE DeleteFlag = 1')
+
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Shifts = cnxn.cursor()
+    Shifts.execute('SELECT ShiftCodeName , ShiftCodeID FROM OEE_DB.dbo.ShiftCode  WHERE DeleteFlag = 1')
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    UserGroup = cnxn.cursor()
+    UserGroup.execute('SELECT UserGroupName , UserGroupID FROM OEE_DB.dbo.UserGroup  WHERE DeleteFlag = 1')
+
+    return render_template('Report_OEE.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
+
+
+
 @app.route('/ReportYield/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
 def ReportYield(Level,Fname_Lname):
@@ -1921,6 +2045,32 @@ def Report_OEE_API():
     #print(payload)
     return json.dumps({"data":payload}, cls = Encoder), 201
 
+@app.route('/Report_OEE_Total_API' ,methods=["GET", "POST"])
+
+def Report_OEE_Total_API():
+    global ansOEE_Total_Plant
+    global ansOEE_Total_Machines
+    global ansOEE_Total_Shifts
+    global ansOEE_Total_StartDate
+    global ansOEE_Total_StopDate
+    global ansOEE_Total_UserGroup
+    global where
+    
+    print("SELECT * FROM OEE_DB.dbo.View_OEEReport  WHERE OEE_Q2 IS NOT NULL " +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_StartDate+ansOEE_Total_StopDate)
+        
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    ReportOEE = cnxn.cursor()
+    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_UserGroup+ansOEE_Total_StartDate+ansOEE_Total_StopDate + " ORDER BY PDOrder ASC ")
+   
+    payload = []
+    content = {}
+    for result in ReportOEE:
+        content = {'Plant': result[2], 'work_time': str(result[34] +" / " + result[33] ), 'Posting_Date': str(result[3]),'PD_order': result[4],'Material_number': str(result[5]),'Machine_Text': str(result[8]),'Material_Description': str(result[6]),'MachineID': str(result[7]),'Validate_Speed': str(result[9]),'Q1':  str(float("{:.2f}".format(result[25] * 100 ))) + '%','Plan_DT': str(result[10]),'Unlan_DT': str(result[11]),'ka_time': str(result[12]),'getwork_time_1': str(result[13]),'getwork_time_2': str(result[14]),'number_of_product': str(result[15]),'number_should_of_product_1':  float("{:.2f}".format(result[16])),'number_should_of_product_2':  float("{:.2f}".format(result[17])),'product_Qty': str(result[18]),'Return_Qty': str(result[19]),'product_Qty_F': str(result[20]),'UserGroup': str(result[32]),'Q2': str(float("{:.2f}".format(result[38] * 100 ))) + '%','Availability_A1': str(float("{:.2f}".format(result[21] * 100 ))) + '%','Availability_A2': str(float("{:.2f}".format(result[22] * 100 ))) + '%','Performance_P1': str(float("{:.2f}".format(result[23] * 100 ))) + '%','Performance_P2': str(float("{:.2f}".format(result[24] * 100 ))) + '%','Quality1F': str(float("{:.2f}".format(result[26] * 100 ))) + '%','Quality2F': str(float("{:.2f}".format(result[39] * 100 ))) + '%','OEE1': str(float("{:.2f}".format(result[27] * 100 ))) + '%','OEE2': str(float("{:.2f}".format(result[28] * 100 ))) + '%','OEE1_F': str(float("{:.2f}".format(result[29] * 100 ))) + '%','OEE2_F': str(float("{:.2f}".format(result[30] * 100 ))) + '%'}
+        payload.append(content)
+        content = {}
+    #print(payload)
+    return json.dumps({"data":payload}, cls = Encoder), 201
+
 @app.route('/Report_OEE_API_EXCEL' ,methods=["GET", "POST"])
 
 def Report_OEE_API_EXCEL():
@@ -1937,6 +2087,34 @@ def Report_OEE_API_EXCEL():
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     ReportOEE = cnxn.cursor()
     ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Plant+ansOEE_Machines+ansOEE_Shifts+ansOEE_UserGroup+ansOEE_StartDate+ansOEE_StopDate + " ORDER BY PDOrder ASC ")
+   
+    payload = []
+    content = {}
+    for result in ReportOEE:
+        #content = {'Plant': result[2], 'work_time': str(result[34] +" / " + result[33] ), 'Posting_Date': str(result[3]),'PD_order': result[4],'Material_number': str(result[5]),'Machine_Text': str(result[8]),'Material_Description': str(result[6]),'MachineID': str(result[7]),'Validate_Speed': str(result[10]),'Q1':  float("{:.2f}".format(result[25])),'Plan_DT': str(result[10]),'Unlan_DT': str(result[11]),'ka_time': str(result[12]),'getwork_time_1': str(result[13]),'getwork_time_2': str(result[14]),'number_of_product': str(result[15]),'number_should_of_product_1':  float("{:.2f}".format(result[16])),'number_should_of_product_2':  float("{:.2f}".format(result[17])),'product_Qty': str(result[18]),'Return_Qty': str(result[19]),'product_Qty_F': str(result[20]),'UserGroup': str(result[32]),'Q2': float("{:.2f}".format(result[38])),'Availability_A1': float("{:.2f}".format(result[21])),'Availability_A2': float("{:.2f}".format(result[22])),'Performance_P1': float("{:.2f}".format(result[23])),'Performance_P2': float("{:.2f}".format(result[24])),'Quality1F': float("{:.2f}".format(result[26])),'Quality2F': float("{:.2f}".format(result[39])),'OEE1': float("{:.2f}".format(result[27])),'OEE2': float("{:.2f}".format(result[28])),'OEE1_F': float("{:.2f}".format(result[29])),'OEE2_F': float("{:.2f}".format(result[30]))}
+        content = {'Plant': result[2], 'กะการทำงาน': str(result[34] +" / " + result[33] ), 'Posting Date': str(result[3]),'PD order': result[4],'Material number': str(result[5]),'Machine Text': str(result[8]),'Material Description': str(result[6]),'MachineID': str(result[7]),'Validate Speed': str(result[9]),'Plan DT': str(result[10]),'Unlan DT': str(result[11]),'กะเวลา (min)': result[12],'เวลารับภาระงาน1 (min)': str(result[13]),'เวลารับภาระงาน2 (min)': str(result[14]),'จำนวนชิ้นงานที่ผลิตได้ (Unit)': str(result[15]),'จำนวนชิ้นงานที่ควรจะผลิตได้1 (Unit)':  float("{:.2f}".format(result[16])),'จำนวนชิ้นงานที่ควรจะผลิตได้2 (Unit)':  float("{:.2f}".format(result[17])),'จำนวนชิ้นงานที่ผ่านคุณภาพ (Unit)': str(result[18]),'Return Qty (after 30 day) (Unit)': str(result[19]),'จำนวนชิ้นงานที่ผ่านคุณภาพสุดท้าย (Unit)': str(result[20]),'UserGroup': str(result[32]),'Availability (A1)': str(float("{:.2f}".format(result[21] * 100))) + '%','Availability (A2)': str(float("{:.2f}".format(result[22] * 100))) + '%','Performance (P1)': str(float("{:.2f}".format(result[23] * 100))) + '%','Performance (P2)': str(float("{:.2f}".format(result[24] * 100))) + '%','Quality by PD order (Q1)':  str(float("{:.2f}".format(result[25] * 100))) + '%','Quality by shift (Q2)': str(float("{:.2f}".format(result[38] * 100))) + '%','Quality Final by PD order (Q1)': str(float("{:.2f}".format(result[26] * 100))) + '%','Quality Final by Shift (Q2)': str(float("{:.2f}".format(result[39] * 100))) + '%','OEE1': str(float("{:.2f}".format(result[27] * 100))) + '%','OEE2': str(float("{:.2f}".format(result[28] * 100))) + '%','OEE1_F': str(float("{:.2f}".format(result[29] * 100))) + '%','OEE2_F': str(float("{:.2f}".format(result[30] * 100))) + '%'}
+        payload.append(content)
+        content = {}
+    #print(payload)
+    return json.dumps(payload, cls = Encoder), 201
+
+
+@app.route('/Report_OEE_Total_API_EXCEL' ,methods=["GET", "POST"])
+
+def Report_OEE_Total_API_EXCEL():
+    global ansOEE_Toatl_Plant
+    global ansOEE_Toatl_Machines
+    global ansOEE_Toatl_Shifts
+    global ansOEE_Toatl_StartDate
+    global ansOEE_Toatl_StopDate
+    global ansOEE_Toatl_UserGroup
+    global where
+    
+    print("SELECT * FROM OEE_DB.dbo.View_OEEReport  WHERE OEE_Q2 IS NOT NULL " +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_StartDate+ansOEE_Total_StopDate)
+        
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    ReportOEE = cnxn.cursor()
+    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_UserGroup+ansOEE_Total_StartDate+ansOEE_Total_StopDate + " ORDER BY PDOrder ASC ")
    
     payload = []
     content = {}
@@ -2059,6 +2237,117 @@ def Report_OEE_Excel():
     wabu.save('OEE_Report1.xlsx')
     
     return send_file('..\OEE_Report1.xlsx') 
+
+@app.route('/Report_OEE_Total_Excel')
+@flask_login.login_required
+def Report_OEE_Total_Excel():
+   
+    global excelOEE_Total_Plant
+    global excelOEE_Total_Machines 
+    global excelOEE_Total_Shifts   
+    global excelOEE_Total_StartDate 
+    global excelOEE_Total_StopDate 
+    global excelOEE_Total_UserGroup 
+        
+    if excelOEE_Total_StopDate == '':
+        excelOEE_Total_StopDate = 'ALL'
+   
+         
+    if excelOEE_Total_StartDate == '':
+        excelOEE_Total_StartDate = 'ALL'
+  
+    df = pd.read_json('http://172.30.2.2:5001//Report_OEE_Total_API_EXCEL')
+    print(df)
+    df.to_excel('OEE_Report1_Total.xlsx',index=False)
+    
+    time.sleep(1)
+    
+    wabu = openpyxl.load_workbook('OEE_Report1_Total.xlsx')
+    washi = wabu.active
+    washi.insert_rows(1,5)
+    washi['A1'] = 'Report OEE(Total)'
+    washi['A1'].alignment = Alignment(vertical='center')
+    washi['A1'].alignment = Alignment(horizontal='center')
+    washi['A1'].font = Font(color='FFFFFF',
+                        size=24,bold=True)
+    washi['A1'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi.merge_cells('A1:F1')
+    
+    washi['A3'] = 'By Plant'
+    washi['A3'].font = Font(color='FFFFFF',
+                        size=12,bold=True)
+    washi['A3'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi['A4'] = 'By Machine'
+    washi['A4'].font = Font(color='FFFFFF',
+                        size=12,bold=True)
+    washi['A4'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi['C3'] = 'By Shifts'
+    washi['C3'].font = Font(color='FFFFFF',
+                        size=12,bold=True)
+    washi['C3'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi['C4'] = 'By UserGroup'
+    washi['C4'].font = Font(color='FFFFFF',
+                        size=12,bold=True)
+    washi['C4'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi['E3'] = 'Start Date'
+    washi['E3'].font = Font(color='FFFFFF',
+                       size=12,bold=True)
+    washi['E3'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi['E4'] = 'Stop Date'
+    washi['E4'].font = Font(color='FFFFFF',
+                       size=12,bold=True)
+    washi['E4'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi['E3'] = 'Start Date'
+    washi['E3'].font = Font(color='FFFFFF',
+                       size=12,bold=True)
+    washi['E3'].fill = PatternFill(patternType='solid',fgColor='154360')
+    
+    washi['B3'] = str(excelOEE_Total_Plant)
+    washi['B3'].font = Font(color='000000',
+                       size=12,bold=True)
+    washi['B3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    
+    washi['B4'] = str(excelOEE_Total_Machines)
+    washi['B4'].font = Font(color='000000',
+                       size=12,bold=True)
+    washi['B4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    
+    washi['D3'] = str(excelOEE_Total_Shifts)
+    washi['D3'].font = Font(color='000000',
+                       size=12,bold=True)
+    washi['D3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    
+    washi['D4'] = str(excelOEE_Total_UserGroup)
+    washi['D4'].font = Font(color='000000',
+                       size=12,bold=True)
+    washi['D4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    
+    washi['F3'] = str(excelOEE_Total_StartDate)
+    washi['F3'].font = Font(color='000000',
+                       size=12,bold=True)
+    washi['F3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    
+    washi['F4'] = str(excelOEE_Total_StopDate)
+    washi['F4'].font = Font(color='000000',
+                       size=12,bold=True)
+    washi['F4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+    
+    washi.column_dimensions['A'].width = 16
+    washi.column_dimensions['B'].width = 25
+    washi.column_dimensions['C'].width = 20
+    washi.column_dimensions['D'].width = 20
+    washi.column_dimensions['E'].width = 20
+    washi.column_dimensions['F'].width = 25
+    wabu.save('OEE_Report1_Total.xlsx')
+    
+    return send_file('..\OEE_Report1_Total.xlsx') 
         
         
 @app.route('/Report_Yield_API' ,methods=["GET", "POST"])
