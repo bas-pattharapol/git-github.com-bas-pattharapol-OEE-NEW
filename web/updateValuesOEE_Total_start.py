@@ -51,6 +51,22 @@ def update(data):
                             PostReturn,FinalGoodCount,data[1]))
         cnxn.commit()
         
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee05 = cnxn.cursor()
+        oee05.execute('SELECT QTY FROM OEE_DB.dbo.[INF_OEE5_V2] WHERE PDOrder = ? ',(data[1],))
+        
+        for i in oee05:
+            qty = i[0]
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            UPDATE = cnxn.cursor()
+            UPDATE.execute(""" 
+                            UPDATE OEE_DB.dbo.[OEEReport_Total] 
+                            SET PostReturn = ?
+                            
+                            WHERE PDOrder = ?  
+                            """,(qty,data[1]))
+        cnxn.commit()
+            
     
 if __name__ == '__main__':
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
