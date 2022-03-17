@@ -1681,7 +1681,7 @@ def ReportOEE_Total(Level,Fname_Lname):
     UserGroup = cnxn.cursor()
     UserGroup.execute('SELECT UserGroupName , UserGroupID FROM OEE_DB.dbo.UserGroup  WHERE DeleteFlag = 1')
 
-    return render_template('Report_OEE.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
+    return render_template('Report_OEE_Total.html',Plant = Plant , Machines = Machines , Shifts = Shifts,UserGroup=UserGroup,Level=Level,Fname_Lname=Fname_Lname)
 
 
 
