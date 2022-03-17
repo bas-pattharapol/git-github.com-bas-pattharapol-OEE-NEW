@@ -150,14 +150,14 @@ def chTime(pd,ShiftCode,mode,date):
     if mode == 'Plan' :
         for k in cur:
             if k[1] in codePlan:
-                print('Plan int(k[0])//60' , int(k[0])//60)
-                count += int(k[0])//60
+                print('Plan int(k[0])' , int(k[0]))
+                count += int(k[0])
                 
     elif mode == 'Unplan':
         for k in cur:
             if k[1] in codeUnplan:
-                print('Unplan int(k[0])//60' , int(k[0])//60)
-                count += int(k[0])//60
+                print('Unplan int(k[0])' , int(k[0]))
+                count += int(k[0])
     if count < 0 :
         count = 0
     return count

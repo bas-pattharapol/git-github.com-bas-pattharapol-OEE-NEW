@@ -2056,11 +2056,11 @@ def Report_OEE_Total_API():
     global ansOEE_Total_UserGroup
     global where
     
-    print("SELECT * FROM OEE_DB.dbo.View_OEEReport  WHERE OEE_Q2 IS NOT NULL " +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_StartDate+ansOEE_Total_StopDate)
+    print("SELECT * FROM OEE_DB.dbo.OEEReport_Total  WHERE OEE_Q2 IS NOT NULL " +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_StartDate+ansOEE_Total_StopDate)
         
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     ReportOEE = cnxn.cursor()
-    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_UserGroup+ansOEE_Total_StartDate+ansOEE_Total_StopDate + " ORDER BY PDOrder ASC ")
+    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.OEEReport_Total WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_UserGroup+ansOEE_Total_StartDate+ansOEE_Total_StopDate + " ORDER BY PDOrder ASC ")
    
     payload = []
     content = {}
@@ -2110,11 +2110,11 @@ def Report_OEE_Total_API_EXCEL():
     global ansOEE_Toatl_UserGroup
     global where
     
-    print("SELECT * FROM OEE_DB.dbo.View_OEEReport  WHERE OEE_Q2 IS NOT NULL " +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_StartDate+ansOEE_Total_StopDate)
+    print("SELECT * FROM OEE_DB.dbo.OEEReport_Total  WHERE OEE_Q2 IS NOT NULL " +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_StartDate+ansOEE_Total_StopDate)
         
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     ReportOEE = cnxn.cursor()
-    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.View_OEEReport WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_UserGroup+ansOEE_Total_StartDate+ansOEE_Total_StopDate + " ORDER BY PDOrder ASC ")
+    ReportOEE.execute("SELECT * FROM OEE_DB.dbo.OEEReport_Total WHERE OEE_Q2 IS NOT NULL "  +ansOEE_Total_Plant+ansOEE_Total_Machines+ansOEE_Total_Shifts+ansOEE_Total_UserGroup+ansOEE_Total_StartDate+ansOEE_Total_StopDate + " ORDER BY PDOrder ASC ")
    
     payload = []
     content = {}
