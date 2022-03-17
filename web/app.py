@@ -2493,20 +2493,18 @@ def Report_Yield_Excel():
 @app.route('/Report_M_OEE_API' ,methods=["GET", "POST"])
 
 def Report_M_OEE_API():
-    
-   
         
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     OEEReport_Monthly_Show = cnxn.cursor()
     OEEReport_Monthly_Show.execute('Select * from OEE_DB.dbo.OEEMonthlyReport')    
     payload = []
     content = {}
-    if ansOEE_Month_M :
-        for result in OEEReport_Monthly_Show:
-            
-            content = {'Month': ansOEE_Month_M_Report , 'Plant': result[3],'MachineID': str(result[4]),'Machine_Text': str(result[5]),'PlanDownTime':  result[6],'UnplanDownTime': str(result[7]),'RunTime1': str(result[8]),'RunTime2': str(result[9]),'Per_PantDownTime':  float("{:.2f}".format(result[10])),'Per_UnplanDowntime':  float("{:.2f}".format(result[11])),'Per_Downtime': float("{:.2f}".format(result[12])),'Per_PantDownTime2': float("{:.2f}".format(result[13])),'Per_UnplanDowntime2': float("{:.2f}".format(result[14])),'Per_Downtime2': float("{:.2f}".format(result[15])),'TotalCount': float("{:.2f}".format(result[16])),'IdealCount1': float("{:.2f}".format(result[17])),'IdealCount2': float("{:.2f}".format(result[18])),'GoodCount': float("{:.2f}".format(result[19])),'PostReturn': float("{:.2f}".format(result[20])),'FinalGoodCount': float("{:.2f}".format(result[21])),'OEE_A1': float("{:.2f}".format(result[22])),'OEE_A2': float("{:.2f}".format(result[23])),'OEE_P1': float("{:.2f}".format(result[24])),'OEE_P2': float("{:.2f}".format(result[25])),'OEE_Q': float("{:.2f}".format(result[26])),'OEE_Q_Finnal': float("{:.2f}".format(result[27])),'OEE1Calculation': float("{:.2f}".format(result[28])),'OEE2Calculation': float("{:.2f}".format(result[29])),'OEE1FinalCalculation': float("{:.2f}".format(result[30])),'OEE2FinalCalculation': float("{:.2f}".format(result[31]))}
-            payload.append(content)
-            content = {}
+    
+    for result in OEEReport_Monthly_Show:
+        
+        content = {'Month': ansOEE_Month_M_Report , 'Plant': result[3],'MachineID': str(result[4]),'Machine_Text': str(result[5]),'PlanDownTime':  result[6],'UnplanDownTime': str(result[7]),'RunTime1': str(result[8]),'RunTime2': str(result[9]),'Per_PantDownTime':  float("{:.2f}".format(result[10])),'Per_UnplanDowntime':  float("{:.2f}".format(result[11])),'Per_Downtime': float("{:.2f}".format(result[12])),'Per_PantDownTime2': float("{:.2f}".format(result[13])),'Per_UnplanDowntime2': float("{:.2f}".format(result[14])),'Per_Downtime2': float("{:.2f}".format(result[15])),'TotalCount': float("{:.2f}".format(result[16])),'IdealCount1': float("{:.2f}".format(result[17])),'IdealCount2': float("{:.2f}".format(result[18])),'GoodCount': float("{:.2f}".format(result[19])),'PostReturn': float("{:.2f}".format(result[20])),'FinalGoodCount': float("{:.2f}".format(result[21])),'OEE_A1': float("{:.2f}".format(result[22])),'OEE_A2': float("{:.2f}".format(result[23])),'OEE_P1': float("{:.2f}".format(result[24])),'OEE_P2': float("{:.2f}".format(result[25])),'OEE_Q': float("{:.2f}".format(result[26])),'OEE_Q_Finnal': float("{:.2f}".format(result[27])),'OEE1Calculation': float("{:.2f}".format(result[28])),'OEE2Calculation': float("{:.2f}".format(result[29])),'OEE1FinalCalculation': float("{:.2f}".format(result[30])),'OEE2FinalCalculation': float("{:.2f}".format(result[31]))}
+        payload.append(content)
+        content = {}
         
     #print(payload)
     return json.dumps({"data":payload}, cls = Encoder), 201
