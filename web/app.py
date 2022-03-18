@@ -965,7 +965,23 @@ def DataTableShift():
 @app.route('/dashboard')
 @flask_login.login_required
 def dashboard():
-    return render_template('Metrics.html')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    data = cnxn.cursor()
+    data.execute("SELECT * FROM OEE_DB.dbo.dashboard_METRICS")
+    for i in data:
+        HHD_OEE1 = i[0] 
+        TLT_OEE1 = i[1] 
+        Total_OEE1 = i[2] 
+        HHD_OEE2 = i[3]  
+        TLT_OEE2 = i[4] 
+        Total_OEE2 = i[5] 
+        HHD_Yield = i[6] 
+        TLT_Yield = i[7] 
+        Total_Yield = i[8] 
+        
+    return render_template('Metrics.html',HHD_OEE1=HHD_OEE1,TLT_OEE1=TLT_OEE1,Total_OEE1=Total_OEE1,
+                           HHD_OEE2=HHD_OEE2,TLT_OEE2=TLT_OEE2,Total_OEE2=Total_OEE2,
+                           HHD_Yield=HHD_Yield,TLT_Yield=TLT_Yield,Total_Yield=Total_Yield)
 
 @app.route('/oee_Total')
 @flask_login.login_required

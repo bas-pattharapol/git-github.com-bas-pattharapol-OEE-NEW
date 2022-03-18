@@ -1,7 +1,7 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://172.30.2.2:5001/API_INF_OEE04"
+url = "http://172.30.1.2:5001/API_RunTime_DownTime"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
@@ -733,6 +733,6 @@ data4 = """
 }
                 
 """
-resp = requests.post(url, headers=headers, data=data4)
+resp = requests.get(url, headers=headers, data=data2)
 
 print(resp.status_code)
