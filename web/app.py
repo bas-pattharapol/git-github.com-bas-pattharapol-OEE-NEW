@@ -2610,159 +2610,38 @@ def Report_OEE_M_Excel():
 @app.route('/Report_M_Yield_API' ,methods=["GET", "POST"])
 
 def Report_M_Yield_API():
-    global ansYield_Plant_M
-    global ansYield_Machines_M
-    global ansYield_Shifts_M
-    global ansYield_StartDate_M
-    global ansYield_StopDate_M
-    global ansYield_UserGroup_M
-    global where
-    global ansYield_Month_M
-    global ansYield_Month_M_Report
-    
-   
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    ReportYield = cnxn.cursor()
-    ReportYield.execute("SELECT DISTINCT MachineID FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL "  +ansYield_Plant_M+ansYield_Machines_M+ansYield_Shifts_M+ansYield_UserGroup_M+ansYield_Month_M)
-    print("SELECT DISTINCT MachineID FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL "  +ansYield_Plant_M+ansYield_Machines_M+ansYield_Shifts_M+ansYield_UserGroup_M+ansYield_Month_M)
-    MachineID = 0 
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    YieldReport_Monthly = cnxn.cursor()
-    YieldReport_Monthly.execute('DELETE FROM OEE_DB.dbo.YieldMonthlyReport')
-    cnxn.commit()
-    Monthly = None
-    for i in ReportYield : 
-        allInputQty = 0
-        allOutputQty = 0 
-        allReturnQty = 0
-    
-        MachineID = i[0]
-        print(MachineID)
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        allMachineID = cnxn.cursor()
-        allMachineID.execute("SELECT * FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL AND MachineID ='" + MachineID + "'"  +ansYield_Month_M)
-        print("SELECT * FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL AND MachineID ='" + MachineID + "'"  +ansYield_Month_M)
-        
-        for j in allMachineID:
-            print(j[10])
-            PlantID = j[2]
-            PlantName = j[3]
-            MachineID_1 = j[8]
-            MachineName = j[10]
-            allInputQty += j[13]
-            allOutputQty += j[14] 
-            allReturnQty += j[15]
-            
-            
-       
-        Yield = allOutputQty / allInputQty
-        FinalYield = (allOutputQty - allReturnQty) / allInputQty
-        
-        print("allInputQty : " +str(allInputQty))
-        print("allOutputQty : " +str(allOutputQty))
-        print("allReturnQty : " +str(allReturnQty))
-        print("Yield : " +str(Yield))
-        print("FinalYield : " + str(FinalYield))  
-        
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        YieldReport_Monthly = cnxn.cursor()
-        YieldReport_Monthly.execute('INSERT INTO OEE_DB.dbo.YieldMonthlyReport (Monthly, PlantID, PlantName, MachineID, MachineName, InputQty, OutputQty, ReturnQty, Yield, FinalYield) VALUES(?,?,?,?,?,?,?,?,?,?)' ,( ansYield_Month_M_Report  , PlantID , PlantName  , MachineID_1  , MachineName  , allInputQty, allOutputQty, allReturnQty, Yield, FinalYield ))
-        cnxn.commit()
-        
-        print("---------------------------------")
-        
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     YieldReport_Monthly_Show = cnxn.cursor()
     YieldReport_Monthly_Show.execute('Select * from OEE_DB.dbo.YieldMonthlyReport')    
     payload = []
     content = {}
-    if ansYield_Month_M :
-        for result in YieldReport_Monthly_Show:
-            
-            content = {'Month': ansYield_Month_M_Report , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
-            payload.append(content)
-            content = {}
+
+    for result in YieldReport_Monthly_Show:
+        
+        content = {'Month': ansYield_Month_M_Report , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
+        payload.append(content)
+        content = {}
         
     #print(payload)
     return json.dumps({"data":payload}, cls = Encoder), 201
 
 @app.route('/Report_M_Yield_API_Excel' ,methods=["GET", "POST"])
 def Report_M_Yield_API_Excel():
-    global ansYield_Plant_M
-    global ansYield_Machines_M
-    global ansYield_Shifts_M
-    global ansYield_StartDate_M
-    global ansYield_StopDate_M
-    global ansYield_UserGroup_M
-    global where
-    global ansYield_Month_M
-    global ansYield_Month_M_Report
     
-   
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    ReportYield = cnxn.cursor()
-    ReportYield.execute("SELECT DISTINCT MachineID FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL "  +ansYield_Plant_M+ansYield_Machines_M+ansYield_Shifts_M+ansYield_UserGroup_M+ansYield_Month_M)
-    print("SELECT DISTINCT MachineID FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL "  +ansYield_Plant_M+ansYield_Machines_M+ansYield_Shifts_M+ansYield_UserGroup_M+ansYield_Month_M)
-    MachineID = 0 
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    YieldReport_Monthly = cnxn.cursor()
-    YieldReport_Monthly.execute('DELETE FROM OEE_DB.dbo.YieldMonthlyReport')
-    cnxn.commit()
-    Monthly = None
-    for i in ReportYield : 
-        allInputQty = 0
-        allOutputQty = 0 
-        allReturnQty = 0
-    
-        MachineID = i[0]
-        print(MachineID)
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        allMachineID = cnxn.cursor()
-        allMachineID.execute("SELECT * FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL AND MachineID ='" + MachineID + "'"  +ansYield_Month_M)
-        print("SELECT * FROM OEE_DB.dbo.View_YieldReport WHERE FinalYield IS NOT NULL AND MachineID ='" + MachineID + "'"  +ansYield_Month_M)
-        
-        for j in allMachineID:
-            print(j[10])
-            PlantID = j[2]
-            PlantName = j[3]
-            MachineID_1 = j[8]
-            MachineName = j[10]
-            allInputQty += j[13]
-            allOutputQty += j[14] 
-            allReturnQty += j[15]
-            
-            
-       
-        Yield = allOutputQty / allInputQty
-        FinalYield = (allOutputQty - allReturnQty) / allInputQty
-        
-        print("allInputQty : " +str(allInputQty))
-        print("allOutputQty : " +str(allOutputQty))
-        print("allReturnQty : " +str(allReturnQty))
-        print("Yield : " +str(Yield))
-        print("FinalYield : " + str(FinalYield))  
-        
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        YieldReport_Monthly = cnxn.cursor()
-        YieldReport_Monthly.execute('INSERT INTO OEE_DB.dbo.YieldMonthlyReport (Monthly, PlantID, PlantName, MachineID, MachineName, InputQty, OutputQty, ReturnQty, Yield, FinalYield) VALUES(?,?,?,?,?,?,?,?,?,?)' ,( ansYield_Month_M_Report  , PlantID , PlantName  , MachineID_1  , MachineName  , allInputQty, allOutputQty, allReturnQty, Yield, FinalYield ))
-        cnxn.commit()
-        
-        print("---------------------------------")
-        
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     YieldReport_Monthly_Show = cnxn.cursor()
     YieldReport_Monthly_Show.execute('Select * from OEE_DB.dbo.YieldMonthlyReport')    
     payload = []
     content = {}
-    if ansYield_Month_M :
-        for result in YieldReport_Monthly_Show:
-            
-            content = {'Month': ansYield_Month_M_Report , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
-            payload.append(content)
-            content = {}
+    
+    for result in YieldReport_Monthly_Show:
         
+        content = {'Month': ansYield_Month_M_Report , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
+        payload.append(content)
+        content = {}
+    
 
     return json.dumps(payload, cls = Encoder), 201
 
@@ -2802,15 +2681,7 @@ def Report_Yield_M_Excel():
                         size=12,bold=True)
     washi['A4'].fill = PatternFill(patternType='solid',fgColor='154360')
     
-    washi['C3'] = 'By Shifts'
-    washi['C3'].font = Font(color='FFFFFF',
-                        size=12,bold=True)
-    washi['C3'].fill = PatternFill(patternType='solid',fgColor='154360')
-    
-    washi['C4'] = 'By UserGroup'
-    washi['C4'].font = Font(color='FFFFFF',
-                        size=12,bold=True)
-    washi['C4'].fill = PatternFill(patternType='solid',fgColor='154360')
+  
     
     washi['E3'] = 'Year-Month'
     washi['E3'].font = Font(color='FFFFFF',
@@ -2852,7 +2723,7 @@ def Report_Yield_M_Excel():
     washi.column_dimensions['F'].width = 25
     wabu.save('Yield_Montly_Report.xlsx')
     
-    return send_file('Yield_Montly_Report.xlsx') 
+    return send_file('..\Yield_Montly_Report.xlsx') 
 
 #-------------------- main --------------------------------------
 
