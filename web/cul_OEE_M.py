@@ -122,7 +122,14 @@ def startOEE(m):
                                 allIdealCount1, allIdealCount2, allGoodCount, allPostReturn, allFinalGoodCount,
                                 OEE_A1, OEE_A2, OEE_P1, OEE_P2, OEE_Q, OEE_Q_Final, OEE1Calculation,
                                 OEE2Calculation, OEE1FinalCalculation, OEE2FinalCalculation ))
-    cnxn.commit()    
+    cnxn.commit()  
+    
+def startYield():
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    data = cnxn.cursor()
+    data.execute("SELECT  * FROM OEE_DB.dbo.OEEReport_Total ot WHERE OEE_Q2 IS NOT NULL AND DATENAME(MONTH , PostingDate) = DATENAME(MONTH , ?) AND DATENAME(YEAR , PostingDate) = DATENAME(YEAR , ?) AND MachineID = ? ",('2021-10-05','2021-10-05',m[0]))
+
+      
 if __name__ == '__main__' :
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     data = cnxn.cursor()
@@ -130,3 +137,12 @@ if __name__ == '__main__' :
 
     for i in data :
         startOEE(i)
+        
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    data = cnxn.cursor()
+    data.execute("SELECT DISTINCT MachineID FROM OEE_DB.dbo.OEEReport_Total")
+
+    for i in data :
+        startYield(i)
+    
+    
