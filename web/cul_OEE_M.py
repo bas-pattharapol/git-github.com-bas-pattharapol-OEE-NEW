@@ -138,11 +138,11 @@ if __name__ == '__main__' :
     for i in data :
         startOEE(i)
         
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    data = cnxn.cursor()
-    data.execute("SELECT DISTINCT MachineID FROM OEE_DB.dbo.OEEReport_Total")
+   # cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    #data = cnxn.cursor()
+    #data.execute("SELECT DISTINCT MachineID FROM OEE_DB.dbo.OEEReport_Total")
 
-    for i in data :
-        startYield(i)
+    #for i in data :
+    #    startYield(i)
     
     
