@@ -162,8 +162,8 @@ def startYield():
             OutputQty = j[14]
             ReturnQty = j[15]
             
-            Yield = (OutputQty / InputQty) *100
-            FinalYield =( (OutputQty - ReturnQty) / InputQty) *100
+            Yield = (OutputQty / InputQty) 
+            FinalYield =( (OutputQty - ReturnQty) / InputQty) 
             print('Yield' , Yield)
             print('FinalYield' , FinalYield)
             cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
