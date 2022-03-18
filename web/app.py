@@ -1936,6 +1936,7 @@ def ReportYieldMontly(Level,Fname_Lname):
     ansYield_StartDate_M = ''
     ansYield_StopDate_M = ''
     ansYield_Month_M = ''
+    excelYield_Month_M = ''
     
     
     if request.method == 'POST':
@@ -2645,6 +2646,7 @@ def Report_Yield_M_Excel():
     global excelYield_Machines_M 
     global excelYield_Shifts_M  
     global excelYield_Month_M 
+
    
   
     df = pd.read_json('http://172.30.2.2:5001/Report_M_Yield_API_Excel')
