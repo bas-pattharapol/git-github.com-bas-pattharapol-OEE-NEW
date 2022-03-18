@@ -969,15 +969,15 @@ def dashboard():
     data = cnxn.cursor()
     data.execute("SELECT * FROM OEE_DB.dbo.dashboard_METRICS")
     for i in data:
-        HHD_OEE1 = i[0] 
-        TLT_OEE1 = i[1] 
-        Total_OEE1 = i[2] 
-        HHD_OEE2 = i[3]  
-        TLT_OEE2 = i[4] 
-        Total_OEE2 = i[5] 
-        HHD_Yield = i[6] 
-        TLT_Yield = i[7] 
-        Total_Yield = i[8] 
+        HHD_OEE1 = float("{:.2f}".format(i[0] *100))
+        TLT_OEE1 = float("{:.2f}".format(i[1] *100))
+        Total_OEE1 = float("{:.2f}".format(i[2] *100))
+        HHD_OEE2 = float("{:.2f}".format(i[3] *100)) 
+        TLT_OEE2 = float("{:.2f}".format(i[4] *100))
+        Total_OEE2 = float("{:.2f}".format(i[5] *100))
+        HHD_Yield = float("{:.2f}".format(i[6] *100))
+        TLT_Yield = float("{:.2f}".format(i[7] *100))
+        Total_Yield = float("{:.2f}".format(i[8] *100))
         
     return render_template('Metrics.html',HHD_OEE1=HHD_OEE1,TLT_OEE1=TLT_OEE1,Total_OEE1=Total_OEE1,
                            HHD_OEE2=HHD_OEE2,TLT_OEE2=TLT_OEE2,Total_OEE2=Total_OEE2,
