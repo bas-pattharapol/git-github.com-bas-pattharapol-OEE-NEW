@@ -2544,7 +2544,7 @@ def Report_OEE_M_Excel():
     wabu = openpyxl.load_workbook('OEE_Montly_Report.xlsx')
     washi = wabu.active
     washi.insert_rows(1,5)
-    washi['A1'] = 'Report OEE'
+    washi['A1'] = 'Report OEE (Montly)'
     washi['A1'].alignment = Alignment(vertical='center')
     washi['A1'].alignment = Alignment(horizontal='center')
     washi['A1'].font = Font(color='FFFFFF',
@@ -2580,15 +2580,7 @@ def Report_OEE_M_Excel():
                        size=12,bold=True)
     washi['B4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
     
-    washi['D3'] = str(excelOEE_Shifts)
-    washi['D3'].font = Font(color='000000',
-                       size=12,bold=True)
-    washi['D3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
-    
-    washi['D4'] = str(excelOEE_UserGroup)
-    washi['D4'].font = Font(color='000000',
-                       size=12,bold=True)
-    washi['D4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
+   
     
     washi['F3'] = str(excelOEE_Month_M)
     washi['F3'].font = Font(color='000000',
@@ -2699,15 +2691,6 @@ def Report_Yield_M_Excel():
                        size=12,bold=True)
     washi['B4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
     
-    washi['D3'] = str(excelYield_Shifts)
-    washi['D3'].font = Font(color='000000',
-                       size=12,bold=True)
-    washi['D3'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
-    
-    washi['D4'] = str(excelYield_UserGroup)
-    washi['D4'].font = Font(color='000000',
-                       size=12,bold=True)
-    washi['D4'].fill = PatternFill(patternType='solid',fgColor='AED6F1')
     
     washi['F3'] = str(excelYield_Month_M)
     washi['F3'].font = Font(color='000000',
