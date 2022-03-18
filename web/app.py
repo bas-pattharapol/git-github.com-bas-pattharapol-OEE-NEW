@@ -2619,7 +2619,7 @@ def Report_M_Yield_API():
 
     for result in YieldReport_Monthly_Show:
         
-        content = {'Month': ansYield_Month_M_Report , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
+        content = {'Month': result[11] , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
         payload.append(content)
         content = {}
         
@@ -2638,7 +2638,7 @@ def Report_M_Yield_API_Excel():
     
     for result in YieldReport_Monthly_Show:
         
-        content = {'Month': ansYield_Month_M_Report , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
+        content = {'Month': result[11] , 'Plant': result[2],'MachineID': str(result[3]),'Machine_Text': str(result[4]),'InputQty': float("{:.2f}".format(result[5])),'OutputQty': float("{:.2f}".format(result[6])),'ReturnQty': float("{:.2f}".format(result[7])),'Yield': float("{:.2f}".format(result[8])),'FinalYield': float("{:.2f}".format(result[9]))}
         payload.append(content)
         content = {}
     
