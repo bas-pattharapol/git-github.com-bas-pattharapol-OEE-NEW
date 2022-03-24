@@ -16,8 +16,10 @@ import time
 import babel
 import sys
 
-User = "admin"
-UserLevel = "1"
+UserLogin = ''
+UserLevelLogin = ''
+
+
 
 #ddd
 
@@ -398,6 +400,8 @@ def login_addPass(username1):
 
 @app.route("/login_Password/<string:username1>", methods=['GET', 'POST'])
 def login_Password(username1):
+    global UserLogin
+    global UserLevelLogin
     if request.method == 'POST':
         dataPassword = request.form['Password']
 
@@ -421,6 +425,8 @@ def login_Password(username1):
             print(data[3])
             Level = data[11]
             Fname_LName = data[5] + ' ' + data[6]
+            UserLevelLogin = data[11]
+            UserLogin = data[5] + ' ' + data[6]
             print(check_password_hash(data[4], dataPassword))
            
             if check_password_hash(data[4], dataPassword):
@@ -2727,6 +2733,18 @@ def Report_Yield_M_Excel():
     return send_file('..\Yield_Montly_Report.xlsx') 
 
 #-------------------- main --------------------------------------
+@app.route('/API_Login',methods=["GET", "POST"])
+def QC_report_API():    
+    global UserLogin
+    global UserLevelLogin
+    Time = datetime.now()
+    payload = []   
+    content = {}
+    content = {'User': UserLogin, 'Level':UserLevelLogin,'Time': str(Time) }
+    payload.append(content)
+    content = {}
+    #print(payload)
+    return json.dumps({"LoginOEE":payload}, cls = Encoder), 201
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True ,port=5001)
