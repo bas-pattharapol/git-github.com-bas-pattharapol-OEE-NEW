@@ -210,7 +210,7 @@
         -webkit-overflow-scrolling: touch;
     }
     
-    #slide {
+    .slide {
         width: 100%;
         flex-shrink: 0;
         height: 100%;
@@ -273,18 +273,18 @@
                     <div class="slider">
                         <div class="track">
                             {% for j in PD_QC2%} {%if j[9] == 'QC_PASS'%}
-                            <div id="slide" class="step active pass"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
+                            <div class="step active pass"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
                             {%elif j[9] == 'QC_REJECT'%}
-                            <div id="slide" class="step active reject"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
+                            <div class="step active reject"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
                             {%elif j[9] == 'QC_RECEIVE'%}
-                            <div id="slide" class="step active receive"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
+                            <div class="step active receive"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
                             {%elif j[9] == 'QC_HOLD'%}
-                            <div id="slide" class="step active hold"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
+                            <div class="step active hold"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
 
                             {%else%}
-                            <div id="slide" class="step active hold"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
+                            <div class="step active hold"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
                             {%endif%} {%endfor%} {%if dataPD[dataPD_len] == 'QC_PASS' or dataPD[dataPD_len] == 'QC_REJECT'%} {%else%}
-                            <div id="slide" class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">---</span> <span class="text">--:--:--</span></div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">---</span> <span class="text">--:--:--</span></div>
 
                             {%endif%}
 
