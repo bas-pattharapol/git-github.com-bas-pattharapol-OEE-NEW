@@ -2735,7 +2735,7 @@ def Report_Yield_M_Excel():
 
 #-------------------- API --------------------------------------
 @app.route('/API_Login',methods=["GET", "POST"])
-def QC_report_API():    
+def API_Login():    
     global UserLogin
     global UserLevelLogin
     Time = datetime.now()
