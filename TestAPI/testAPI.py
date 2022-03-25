@@ -1,11 +1,60 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://172.30.1.2:5001/API_RunTime_DownTime"
+url = "http://172.30.1.2:5001/API_INF_OEE01"
 
 headers = CaseInsensitiveDict()
 headers["Content-Type"] = "application/json"
 #ok
+
+data1 = """
+{
+    "Result":
+    [
+        {
+            "Plant": "1",
+            "PDOrder": "000080114862",
+            "MachineID": "2288-01",
+            "Material": "203.54",
+            "Description": "FLD - PLUS - GO",
+            "PlanQuantity": "10000.000",
+            "Bacth": "____220030",
+            "Code": "",
+            "PD_order1": "",
+            "PD_order2": "",
+            "PD_order3": "",
+            "PD_order4": "",
+            "PD_order5": "",
+            "PD_order6": "",
+            "PD_order7": "",
+            "PD_order8": "",
+            "PD_order9": "",
+            "PD_order10": ""
+        },
+        {
+            "Plant": "1",
+            "PDOrder": "000080114862",
+            "MachineID": "3212-01",
+            "Material": "203.54",
+            "Description": "FLD - PLUS - GO",
+            "PlanQuantity": "10000.000",
+            "Bacth": "____220030",
+            "Code": "",
+            "PD_order1": "",
+            "PD_order2": "",
+            "PD_order3": "",
+            "PD_order4": "",
+            "PD_order5": "",
+            "PD_order6": "",
+            "PD_order7": "",
+            "PD_order8": "",
+            "PD_order9": "",
+            "PD_order10": ""
+        }
+    ]
+}
+
+"""
 
 data2 = """
 {
@@ -733,6 +782,6 @@ data4 = """
 }
                 
 """
-resp = requests.get(url, headers=headers, data=data2)
+resp = requests.post(url, headers=headers, data=data1)
 
 print(resp.status_code)

@@ -167,7 +167,7 @@ def API_INF_OEE01():
     data = request.get_json()
 
     for i in range(0,len(data['Result'])):
-        ResultPDOrder = data['Result'][i]['PDOrder'][3:12]
+        ResultPDOrder = data['Result'][i]['PDOrder'][4:12]
         print('Plant --> ' ,data['Result'][i]['Plant'] )
         print('PDOrder --> ' ,ResultPDOrder)
         print('MachineID --> ' ,data['Result'][i]['MachineID'] )
@@ -204,7 +204,7 @@ def API_INF_OEE03():
         for i in range(0,len(data['Result'][p]['Machine'])):
         
             for j in range(0,len(data['Result'][p]['Machine'][i]['GR_QTY'])):
-                ResultPDOrder = data['Result'][p]['PDOrder'][3:12]
+                ResultPDOrder = data['Result'][p]['PDOrder'][4:12]
                 print('PDOrder --> ' ,ResultPDOrder )
                 print('Machine - ID --> ' ,data['Result'][p]['Machine'][i]['ID'] )
                 print('GR_QTY - ID --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'] )
