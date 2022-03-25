@@ -260,7 +260,7 @@
                         <div id="scrollable-content">
                             <div class="track">
 
-                                {% for j in PD_QC2|string%} {%if j[9] == 'QC_PASS'%}
+                                {% for j in PD_QC2%} {%if j[9] == 'QC_PASS'%}
                                 <div class="step active pass"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
                                 {%elif j[9] == 'QC_REJECT'%}
                                 <div class="step active reject"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">{{j[9]}}</span> <span class="text">{{j[7]}}</span></div>
