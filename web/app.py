@@ -3050,7 +3050,7 @@ def QC_report_Excel_API():
         
         content = {}
         for result in qc_report:
-            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'QC_START': str(result[5]),'QC_FINISH': str(result[6]),'QC_TIME': str(result[7]),'User': str(result[8])}
+            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'QC_START': str(result[5])[0:19],'QC_FINISH': str(result[6])[0:19],'QC_TIME': str(result[7]),'User': str(result[8])}
             payload.append(content)
             content = {}
     return json.dumps(payload, cls = Encoder), 201
@@ -3085,7 +3085,7 @@ def QC_report_API():
         
         content = {}
         for result in qc_report:
-            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'NO': result[5],'QC_START': str(result[6]),'QC_FINISH': str(result[7]),'QC_TIME': str(result[8]),'User': str(result[9])}
+            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'NO': result[5],'QC_START': str(result[6])[0:19],'QC_FINISH': str(result[7])[0:19],'QC_TIME': str(result[8]),'User': str(result[9])}
             payload.append(content)
             content = {}
     #print(payload)
