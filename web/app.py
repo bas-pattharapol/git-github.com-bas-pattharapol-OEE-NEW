@@ -1912,7 +1912,7 @@ def ReportOEEMontly(Level,Fname_Lname):
     print(ansOEE_StopDate_M)
     print(ansOEE_Month_M)
      
-    
+    #--
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Plant = cnxn.cursor()
     Plant.execute('SELECT PlantName FROM OEE_DB.dbo.Plant  WHERE DeleteFlag = 1')
