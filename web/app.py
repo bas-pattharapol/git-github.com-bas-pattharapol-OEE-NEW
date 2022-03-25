@@ -167,31 +167,31 @@ def API_INF_OEE01():
     data = request.get_json()
 
     for i in range(0,len(data['Result'])):
-        ResultPDOrder = data['Result'][i]['PDOrder'][4:12]
+        
         print('Plant --> ' ,data['Result'][i]['Plant'] )
-        print('PDOrder --> ' ,ResultPDOrder)
+        print('PDOrder --> ' ,data['Result'][i]['PDOrder'][4:12] )
         print('MachineID --> ' ,data['Result'][i]['MachineID'] )
         print('Material --> ' ,data['Result'][i]['Material'] )
         print('Description --> ' ,data['Result'][i]['Description'] )
         print('PlanQuantity --> ' ,data['Result'][i]['PlanQuantity'] )
         print('Bacth --> ' ,data['Result'][i]['Bacth'] )
         print('Bulk - Code --> ' ,data['Result'][i]['Code'] )
-        print('Bulk - PD_order1 --> ' ,data['Result'][i]['PD_order1'] )
-        print('Bulk - PD_order2 --> ' ,data['Result'][i]['PD_order2'] )
-        print('Bulk - PD_order3 --> ' ,data['Result'][i]['PD_order3'] )
-        print('Bulk - PD_order4 --> ' ,data['Result'][i]['PD_order4'] )
-        print('Bulk - PD_order5 --> ' ,data['Result'][i]['PD_order5'] )
-        print('Bulk - PD_order6 --> ' ,data['Result'][i]['PD_order6'] )
-        print('Bulk - PD_order7 --> ' ,data['Result'][i]['PD_order7'] )
-        print('Bulk - PD_order8 --> ' ,data['Result'][i]['PD_order8'] )
-        print('Bulk - PD_order9 --> ' ,data['Result'][i]['PD_order9'] )
-        print('Bulk - PD_order10 --> ' ,data['Result'][i]['PD_order10'] )
+        print('Bulk - PD_order1 --> ' ,data['Result'][i]['PD_order1'][4:12] )
+        print('Bulk - PD_order2 --> ' ,data['Result'][i]['PD_order2'][4:12] )
+        print('Bulk - PD_order3 --> ' ,data['Result'][i]['PD_order3'][4:12] )
+        print('Bulk - PD_order4 --> ' ,data['Result'][i]['PD_order4'][4:12] )
+        print('Bulk - PD_order5 --> ' ,data['Result'][i]['PD_order5'][4:12] )
+        print('Bulk - PD_order6 --> ' ,data['Result'][i]['PD_order6'][4:12] )
+        print('Bulk - PD_order7 --> ' ,data['Result'][i]['PD_order7'][4:12] )
+        print('Bulk - PD_order8 --> ' ,data['Result'][i]['PD_order8'][4:12] )
+        print('Bulk - PD_order9 --> ' ,data['Result'][i]['PD_order9'][4:12] )
+        print('Bulk - PD_order10 --> ' ,data['Result'][i]['PD_order10'][4:12] )
         
         print("------------------------------------")
         
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE1_V2 (Plant, PDOrder, MachineID, Material, Description, PlanQuantity, Bacth, Code, PD_order1, PD_order2, PD_order3, PD_order4, PD_order5, PD_order6, PD_order7, PD_order8) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' ,(data['Result'][i]['Plant'],ResultPDOrder,data['Result'][i]['MachineID'],data['Result'][i]['Material'],data['Result'][i]['Description'],data['Result'][i]['PlanQuantity'],data['Result'][i]['Bacth'],data['Result'][i]['Code'],data['Result'][i]['PD_order1'],data['Result'][i]['PD_order2'],data['Result'][i]['PD_order3'],data['Result'][i]['PD_order4'],data['Result'][i]['PD_order5'],data['Result'][i]['PD_order6'],data['Result'][i]['PD_order7'],data['Result'][i]['PD_order8']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE1_V2 (Plant, PDOrder, MachineID, Material, Description, PlanQuantity, Bacth, Code, PD_order1, PD_order2, PD_order3, PD_order4, PD_order5, PD_order6, PD_order7, PD_order8) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)' ,(data['Result'][i]['Plant'],data['Result'][i]['PDOrder'][4:12],data['Result'][i]['MachineID'],data['Result'][i]['Material'],data['Result'][i]['Description'],data['Result'][i]['PlanQuantity'],data['Result'][i]['Bacth'],data['Result'][i]['Code'],data['Result'][i]['PD_order1'][4:12],data['Result'][i]['PD_order2'][4:12],data['Result'][i]['PD_order3'][4:12],data['Result'][i]['PD_order4'][4:12],data['Result'][i]['PD_order5'][4:12],data['Result'][i]['PD_order6'][4:12],data['Result'][i]['PD_order7'][4:12],data['Result'][i]['PD_order8'][4:12]))
         cnxn.commit()
         
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
@@ -204,8 +204,7 @@ def API_INF_OEE03():
         for i in range(0,len(data['Result'][p]['Machine'])):
         
             for j in range(0,len(data['Result'][p]['Machine'][i]['GR_QTY'])):
-                ResultPDOrder = data['Result'][p]['PDOrder'][4:12]
-                print('PDOrder --> ' ,ResultPDOrder )
+                print('PDOrder --> ' ,data['Result'][p]['PDOrder'][4:12] )
                 print('Machine - ID --> ' ,data['Result'][p]['Machine'][i]['ID'] )
                 print('GR_QTY - ID --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'] )
                 print('GR_QTY - Date --> ' ,data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'] )
@@ -215,7 +214,7 @@ def API_INF_OEE03():
 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
-                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE3_V2 (PDOrder,MachineID, QTY, [Date], [Time]) VALUES(?,?,?,?,?)' ,(ResultPDOrder,data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'],DateTime))
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE3_V2 (PDOrder,MachineID, QTY, [Date], [Time]) VALUES(?,?,?,?,?)' ,(data['Result'][p]['PDOrder'][4:12],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['QTY'],data['Result'][p]['Machine'][i]['GR_QTY'][j]['Date'],DateTime))
                 cnxn.commit()
             print("------------------------------------")
         
@@ -228,7 +227,7 @@ def API_INF_OEE04():
     data = request.get_json()
     for p in range(0,len(data['Result'])):
         for i in range(0,len(data['Result'][p]['Machine'])):
-            print('PDOrder --> ' ,data['Result'][p]['PDOrder'] )
+            print('PDOrder --> ' ,data['Result'][p]['PDOrder'][4:12] )
             print('Machine - ID --> ' ,data['Result'][p]['Machine'][i]['ID'] )
             for j in range(0,len(data['Result'][p]['Machine'][i]['GI'])):
                 print('GI - ID --> ' ,data['Result'][p]['Machine'][i]['GI'][j]['QTY'] )
@@ -239,7 +238,7 @@ def API_INF_OEE04():
 
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
-                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE4_V2 (PDOrder,MachineID, QTY,Dep ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['GI'][j]['QTY'],data['Result'][p]['Machine'][i]['GI'][j]['Dep'],data['Result'][p]['Machine'][i]['GI'][j]['Date'],DateTime))
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE4_V2 (PDOrder,MachineID, QTY,Dep ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'][4:12],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['GI'][j]['QTY'],data['Result'][p]['Machine'][i]['GI'][j]['Dep'],data['Result'][p]['Machine'][i]['GI'][j]['Date'],DateTime))
                 cnxn.commit()
             print("------------------------------------")
         
@@ -251,7 +250,7 @@ def API_INF_OEE05():
     data = request.get_json()
     for p in range(0,len(data['Result'])):
         for i in range(0,len(data['Result'][p]['Machine'])):
-            print('PDOrder --> ' ,data['Result'][p]['PDOrder'] )
+            print('PDOrder --> ' ,data['Result'][p]['PDOrder'][4:12] )
             print('Machine - ID --> ' ,data['Result'][p]['Machine'][i]['ID'] )
             for j in range(0,len(data['Result'][p]['Machine'][i]['Return'])):
                 print('Return - ID --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['QTY'] )
@@ -260,7 +259,7 @@ def API_INF_OEE05():
                 print('Return - Time --> ' ,data['Result'][p]['Machine'][i]['Return'][j]['Time'] )
                 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
                 update = cnxn.cursor()
-                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE5_V2 (PDOrder,MachineID, QTY,Text ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['Return'][j]['QTY'],data['Result'][p]['Machine'][i]['Return'][j]['Text'],data['Result'][p]['Machine'][i]['Return'][j]['Date'],data['Result'][p]['Machine'][i]['Return'][j]['Time']))
+                update.execute('INSERT INTO OEE_DB.dbo.INF_OEE5_V2 (PDOrder,MachineID, QTY,Text ,[Date], [Time]) VALUES(?,?,?,?,?,?)' ,(data['Result'][p]['PDOrder'][4:12],data['Result'][p]['Machine'][i]['ID'],data['Result'][p]['Machine'][i]['Return'][j]['QTY'],data['Result'][p]['Machine'][i]['Return'][j]['Text'],data['Result'][p]['Machine'][i]['Return'][j]['Date'],data['Result'][p]['Machine'][i]['Return'][j]['Time']))
                 cnxn.commit()
             print("------------------------------------")
         
@@ -277,7 +276,7 @@ def API_RunTime_DownTime():
     
     for i in range(0,len(data['RunTime'])):
         print("-->> RunTime [",i,"]")
-        print('PDOrder --> ' ,data['Order'] )
+        print('PDOrder --> ' ,data['Order'][4:12] )
         print('Operation --> ' ,data['Operation'])
         print('RunTime - Post_Date --> ' ,data['RunTime'][i]['Post_Date'] )
         print('RunTime - Start_Runtime --> ' ,data['RunTime'][i]['Start_Runtime'] )
@@ -287,13 +286,13 @@ def API_RunTime_DownTime():
         DateDate  = str(datetime.strptime(data['RunTime'][i]['Post_Date'] , '%d-%m-%Y').date())
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?)' ,(data['Order'],"RunTime",data['Operation'],DateDate,data['RunTime'][i]['Start_Runtime'],data['RunTime'][i]['End_Runtime'],data['RunTime'][i]['Total_Runtime']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min]) VALUES(?,?,?,?,?,?,?)' ,(data['Order'][4:12],"RunTime",data['Operation'],DateDate,data['RunTime'][i]['Start_Runtime'],data['RunTime'][i]['End_Runtime'],data['RunTime'][i]['Total_Runtime']))
         cnxn.commit()
        
         
     for i in range(0,len(data['DonwTime'])):
         print("-->> DonwTime [",i,"]")
-        print('PDOrder --> ' ,data['Order'] )
+        print('PDOrder --> ' ,data['Order'][4:12] )
         print('Operation --> ' ,data['Operation'])
         print('DonwTime - Post_Date --> ' ,data['DonwTime'][i]['Post_Date'] )
         print('DonwTime - Start_Downtime --> ' ,data['DonwTime'][i]['Start_Downtime'] )
@@ -309,7 +308,7 @@ def API_RunTime_DownTime():
                         INNER JOIN OEE_DB.dbo.PlannedProductionTime ppt
                         ON iov.MachineID = ppt.MachineID AND iov.PDOrder = ? AND ppt.[Date] = ? 
                         order by ppt.[DateTime] DESC 
-                    """,(data['Order'] ,str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date())))
+                    """,(data['Order'][4:12] ,str(datetime.strptime(data['DonwTime'][i]['Post_Date'] , '%d-%m-%Y').date())))
         
         for o in cur1:
             print(o[1])
@@ -350,7 +349,7 @@ def API_RunTime_DownTime():
  
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
-        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'],"DonwTime",data['Operation'],DateDate,startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))
+        update.execute('INSERT INTO OEE_DB.dbo.INF_OEE2_V2 (PDOrder, TypeTime, Operation, PostDate, StartTime, EndTime, [Min],DownTimeCode) VALUES(?,?,?,?,?,?,?,?)' ,(data['Order'][4:12],"DonwTime",data['Operation'],DateDate,startDate,endDate,data['DonwTime'][i]['Total_Downtime'],data['DonwTime'][i]['Reason_Var']))
         cnxn.commit()
        
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
