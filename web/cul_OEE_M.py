@@ -156,8 +156,8 @@ def startYield(m):
     cnxn.commit()
     
     print("---------------------------------")
-        
-if __name__ == '__main__' :
+ 
+def goStart(): 
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     data = cnxn.cursor()
     data.execute("SELECT DISTINCT MachineID FROM OEE_DB.dbo.OEEReport_Total")
@@ -171,5 +171,6 @@ if __name__ == '__main__' :
 
     for i in data :
         startYield(i)
+    
     
     

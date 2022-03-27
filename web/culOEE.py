@@ -171,8 +171,5 @@ def startYield():
             UPDATE.execute("UPDATE OEE_DB.dbo.[YieldReport] SET Yield = ? , FinalYield = ? WHERE PDOrder = ?  ",(Yield,FinalYield,i[0]))
             cnxn.commit()
 
-if __name__ == '__main__':
-    #startOEE()
-    #startOEE()
-    startYield()
+
             
