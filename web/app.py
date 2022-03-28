@@ -1006,7 +1006,7 @@ def oee_Total(oee):
                 (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
                 (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
                 (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
+                (50) as July,
                 (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
                 (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
                 (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
