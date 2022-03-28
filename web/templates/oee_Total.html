@@ -310,8 +310,8 @@
                             <div class="nameSel">Select OEE</div>
                             <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
                                 <option selected="selected">-- ALL --</option>
-                              <option>TLT</option>
-                              <option>HHD</option>
+                              <option>OEE 1</option>
+                              <option>OEE 2</option>
                               
                             </select>
                         </div>
@@ -336,12 +336,12 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <div class="nameSel">Select Year</div>
-                            <input class="form-control" type="number" placeholder="YYYY" min="2022" max="2100" style="width: 100%;  height: 30px; font-Size: 0.8em;">
+                            <input class="form-control" type="number" placeholder="YYYY" min="2021" max="2100" value="2022" style="width: 100%;  height: 30px; font-Size: 0.8em;">
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-md-2"></div>
+
                     <div class="col-md-1">
                         <br>
                         <div class="buttonSm">
@@ -349,6 +349,7 @@
 
                         </div>
                     </div>
+                    <div class="col-md-2"></div>
                     <div class="col-md-1">
                         <div class="imghome">
                             <img src="{{ url_for('static', filename='dashboard/home.jpg')}}" width="40%"> &nbsp; &nbsp;
