@@ -524,7 +524,7 @@
                         <div class="card-header">
 
                             <h3 class="card-title">
-                                <i class="fas fa-chart-pie mr-1"></i><b style=" color : #fff;font-size: 1.3em;">% DownTime {{data[9]}} </b>
+                                <i class="fas fa-chart-pie mr-1"></i><b style=" color : #fff;font-size: 1.3em;">% DownTime {{data[0][9]}} </b>
                             </h3>
                             <br>
                             <canvas id="OEE_APQ2"></canvas>
@@ -581,7 +581,7 @@
             datasets: [{
 
                 data: [
-                    "{{data[0]}},{{data[1]}},{{data[2]}},{{data[3]}},{{data[4]}},{{data[5]}},{{data[6]}},{{data[7]}},{{data[8]}},{{data[9]}},{{data[10]}},{{data[11]}}"
+                    "{{data[0][0]}},{{data[0][1]}},{{data[0][2]}},{{data[0][3]}},{{data[0][4]}},{{data[0][5]}},{{data[0][6]}},{{data[0][7]}},{{data[0][8]}},{{data[0][9]}},{{data[0][10]}},{{data[0][11]}}"
                 ],
                 type: 'line',
                 label: '%',
