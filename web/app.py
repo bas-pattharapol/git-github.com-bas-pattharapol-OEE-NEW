@@ -999,19 +999,20 @@ def oee_Total(oee):
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     data = cnxn.cursor()
     data.execute("""
-                 SELECT 
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                (50) as July,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
-                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+               SELECT 
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
+                (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+
                  """)
     oeebarChart = [] 
     for i in data:
