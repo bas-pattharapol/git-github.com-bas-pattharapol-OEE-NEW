@@ -990,10 +990,34 @@ def dashboard():
                            HHD_OEE2=HHD_OEE2,TLT_OEE2=TLT_OEE2,Total_OEE2=Total_OEE2,
                            HHD_Yield=HHD_Yield,TLT_Yield=TLT_Yield,Total_Yield=Total_Yield)
 
-@app.route('/oee_Total')
+@app.route('/oee_Total/<string:oee>', methods=['GET', 'POST'])
 @flask_login.login_required
-def oee_Total():
-    return render_template('oee_Total.html')
+def oee_Total(oee):
+    if request.method == 'POST':
+        return 0 
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    data = cnxn.cursor()
+    data.execute("""
+                 SELECT 
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
+                (SELECT OEE1Calculation FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+                 """)
+    oeebarChart = [] 
+    for i in data:
+        oeebarChart.append(i)
+    print(oeebarChart)
+    return render_template('oee_Total.html',data=data)
 
 @app.route('/oee_MachineV2')
 @flask_login.login_required
