@@ -990,9 +990,9 @@ def dashboard():
                            HHD_OEE2=HHD_OEE2,TLT_OEE2=TLT_OEE2,Total_OEE2=Total_OEE2,
                            HHD_Yield=HHD_Yield,TLT_Yield=TLT_Yield,Total_Yield=Total_Yield)
 
-@app.route('/oee_Total/<string:oee>', methods=['GET', 'POST'])
+@app.route('/oee_Total', methods=['GET', 'POST'])
 @flask_login.login_required
-def oee_Total(oee):
+def oee_Total():
     if request.method == 'POST':
         return 0 
     
