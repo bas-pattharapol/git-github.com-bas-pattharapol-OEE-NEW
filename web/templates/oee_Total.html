@@ -324,11 +324,9 @@
                             <div class="nameSel">Select Plant</div>
                             <select class="form-control select2" style="width: 100%;  height: 30px; font-Size: 0.8em;" name="By_Machine">
                               <option selected="selected">-- ALL --</option>
-                              <option>Robotic 1</option>
-                              <option>Robotic 2</option>
-                              <option>Robotic 3</option>
-                              <option>Robotic 4</option>
-                              
+                              <option>TLT</option>
+                              <option>HHD</option>
+                                                            
                             </select>
                         </div>
                     </div>
@@ -524,7 +522,7 @@
                         <div class="card-header">
 
                             <h3 class="card-title">
-                                <i class="fas fa-chart-pie mr-1"></i><b style=" color : #fff;font-size: 1.3em;">% DownTime</b>
+                                <i class="fas fa-chart-pie mr-1"></i><b style=" color : #fff;font-size: 1.3em;">% DownTime </b>
                             </h3>
                             <br>
                             <canvas id="OEE_APQ2"></canvas>
@@ -581,7 +579,8 @@
             datasets: [{
 
                 data: [
-                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+
+                    '{{data[0][0]}}', '{{data[0][1]}}', '{{data[0][2]}}', '{{data[0][3]}}', '{{data[0][4]}}', '{{data[0][5]}}', '{{data[0][6]}}', '{{data[0][7]}}', '{{data[0][8]}}', '{{data[0][9]}}', '{{data[0][10]}}', '{{data[0][11]}}'
                 ],
                 type: 'line',
                 label: '%',
@@ -612,7 +611,8 @@
             datasets: [{
 
                 data: [
-                    89, 85, 85, 91, 94, 84, 90, 87, 80, 93, 95, 85
+                    '{{data1[0][0]}}', '{{data1[0][1]}}', '{{data1[0][2]}}', '{{data1[0][3]}}', '{{data1[0][4]}}', '{{data1[0][5]}}', '{{data1[0][6]}}', '{{data1[0][7]}}', '{{data1[0][8]}}', '{{data1[0][9]}}', '{{data1[0][10]}}', '{{data1[0][11]}}'
+
                 ],
                 type: 'line',
                 label: '%',
@@ -699,7 +699,7 @@
                             stacked: false,
                             ticks: {
                                 beginAtZero: false,
-                                min: 40,
+                                min: 0,
                                 max: 100,
 
                                 fontColor: "#fff",
@@ -772,7 +772,7 @@
                             stacked: false,
                             ticks: {
                                 beginAtZero: false,
-                                min: 40,
+                                min: 0,
                                 max: 100,
 
                                 fontColor: "#fff",
