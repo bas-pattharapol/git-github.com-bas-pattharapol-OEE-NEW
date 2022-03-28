@@ -1014,11 +1014,35 @@ def oee_Total(oee):
                 (SELECT ROUND(OEE1Calculation,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
 
                  """)
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    data1 = cnxn.cursor()
+    data1.execute("""
+               SELECT 
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
+                (SELECT ROUND(Per_PantDownTime,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+
+                 """)
+    
     oeebarChart = [] 
+    DownTimebarChart = [] 
     for i in data:
         oeebarChart.append(i)
+    for i in data1:
+        DownTimebarChart.append(i)    
    
-    return render_template('oee_Total.html',data=oeebarChart)
+   
+    return render_template('oee_Total.html',data=oeebarChart,data1 = DownTimebarChart)
 
 @app.route('/oee_MachineV2')
 @flask_login.login_required
