@@ -1016,7 +1016,7 @@ def oee_Total(oee):
     oeebarChart = [] 
     for i in data:
         oeebarChart.append(i)
-    print(oeebarChart)
+    print(oeebarChart[9])
     return render_template('oee_Total.html',data=oeebarChart)
 
 @app.route('/oee_MachineV2')
