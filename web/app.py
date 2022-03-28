@@ -1017,7 +1017,7 @@ def oee_Total(oee):
     for i in data:
         oeebarChart.append(i)
     print(oeebarChart)
-    return render_template('oee_Total.html',data=data)
+    return render_template('oee_Total.html',data=oeebarChart)
 
 @app.route('/oee_MachineV2')
 @flask_login.login_required
