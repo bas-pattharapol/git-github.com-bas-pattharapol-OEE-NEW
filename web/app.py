@@ -1000,18 +1000,18 @@ def oee_Total(oee):
     data = cnxn.cursor()
     data.execute("""
                SELECT 
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
-                (SELECT ROUND(OEE1Calculation,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
+                (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
 
                  """)
     
@@ -1019,18 +1019,18 @@ def oee_Total(oee):
     data1 = cnxn.cursor()
     data1.execute("""
                SELECT 
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
-                (SELECT ROUND(Per_PantDownTime,1) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
+                (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
 
                  """)
     
