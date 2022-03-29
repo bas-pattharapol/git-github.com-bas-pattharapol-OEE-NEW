@@ -40,7 +40,7 @@ def startOEE(m):
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     data = cnxn.cursor()
-    data.execute("SELECT  * FROM OEE_DB.dbo.OEEReport_Total ot WHERE OEE_Q2 IS NOT NULL AND DATENAME(MONTH , PostingDate) = DATENAME(MONTH , ?) AND DATENAME(YEAR , PostingDate) = DATENAME(YEAR , ?) AND MachineID = ? ",('2021-10-05','2021-10-05',m[0]))
+    data.execute("SELECT  * FROM OEE_DB.dbo.OEEReport_Total ot WHERE OEE_Q2 IS NOT NULL AND DATENAME(MONTH , PostingDate) = DATENAME(MONTH , getdate()) AND DATENAME(YEAR , PostingDate) = DATENAME(YEAR , getdate()) AND MachineID = ? ",(m[0],))
 
     for j in data:
         PlantID = j[1]
@@ -105,6 +105,10 @@ def startOEE(m):
     print("OEE2Calculation : " +str(OEE2Calculation))
     print("OEE1FinalCalculation : " +str(OEE1FinalCalculation))
     print("OEE2FinalCalculation : " +str(OEE2FinalCalculation))
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    OEEReport_Monthly = cnxn.cursor()
+    OEEReport_Monthly.execute("DELETE FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = FORMAT(DateTime, 'MMMM yyyy')")
+    cnxn.commit() 
             
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     OEEReport_Monthly = cnxn.cursor()
@@ -114,8 +118,8 @@ def startOEE(m):
                               TotalCount, IdealCount1, IdealCount2, GoodCount, PostReturn, FinalGoodCount, OEE_A1, OEE_A2, 
                               OEE_P1, OEE_P2, OEE_Q, OEE_Q_Final, OEE1Calculation, OEE2Calculation, 
                               OEE1FinalCalculation, OEE2FinalCalculation) 
-                              VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
-                              ,( 'October 2021'  , PlantID , PlantName  , MachineID  , MachineName  , 
+                              VALUES(FORMAT(DateTime, 'MMMM yyyy'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+                              ,( PlantID , PlantName  , MachineID  , MachineName  , 
                                 allPlanDownTime, allUnplanDownTime, allRunTime1, allRunTime2, 
                                 Per_PantDownTime, Per_UnplanDowntime, Per_Downtime, 
                                 Per_PantDownTime2, Per_UnplanDowntime2, Per_Downtime2, allTotalCount,
@@ -130,7 +134,7 @@ def startYield(m):
     allReturnQty = 0
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     data = cnxn.cursor()
-    data.execute("SELECT  * FROM OEE_DB.dbo.YieldReport  WHERE FinalYield IS NOT NULL AND DATENAME(MONTH , PostingDate) = DATENAME(MONTH , ?) AND DATENAME(YEAR , PostingDate) = DATENAME(YEAR , ?) AND MachineID = ? ",('2021-10-05','2021-10-05',m[0]))
+    data.execute("SELECT  * FROM OEE_DB.dbo.YieldReport  WHERE FinalYield IS NOT NULL AND DATENAME(MONTH , PostingDate) = DATENAME(MONTH , getdate()) AND DATENAME(YEAR , PostingDate) = DATENAME(YEAR , getdate()) AND MachineID = ? ",(m[0],))
 
     for j in data:
         PlantID = j[2]
@@ -149,10 +153,13 @@ def startYield(m):
     print("allReturnQty : " +str(allReturnQty))
     print("Yield : " +str(Yield))
     print("FinalYield : " + str(FinalYield))  
-    
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     YieldReport_Monthly = cnxn.cursor()
-    YieldReport_Monthly.execute('INSERT INTO OEE_DB.dbo.YieldMonthlyReport (Monthly, PlantID, PlantName, MachineID, MachineName, InputQty, OutputQty, ReturnQty, Yield, FinalYield) VALUES(?,?,?,?,?,?,?,?,?,?)' ,( 'October 2021'   , PlantID , PlantName  , MachineID  , MachineName  , allInputQty, allOutputQty, allReturnQty, Yield, FinalYield ))
+    YieldReport_Monthly.execute("DELETE FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = FORMAT(DateTime, 'MMMM yyyy')")
+    cnxn.commit()
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    YieldReport_Monthly = cnxn.cursor()
+    YieldReport_Monthly.execute("INSERT INTO OEE_DB.dbo.YieldMonthlyReport (Monthly, PlantID, PlantName, MachineID, MachineName, InputQty, OutputQty, ReturnQty, Yield, FinalYield) VALUES(FORMAT(DateTime, 'MMMM yyyy'),?,?,?,?,?,?,?,?,?)" ,( PlantID , PlantName  , MachineID  , MachineName  , allInputQty, allOutputQty, allReturnQty, Yield, FinalYield ))
     cnxn.commit()
     
     print("---------------------------------")
@@ -171,6 +178,4 @@ def goStart():
 
     for i in data :
         startYield(i)
-    
-    
     

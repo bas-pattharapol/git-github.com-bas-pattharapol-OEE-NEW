@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify,ma
 from flask.sessions import NullSession
 import flask_login 
 from flask_login.utils import logout_user
+from numpy import add_newdoc
 import pandas as pd
 import pyodbc
 import json
@@ -993,26 +994,48 @@ def dashboard():
 @app.route('/oee_Total/<string:oeemenu>', methods=['GET', 'POST'])
 @flask_login.login_required
 def oee_Total(oeemenu):
+    addPlant = ''
+    addYear = '2022'
+    
     if request.method == 'POST':
-        return 0 
-    if oeemenu == 'OEE1':
+        oeemenu = request.form['oeeMenu']
+        selectPlant = request.form['selectPlant']
         
+        addYear= str(request.form['SelectYear'])
+        
+        if selectPlant == 'ALL':
+            addPlant = ''
+        elif selectPlant == 'TLT':
+            addPlant = "AND PlantName ='TLT' " 
+        elif selectPlant == 'HHD':
+            addPlant = "AND PlantName ='HHD' " 
+        
+    
+    print(oeemenu)
+    print(addPlant)
+    print(addYear)
+            
+        
+    if oeemenu == 'OEE1':
+        print("""
+                SELECT 
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +addPlant +""" ) as January,""")
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         data = cnxn.cursor()
         data.execute("""
                 SELECT 
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
-                    (SELECT ROUND(OEE1Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +addPlant +""" ) as January,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February """ +addYear+"""'""" +addPlant +"""  ) as February,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March """ +addYear+"""'""" +addPlant +""" ) as March,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'April """ +addYear+"""'""" +addPlant +"""  ) as April,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May """ +addYear+"""'""" +addPlant +"""  ) as May,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June """ +addYear+"""'""" +addPlant +"""  ) as June,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July """ +addYear+"""'""" +addPlant +"""  ) as July,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August """ +addYear+"""'""" +addPlant +"""  ) as August,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September """ +addYear+"""'""" +addPlant +"""  ) as September,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October """ +addYear+"""'""" +addPlant +"""  ) as October,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November """ +addYear+"""'""" +addPlant +"""  ) as November,
+                    (SELECT ROUND(OEE1FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December """ +addYear+"""'""" +addPlant +"""  ) as December
 
                     """)
         
@@ -1020,37 +1043,59 @@ def oee_Total(oeemenu):
         data1 = cnxn.cursor()
         data1.execute("""
                 SELECT 
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
-                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +addPlant +""" ) as January,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February """ +addYear+"""'""" +addPlant +""" ) as February,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March """ +addYear+"""'""" +addPlant +""" ) as March,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'April """ +addYear+"""'""" +addPlant +""" ) as April,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May """ +addYear+"""'""" +addPlant +""" ) as May,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June """ +addYear+"""'""" +addPlant +""" ) as June,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July """ +addYear+"""'""" +addPlant +""" ) as July,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August """ +addYear+"""'""" +addPlant +""" ) as August,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September """ +addYear+"""'""" +addPlant +""") as September,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October """ +addYear+"""'""" +addPlant +""" ) as October,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November """ +addYear+"""'""" +addPlant +""" ) as November,
+                    (SELECT ROUND(Per_PantDownTime*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December """ +addYear+"""'""" +addPlant +""" ) as December
 
                     """)
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee = cnxn.cursor()
+        oee.execute("""
+                    SELECT ROUND(AVG(OEE1FinalCalculation)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee_a = cnxn.cursor()
+        oee_a.execute("""
+                    SELECT ROUND(AVG(OEE_A1)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee_p = cnxn.cursor()
+        oee_p.execute("""
+                    SELECT ROUND(AVG(OEE_P1)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee_q = cnxn.cursor()
+        oee_q.execute("""
+                    SELECT ROUND(AVG(OEE_Q_Final)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
+        
+                    
     if oeemenu == 'OEE2':
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         data = cnxn.cursor()
         data.execute("""
                 SELECT 
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
-                    (SELECT ROUND(OEE2Calculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +addPlant +""" ) as January,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February """ +addYear+"""'""" +addPlant +""" ) as February,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March """ +addYear+"""'""" +addPlant +""" ) as March,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'April """ +addYear+"""'""" +addPlant +""" ) as April,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May """ +addYear+"""'""" +addPlant +""" ) as May,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June """ +addYear+"""'""" +addPlant +""" ) as June,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July """ +addYear+"""'""" +addPlant +""" ) as July,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August """ +addYear+"""'""" +addPlant +""" ) as August,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September """ +addYear+"""'""" +addPlant +""" ) as September,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October """ +addYear+"""'""" +addPlant +""" ) as October,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November """ +addYear+"""'""" +addPlant +""" ) as November,
+                    (SELECT ROUND(OEE2FinalCalculation*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December """ +addYear+"""'""" +addPlant +""" ) as December
 
                     """)
         
@@ -1058,30 +1103,62 @@ def oee_Total(oeemenu):
         data1 = cnxn.cursor()
         data1.execute("""
                 SELECT 
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January 2021' ) as January,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February 2021' ) as February,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March 2021' ) as March,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May 2021' ) as May,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June 2021' ) as June,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July 2021' ) as July,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August 2021' ) as August,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September 2021' ) as September,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October 2021' ) as October,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November 2021' ) as November,
-                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December 2021' ) as December
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +addPlant +""" ) as January,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February """ +addYear+"""'""" +addPlant +""" ) as February,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March """ +addYear+"""'""" +addPlant +""" ) as March,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'April """ +addYear+"""'""" +addPlant +""" ) as April,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May """ +addYear+"""'""" +addPlant +""" ) as May,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June """ +addYear+"""'""" +addPlant +""" ) as June,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July """ +addYear+"""'""" +addPlant +""" ) as July,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August """ +addYear+"""'""" +addPlant +""" ) as August,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September """ +addYear+"""'""" +addPlant +""" ) as September,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October """ +addYear+"""'""" +addPlant +""" ) as October,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November """ +addYear+"""'""" +addPlant +""" ) as November,
+                    (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December """ +addYear+"""'""" +addPlant +""" ) as December
 
                     """)
-        
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee = cnxn.cursor()
+        oee.execute("""
+                    SELECT ROUND(AVG(OEE2FinalCalculation)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee_a = cnxn.cursor()
+        oee_a.execute("""
+                    SELECT ROUND(AVG(OEE_A2)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee_p = cnxn.cursor()
+        oee_p.execute("""
+                    SELECT ROUND(AVG(OEE_P2)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        oee_q = cnxn.cursor()
+        oee_q.execute("""
+                    SELECT ROUND(AVG(OEE_Q_Final)*100,0) FROM OEE_DB.dbo.OEEMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                    """)
     oeebarChart = [] 
     DownTimebarChart = [] 
+
     for i in data:
         oeebarChart.append(i)
     for i in data1:
         DownTimebarChart.append(i)    
+        
+    for i in oee:
+        showoee = i[0]
+        print( i[0])
+    for i in oee_a:
+        showoee_a = i[0]
+    for i in oee_p:
+        showoee_p = i[0] 
+    for i in oee_q:
+        showoee_q = i[0]
    
    
-    return render_template('oee_Total.html',data=oeebarChart,data1 = DownTimebarChart)
+    return render_template('oee_Total.html',data=oeebarChart,data1 = DownTimebarChart,
+                           showoee = showoee , showoee_a = showoee_a , showoee_p =showoee_p ,
+                           showoee_q = showoee_q,oeemenu=oeemenu)
 
 @app.route('/oee_MachineV2')
 @flask_login.login_required
