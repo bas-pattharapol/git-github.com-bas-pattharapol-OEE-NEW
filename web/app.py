@@ -1175,7 +1175,7 @@ def oee_miru():
 def yield_Machine():
     return render_template('yield_Machine.html')
 
-@app.route('/yield_total')
+@app.route('/yield_total') 
 @flask_login.login_required
 def yield_total():
     return render_template('yield_total.html')
