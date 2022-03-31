@@ -987,9 +987,14 @@ def dashboard():
         TLT_Yield = float("{:.2f}".format(i[7] *100))
         Total_Yield = float("{:.2f}".format(i[8] *100))
         
-    return render_template('Metrics.html',HHD_OEE1=HHD_OEE1,TLT_OEE1=TLT_OEE1,Total_OEE1=Total_OEE1,
-                           HHD_OEE2=HHD_OEE2,TLT_OEE2=TLT_OEE2,Total_OEE2=Total_OEE2,
-                           HHD_Yield=HHD_Yield,TLT_Yield=TLT_Yield,Total_Yield=Total_Yield)
+    try:
+        return render_template('Metrics.html',HHD_OEE1=HHD_OEE1,TLT_OEE1=TLT_OEE1,Total_OEE1=Total_OEE1,
+                            HHD_OEE2=HHD_OEE2,TLT_OEE2=TLT_OEE2,Total_OEE2=Total_OEE2,
+                            HHD_Yield=HHD_Yield,TLT_Yield=TLT_Yield,Total_Yield=Total_Yield)
+    except:
+        return render_template('Metrics.html',HHD_OEE1=0,TLT_OEE1=0,Total_OEE1=0,
+                           HHD_OEE2=0,TLT_OEE2=0,Total_OEE2=0,
+                           HHD_Yield=0,TLT_Yield=0,Total_Yield=0)
 
 @app.route('/oee_Total/<string:oeemenu>', methods=['GET', 'POST'])
 @flask_login.login_required
@@ -1155,10 +1160,14 @@ def oee_Total(oeemenu):
     for i in oee_q:
         showoee_q = i[0]
    
-   
-    return render_template('oee_Total.html',data=oeebarChart,data1 = DownTimebarChart,
-                           showoee = showoee , showoee_a = showoee_a , showoee_p =showoee_p ,
-                           showoee_q = showoee_q,oeemenu=oeemenu)
+    try:
+        return render_template('oee_Total.html',data=oeebarChart,data1 = DownTimebarChart,
+                            showoee = showoee , showoee_a = showoee_a , showoee_p =showoee_p ,
+                            showoee_q = showoee_q,oeemenu=oeemenu)
+    except:
+        return render_template('oee_Total.html',data=0,data1 = 0,
+                           showoee = 0 , showoee_a = 0 , showoee_p =0 ,
+                           showoee_q = 0,oeemenu=0)
 
 @app.route('/oee_MachineV2')
 @flask_login.login_required
