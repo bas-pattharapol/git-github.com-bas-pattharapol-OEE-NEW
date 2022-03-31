@@ -1218,22 +1218,27 @@ def yield_total():
     data1 = cnxn.cursor()
     data1.execute("""
             SELECT 
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +addPlant +""" ) as January,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'February """ +addYear+"""'""" +addPlant +""" ) as February,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'March """ +addYear+"""'""" +addPlant +""" ) as March,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'April """ +addYear+"""'""" +addPlant +""" ) as April,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'May """ +addYear+"""'""" +addPlant +""" ) as May,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'June """ +addYear+"""'""" +addPlant +""" ) as June,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'July """ +addYear+"""'""" +addPlant +""" ) as July,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'August """ +addYear+"""'""" +addPlant +""" ) as August,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'September """ +addYear+"""'""" +addPlant +""" ) as September,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'October """ +addYear+"""'""" +addPlant +""" ) as October,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'November """ +addYear+"""'""" +addPlant +""" ) as November,
-                (SELECT ROUND(Per_PantDownTime2*100,2) FROM OEE_DB.dbo.OEEMonthlyReport WHERE Monthly = 'December """ +addYear+"""'""" +addPlant +""" ) as December
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +""" AND PlantName ='TLT') as January,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'February """ +addYear+"""'""" +""" AND PlantName ='TLT') as February,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'March """ +addYear+"""'""" +""" AND PlantName ='TLT') as March,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'April """ +addYear+"""'"""  +"""AND PlantName ='TLT' ) as April,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'May """ +addYear+"""'""" +""" AND PlantName ='TLT') as May,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'June """ +addYear+"""'""" +""" AND PlantName ='TLT') as June,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'July """ +addYear+"""'""" +""" AND PlantName ='TLT') as July,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'August """ +addYear+"""'""" +""" AND PlantName ='TLT') as August,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'September """ +addYear+"""'"""  +""" AND PlantName ='TLT') as September,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'October """ +addYear+"""'""" +""" AND PlantName ='TLT') as October,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'November """ +addYear+"""'""" +""" AND PlantName ='TLT') as November,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'December """ +addYear+"""'"""  +""" AND PlantName ='TLT') as December
 
                 """)
+    TLTYield = [] 
+
+    for i in data1:
+        TLTYield.append(i)
+   
     
-    return render_template('yield_total.html',FinalYield=FinalYield,Yield_D1=Yield_D1,Yield_D2=Yield_D2)
+    return render_template('yield_total.html',FinalYield=FinalYield,Yield_D1=Yield_D1,Yield_D2=Yield_D2,data1=TLTYield)
 
 @app.route('/Edit_StorageTanks/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -3192,7 +3197,7 @@ def batch_report_API():
         payload = []
         content = {}
         for result in batch_report:
-            content = {'PD': result[0], 'PD_PLAN_DT': str(result[1]), 'PD_TARGET_QTY': result[2],'PD_UNIT': result[3],'PD_FM_CODE': result[4]+'/'+result[5],'PD_BATCHNO': result[6],'PD_PROC_P_ST': str(result[7]),'PD_PROC_O_ST': str(result[8]),'PD_PROC_M_ST': str(result[9]),'PD_PROC_Q_ED': str(result[10]),'PD_PROC_S_DT': str(result[11]),'PD_STATUS_CODE': str(result[12])}
+            content = {'PD': result[0], 'PD_PLAN_DT': str(result[1]), 'PD_TARGET_QTY': result[2],'PD_UNIT': result[3],'PD_FM_CODE': result[4],'PD_BATCHNO': result[5],'PD_PROC_P_ST': str(result[6]),'PD_PROC_O_ST': str(result[7]),'PD_PROC_M_ST': str(result[8]),'PD_PROC_Q_ED': str(result[9]),'PD_PROC_S_DT': str(result[10]),'PD_STATUS_CODE': str(result[11])}
             payload.append(content)
             content = {}
         #print(payload)
