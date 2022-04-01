@@ -1187,7 +1187,58 @@ def yield_Machine():
 @app.route('/yield_total') 
 @flask_login.login_required
 def yield_total():
-    return render_template('yield_total.html')
+    addPlant = ''
+    addYear = '2022'
+    
+    if request.method == 'POST':
+        selectPlant = request.form['selectPlant']
+        
+        addYear= str(request.form['SelectYear'])
+        
+        if selectPlant == 'ALL':
+            addPlant = ''
+        elif selectPlant == 'TLT':
+            addPlant = "AND PlantName ='TLT' " 
+        elif selectPlant == 'HHD':
+            addPlant = "AND PlantName ='HHD' " 
+            
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    yield_total = cnxn.cursor()
+    yield_total.execute("""
+                SELECT ROUND(AVG(FinalYield)*100,0) , ROUND(AVG(Yield)*100,0)  FROM OEE_DB.dbo.YieldMonthlyReport WHERE DATENAME(YEAR , DateTime) = DATENAME(YEAR , '""" +addYear+"""')""" +addPlant +"""
+                """)
+    
+    
+    for i in yield_total:
+        FinalYield = int(i[0])
+        Yield_D1 = int(i[1]//10)
+        Yield_D2 = int(i[1]%10)
+        
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    data1 = cnxn.cursor()
+    data1.execute("""
+            SELECT 
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'January """ +addYear+"""'""" +""" AND PlantName ='TLT') as January,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'February """ +addYear+"""'""" +""" AND PlantName ='TLT') as February,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'March """ +addYear+"""'""" +""" AND PlantName ='TLT') as March,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'April """ +addYear+"""'"""  +"""AND PlantName ='TLT' ) as April,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'May """ +addYear+"""'""" +""" AND PlantName ='TLT') as May,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'June """ +addYear+"""'""" +""" AND PlantName ='TLT') as June,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'July """ +addYear+"""'""" +""" AND PlantName ='TLT') as July,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'August """ +addYear+"""'""" +""" AND PlantName ='TLT') as August,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'September """ +addYear+"""'"""  +""" AND PlantName ='TLT') as September,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'October """ +addYear+"""'""" +""" AND PlantName ='TLT') as October,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'November """ +addYear+"""'""" +""" AND PlantName ='TLT') as November,
+                (SELECT ROUND(Yield*100,2) FROM OEE_DB.dbo.YieldMonthlyReport WHERE Monthly = 'December """ +addYear+"""'"""  +""" AND PlantName ='TLT') as December
+
+                """)
+    TLTYield = [] 
+
+    for i in data1:
+        TLTYield.append(i)
+   
+    
+    return render_template('yield_total.html',FinalYield=FinalYield,Yield_D1=Yield_D1,Yield_D2=Yield_D2,data1=TLTYield)
 
 @app.route('/Edit_StorageTanks/<string:mode>/<string:id>/<string:Level>/<string:Fname_Lname>',methods=['GET', 'POST'])
 @flask_login.login_required
@@ -3133,20 +3184,20 @@ def batch_report_API():
         count+=1
         return redirect(url_for('ReportOEE'))
     else:
-        host = "172.30.1.1"
-        port = 1433
-        database = "managedb"
-        user = "sa"
-        passwd = "qwerty@2019"
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ host +';DATABASE='+database+';UID='+user+';PWD='+passwd)
+        server = "172.30.2.2"
+        port = 5432
+        database = "OEE_DB"
+        username = "sa"
+        password = "p@ssw0rd"
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
         batch_report = cnxn.cursor()
-        batch_report.execute("SELECT PD_ORDER , PD_PLAN_DT , PD_TARGET_QTY ,PD_UNIT , PD_FM_CODE,PD_FM_NAME , PD_BATCHNO ,PD_PROC_P_ST , PD_PROC_O_ST , PD_PROC_M_ST , PD_PROC_Q_ED , PD_PROC_S_DT ,PD_STATUS_CODE FROM [dbo].[PD_ORDER_VIEW_RPT] ")
+        batch_report.execute("SELECT PD_Order,Plan_Datetime ,Target_Quantity,Unit, FM_Code,[Batch_No.],Plan_Datetime,Preweight_Datetime,Mixing_Datetime,QC_Datetime,Finished,Status FROM SCADA_DB.dbo.Batch_Report")
         
     
         payload = []
         content = {}
         for result in batch_report:
-            content = {'PD': result[0], 'PD_PLAN_DT': str(result[1]), 'PD_TARGET_QTY': result[2],'PD_UNIT': result[3],'PD_FM_CODE': result[4]+'/'+result[5],'PD_BATCHNO': result[6],'PD_PROC_P_ST': str(result[7]),'PD_PROC_O_ST': str(result[8]),'PD_PROC_M_ST': str(result[9]),'PD_PROC_Q_ED': str(result[10]),'PD_PROC_S_DT': str(result[11]),'PD_STATUS_CODE': str(result[12])}
+            content = {'PD': result[0], 'PD_PLAN_DT': str(result[1]), 'PD_TARGET_QTY': result[2],'PD_UNIT': result[3],'PD_FM_CODE': result[4],'PD_BATCHNO': result[5],'PD_PROC_P_ST': str(result[6]),'PD_PROC_O_ST': str(result[7]),'PD_PROC_M_ST': str(result[8]),'PD_PROC_Q_ED': str(result[9]),'PD_PROC_S_DT': str(result[10]),'PD_STATUS_CODE': str(result[11])}
             payload.append(content)
             content = {}
         #print(payload)
