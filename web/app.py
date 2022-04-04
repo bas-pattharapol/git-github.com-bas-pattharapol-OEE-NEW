@@ -538,6 +538,45 @@ def userManagement(mode,id,Level,Fname_Lname):
         
     return render_template('userManagement.html',userManagement = userManagement,Department=Department_s,lenDepartment=lenDepartment,UserLevel=UserLevel_s,lenUserLevel=lenUserLevel,Level=Level,Fname_Lname=Fname_Lname)
 
+@app.route('/userManagementQC/<string:mode>/<string:id>',methods=['GET', 'POST'])
+def userManagementQC(mode,id):
+    if request.method == 'POST':
+        if mode == 'update':
+
+            UserName = request.form['UserName']
+            
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            userManagement = cnxn.cursor()
+            userManagement.execute('UPDATE SCADA_DB.dbo.UserQC SET UserName = ? ,DeleteFlag = ? , DateTime = GETDATE() WHERE RecordID = ? ',(UserName,'1',id ))
+            cnxn.commit()
+            
+        elif mode == "add":
+
+            UserName = request.form['UserName']
+           
+            cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+            userManagement = cnxn.cursor()
+            userManagement.execute('INSERT INTO SCADA_DB.dbo.UserQC ( UserName ,DeleteFlag  ) VALUES(?,?)' ,(UserName,'1') )
+            cnxn.commit()
+
+    if mode == "del":
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        userManagement = cnxn.cursor()
+        userManagement.execute('UPDATE SCADA_DB.dbo.UserQC SET DeleteFlag = ?  , DateTime = GETDATE() WHERE RecordID = ? ',(-1,id) )
+        cnxn.commit()
+
+
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    userManagement = cnxn.cursor()
+    userManagement.execute('SELECT * FROM SCADA_DB.dbo.UserQC WHERE DeleteFlag = 1 ORDER BY DateTime DESC')
+    
+    
+        
+    return render_template('userManagementQC.html',userManagement = userManagement)
+
+
+
 @app.route('/index/<string:username1>/<string:Level>/<string:Fname_Lname>')
 @flask_login.login_required
 def index(username1,Level,Fname_Lname):
