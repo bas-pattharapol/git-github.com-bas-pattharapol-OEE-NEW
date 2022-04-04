@@ -3197,7 +3197,7 @@ def batch_report_API():
         payload = []
         content = {}
         for result in batch_report:
-            content = {'PD': result[0], 'PD_PLAN_DT': str(result[1]), 'PD_TARGET_QTY': result[2],'PD_UNIT': result[3],'PD_FM_CODE': result[4],'PD_BATCHNO': result[5],'PD_PROC_P_ST': str(result[6]),'PD_PROC_O_ST': str(result[7]),'PD_PROC_M_ST': str(result[8]),'PD_PROC_Q_ED': str(result[9]),'PD_PROC_S_DT': str(result[10]),'PD_STATUS_CODE': str(result[11])}
+            content = {'PD': result[0], 'PD_PLAN_DT': str(result[1])[0:10], 'PD_TARGET_QTY': result[2],'PD_UNIT': result[3],'PD_FM_CODE': result[4],'PD_BATCHNO': result[5],'PD_PROC_P_ST': str(result[6]),'PD_PROC_O_ST': str(result[7]),'PD_PROC_M_ST': str(result[8]),'PD_PROC_Q_ED': str(result[9]),'PD_PROC_S_DT': str(result[10]),'PD_STATUS_CODE': str(result[11])}
             payload.append(content)
             content = {}
         #print(payload)
