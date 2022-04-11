@@ -515,7 +515,12 @@ def userManagement(mode,id,Level,Fname_Lname):
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     userManagement = cnxn.cursor()
-    userManagement.execute('SELECT * FROM OEE_DB.dbo.[User] WHERE DeleteFlag = 1 ORDER BY DateTime DESC')
+    userManagement.execute("""
+                           SELECT u.* , ul.Name 
+                            FROM OEE_DB.dbo.[User] u 
+                            INNER JOIN OEE_DB.dbo.UserLevel ul 
+                            ON u.UserLevel = ul.ID AND  u.DeleteFlag = 1 ORDER BY DateTime DESC
+                           """)
     
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Department = cnxn.cursor()
