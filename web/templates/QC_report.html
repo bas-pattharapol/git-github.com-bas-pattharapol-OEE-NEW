@@ -203,7 +203,7 @@
                 var min = minDate.val();
                 var max = maxDate.val();
 
-                var dateString = data[5];
+                var dateString = data[6];
                 //console.log(dateString)
                 var dateTimeString = dateString;
 
@@ -235,10 +235,10 @@
 
         $(document).ready(function() {
             minDate = new DateTime($('#min'), {
-                format: 'DD/MM/YYYY HH:mm'
+                format: 'YYYY-MM-DD HH:mm'
             });
             maxDate = new DateTime($('#max'), {
-                format: 'DD/MM/YYYY HH:mm'
+                format: 'YYYY-MM-DD HH:mm'
             });
             var table = $('#example').DataTable({
 
