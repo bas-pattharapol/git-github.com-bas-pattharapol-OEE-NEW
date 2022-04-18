@@ -3306,22 +3306,37 @@ def QC_report_Excel_API():
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
         qc_report = cnxn.cursor()
         qc_report.execute("""
-                          SELECT TOP(1) Product_Name  , PD_Order , [Lot_No.] ,BAY ,[Tank_S/N]   , (SELECT TOP(1) [DateTime] 
-                            FROM SCADA_DB.dbo.QC_Process WHERE [Action] = 'QC_RECEIVE' AND  PD_Order = ? ) As QC_START 
-                            , (SELECT TOP(1) [DateTime] FROM SCADA_DB.dbo.QC_Process WHERE ([Action] = 'QC_PASS' OR [Action] = 'QC_REJECT') AND PD_Order = ? ) As QC_FINISH
-                            , DATEDIFF(MINUTE , (SELECT TOP(1) [DateTime] FROM SCADA_DB.dbo.QC_Process WHERE [Action] = 'QC_RECEIVE' AND  PD_Order = ? ) ,
-                            (SELECT TOP(1) [DateTime] FROM SCADA_DB.dbo.QC_Process WHERE ([Action] = 'QC_PASS' OR [Action] = 'QC_REJECT') AND PD_Order = ? )) ,
-                            [User] 
-                            FROM SCADA_DB.dbo.QC_Process WHERE PD_Order = ? 
-                          """,(i[0],i[0],i[0],i[0],i[0]))
-       
+                          SELECT Product_Name  , PD_Order , [Lot_No.] ,BAY ,[Tank_S/N] 
+                            , ROW_NUMBER() OVER(ORDER BY DateTime) AS RowNum
+                            FROM SCADA_DB.dbo.QC_Process
+                            WHERE PD_Order = ? AND [Action] = 'QC_RECEIVE' ORDER BY [DateTime] ASC  
+                          """,(i[0],))
+        
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+        qc_reportStart = cnxn.cursor()
+        qc_reportStart.execute("""
+                          SELECT [DateTime]  AS StartTime , [User]  
+                          FROM SCADA_DB.dbo.QC_Process 
+                          WHERE [Action] = 'QC_RECEIVE' AND PD_Order = ? ORDER BY [DateTime] ASC  
+                          """,(i[0],))
+        
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+        qc_reportStop = cnxn.cursor()
+        qc_reportStop.execute("""
+                          SELECT [DateTime]  AS StopTime , [User] 
+                          FROM SCADA_DB.dbo.QC_Process 
+                          WHERE ([Action] = 'QC_PASS' OR [Action] = 'QC_REJECT' or [Action] = 'QC_HOLD') 
+                          AND PD_Order = ? ORDER BY [DateTime] ASC  
+
+                          """,(i[0],))
 
         
         content = {}
-        for result in qc_report:
-            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'QC_START': str(result[5])[0:19],'QC_FINISH': str(result[6])[0:19],'QC_TIME': str(result[7]),'User': str(result[8])}
+        for result,dataDateStart,dataDateStop in zip(qc_report,qc_reportStart,qc_reportStop):
+            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'NO': str(result[5]),'QC_START': str(dataDateStart[0])[0:19],'QC_FINISH': str(dataDateStop[0])[0:19],'QC_TIME': (dataDateStop[0] - dataDateStart[0]).total_seconds() // 60,'UserStart': str(dataDateStart[1])+ " / " +str(dataDateStop[1])}
             payload.append(content)
             content = {}
+            
     return json.dumps(payload, cls = Encoder), 201
 
 @app.route('/QC_report_API',methods=["GET", "POST"])
@@ -3368,7 +3383,7 @@ def QC_report_API():
         
         content = {}
         for result,dataDateStart,dataDateStop in zip(qc_report,qc_reportStart,qc_reportStop):
-            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'NO': str(result[5]),'QC_START': str(dataDateStart[0])[0:19],'QC_FINISH': str(dataDateStop[0])[0:19],'QC_TIME': (dataDateStop[0] - dataDateStart[0]).total_seconds() // 60,'UserStart': str(dataDateStart[1]),'UserStop': str(dataDateStop[1])}
+            content = {'Product_Name': str(result[0]), 'PD_Order': result[1],'Lot_No': result[2],'BAY': result[3],'Tank_SN': result[4],'NO': str(result[5]),'QC_START': str(dataDateStart[0])[0:19],'QC_FINISH': str(dataDateStop[0])[0:19],'QC_TIME': (dataDateStop[0] - dataDateStart[0]).total_seconds() // 60,'UserStart': str(dataDateStart[1])+ " / " + str(dataDateStop[1])}
             payload.append(content)
             content = {}
     #print(payload)
